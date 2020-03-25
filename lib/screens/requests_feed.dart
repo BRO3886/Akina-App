@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class RequestsFeedScreen extends StatelessWidget {
+  static const routename = '/feed';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
