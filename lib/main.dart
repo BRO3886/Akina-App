@@ -1,5 +1,6 @@
 import 'package:ant_icons/ant_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:project_hestia/Profile/profilePage.dart';
 import 'package:flutter/services.dart';
 import 'package:project_hestia/screens/news_feed.dart';
 import 'package:project_hestia/screens/requests_feed.dart';
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Hestia',
       // darkTheme: ThemeData.dark(),
       theme: ThemeData(
         primaryColor: Color(0xFF00d2d2),
@@ -33,6 +35,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 
 class MyHomeScreen extends StatefulWidget {
   @override
