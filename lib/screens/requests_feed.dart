@@ -72,7 +72,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
         duration: const Duration(milliseconds: 100),
         curve: Curves.easeIn,
         opacity: (_fabIsVisible) ? 1.0 : 0.0,
-        child: FloatingActionButton(
+        child: FloatingActionButton(          
           backgroundColor: mainColor,
           onPressed: () {},
           tooltip: 'Add ',
