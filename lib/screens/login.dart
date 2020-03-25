@@ -1,11 +1,83 @@
+import 'dart:convert';
 import 'package:ant_icons/ant_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:project_hestia/screens/home_screen.dart';
 import 'package:project_hestia/screens/register.dart';
 import 'package:project_hestia/utils.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const routename = "/login";
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
+  bool isLoading = false;
+
+  Map<String, String> userInfo = {"email": "", "password": ""};
+
+  Future _login() async {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+    _formKey.currentState.save();
+    print(userInfo['email']);
+    print(userInfo['password']);
+    final body = jsonEncode(userInfo);
+    print(body);
+    setState(() {
+      isLoading = true;
+    });
+    String baseUrl = 'https://hestia-auth.herokuapp.com/api/user/login';
+    String content = "";
+    try {
+      final response = await http.post(baseUrl, body: userInfo);
+      Map<String, dynamic> responseBody = jsonDecode(response.body);
+      print(responseBody);
+      if (responseBody.containsKey("Error")) {
+        content = responseBody["Error"] + ". Please check your email and try again.";
+      } else if (responseBody.containsKey("Status")) {
+        content = responseBody["Status"] + ". Please enter correct password.";
+      }
+      if (content != "") {
+        showDialog(
+          context: context,
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            title: Text('Error'),
+            content: Text(content),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Try Again'),
+                textColor: mainColor,
+                onPressed: () => Navigator.of(context).pop(),
+              )
+            ],
+          ),
+        );
+      } else {
+        if (responseBody.containsKey("Token")) {
+          print("logged in successfully");
+          Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,9 +111,12 @@ class LoginScreen extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.1,
               ),
               Form(
+                key: _formKey,
                 child: Column(
                   children: <Widget>[
                     TextFormField(
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelText: 'Email',
                         border: OutlineInputBorder(
@@ -49,11 +124,26 @@ class LoginScreen extends StatelessWidget {
                           gapPadding: 10,
                         ),
                       ),
+                      autocorrect: false,
+                      validator: (value) {
+                        if (value == '') {
+                          return 'This field is required';
+                        }
+                        if (!RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value)) {
+                          return 'Please enter correct email';
+                        }
+                      },
+                      onChanged: (email) => userInfo['email'] = email,
+                      onSaved: (email) => userInfo['email'] = email,
                     ),
                     SizedBox(
                       height: 30,
                     ),
                     TextFormField(
+                      obscureText: true,
+                      controller: passwordController,
                       decoration: InputDecoration(
                         labelText: 'Password',
                         border: OutlineInputBorder(
@@ -61,6 +151,17 @@ class LoginScreen extends StatelessWidget {
                           gapPadding: 10,
                         ),
                       ),
+                      keyboardType: TextInputType.visiblePassword,
+                      validator: (value) {
+                        if (value == '') {
+                          return 'This field is required';
+                        }
+                        if (value.length < 8) {
+                          return 'Password length must be atleast 8 characters long';
+                        }
+                      },
+                      onChanged: (password) => userInfo['password'] = password,
+                      onSaved: (password) => userInfo['password'] = password,
                     ),
                     SizedBox(
                       height: 30,
@@ -68,31 +169,31 @@ class LoginScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        RaisedButton(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 30),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              Text('Login'),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Icon(
-                                AntIcons.right_outline,
-                                size: 16,
-                              )
-                            ],
-                          ),
-                          color: Theme.of(context).primaryColor,
-                          textColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
-                          },
-                        ),
+                        (isLoading)
+                            ? Center(child: CircularProgressIndicator())
+                            : RaisedButton(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 30),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    Text('Login'),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Icon(
+                                      AntIcons.right_outline,
+                                      size: 16,
+                                    )
+                                  ],
+                                ),
+                                color: Theme.of(context).primaryColor,
+                                textColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                onPressed: _login),
                         RaisedButton(
                           padding: EdgeInsets.symmetric(
                               vertical: 13, horizontal: 30),

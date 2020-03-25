@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       // darkTheme: ThemeData.dark(),
       theme: ThemeData(
         primaryColor: Color(0xFF00d2d2),
-        accentColor: Colors.teal,
+        accentColor: Color(0xFF00d2d2),
         canvasColor: Colors.grey[100],
         cursorColor: Color(0xFF00d2d2),
         pageTransitionsTheme: PageTransitionsTheme(builders: {

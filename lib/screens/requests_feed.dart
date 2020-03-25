@@ -87,7 +87,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
           backgroundColor: mainColor,
           onPressed: () {},
           tooltip: 'New request',
-          child: Icon(Icons.add),
+          child: Icon(Icons.add, color: Colors.white,),
         ),
       ),
       body: CustomScrollView(
