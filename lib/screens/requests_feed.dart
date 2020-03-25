@@ -11,8 +11,6 @@ enum Options {
   Logout,
 }
 
-
-
 class RequestsFeedScreen extends StatefulWidget {
   static const routename = '/reqfeed';
 
@@ -42,7 +40,6 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
     Request(title: 'Name of the thing 3', qty: 3, dateTime: 'Date and time'),
     Request(title: 'Name of the thing 3', qty: 3, dateTime: 'Date and time'),
   ];
-  
 
   @override
   void initState() {
@@ -69,6 +66,61 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
     });
   }
 
+  void newRequest() {
+    showDialog(
+      context: context,
+      child: AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        titlePadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        title: Text('New Request'),
+        content: Container(
+          height: MediaQuery.of(context).size.height * 0.18,
+          child: Column(
+            children: <Widget>[
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Title',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    gapPadding: 10,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Quantity',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    gapPadding: 10,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Cancel'),
+            textColor: mainColor,
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          FlatButton(
+            child: Text('Submit'),
+            textColor: mainColor,
+            onPressed: () {},
+            // onPressed: () => Navigator.of(context).pop(),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   void dispose() {
     fabController.dispose();
@@ -85,9 +137,12 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
         opacity: (_fabIsVisible) ? 1.0 : 0.0,
         child: FloatingActionButton(
           backgroundColor: mainColor,
-          onPressed: () {},
+          onPressed: newRequest,
           tooltip: 'New request',
-          child: Icon(Icons.add, color: Colors.white,),
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
         ),
       ),
       body: CustomScrollView(
@@ -111,12 +166,13 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
             actions: <Widget>[
               PopupMenuButton(
                 offset: Offset(0, 50),
-                onSelected: (Options option){
-                  if(option == Options.Profile){
+                onSelected: (Options option) {
+                  if (option == Options.Profile) {
                     print("profile clicked");
-                  }else if(option == Options.Logout){
+                  } else if (option == Options.Logout) {
                     print("logout clicked");
-                    Navigator.of(context).pushReplacementNamed(LoginScreen.routename);
+                    Navigator.of(context)
+                        .pushReplacementNamed(LoginScreen.routename);
                   }
                 },
                 itemBuilder: (ctx) {

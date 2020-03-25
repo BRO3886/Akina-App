@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Hestia',
+      debugShowCheckedModeBanner: false,
       // darkTheme: ThemeData.dark(),
       theme: ThemeData(
         primaryColor: Color(0xFF00d2d2),

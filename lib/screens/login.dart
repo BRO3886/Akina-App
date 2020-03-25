@@ -230,7 +230,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 30,
               ),
               GestureDetector(
-                onTap: () => Navigator.push(context,
+                onTap: () => Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (ctx) => RegsiterScreen())),
                 child: Align(
                   alignment: Alignment.centerLeft,
