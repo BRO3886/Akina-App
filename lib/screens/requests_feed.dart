@@ -75,9 +75,9 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
         ),
         titlePadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-        title: Text('New Request'),
+        title: Text('New Request', style: TextStyle(color: Colors.grey[600]),),
         content: Container(
-          height: MediaQuery.of(context).size.height * 0.18,
+          height: MediaQuery.of(context).size.height * 0.17,
           child: Column(
             children: <Widget>[
               TextField(
