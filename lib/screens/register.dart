@@ -1,12 +1,97 @@
+import 'dart:convert';
+
 import 'package:ant_icons/ant_icons.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:project_hestia/screens/home_screen.dart';
 import 'package:project_hestia/screens/login.dart';
 
 import '../utils.dart';
 
-class RegsiterScreen extends StatelessWidget {
+class RegsiterScreen extends StatefulWidget {
   static const routename = "/register";
+
+  @override
+  _RegsiterScreenState createState() => _RegsiterScreenState();
+}
+
+class _RegsiterScreenState extends State<RegsiterScreen> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
+  bool isLoading = false;
+
+  Map<String, String> userInfo = {
+    "email": "",
+    "password": "",
+    "name": "",
+    "phone": ""
+  };
+
+  Future _register() async {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+    _formKey.currentState.save();
+    final body = jsonEncode(userInfo);
+    print(body);
+    setState(() {
+      isLoading = true;
+    });
+    String baseUrl = 'https://hestia-auth.herokuapp.com/api/user/register';
+    String content = "";
+    try {
+      final response = await http.post(baseUrl, body: userInfo);
+      Map<String, dynamic> responseBody = jsonDecode(response.body);
+      print(responseBody);
+      if (responseBody.containsKey("Error")) {
+        content = responseBody["Error"];
+      } else if (responseBody.containsKey("Status")) {
+        print("registered succesfully");
+        try {
+          String loginUrl = 'https://hestia-auth.herokuapp.com/api/user/login';
+          String email = userInfo["email"];
+          String password = userInfo["password"];
+          final loginInfo = {"email": email, "password": password};
+          final loginResponse = await http.post(loginUrl, body: loginInfo);
+          Map<String, dynamic> loginBody = jsonDecode(loginResponse.body);
+          print(loginBody);
+          Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
+        } catch (e) {
+          print(e);
+        }
+      }
+      if (content != "") {
+        showDialog(
+          context: context,
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            title: Text('Error'),
+            content: Text(content),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Try Again'),
+                textColor: mainColor,
+                onPressed: () => Navigator.of(context).pop(),
+              )
+            ],
+          ),
+        );
+      } 
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,9 +125,12 @@ class RegsiterScreen extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.1,
               ),
               Form(
+                key: _formKey,
                 child: Column(
                   children: <Widget>[
                     TextFormField(
+                      controller: nameController,
+                      textCapitalization: TextCapitalization.words,
                       decoration: InputDecoration(
                         labelText: 'Name',
                         border: OutlineInputBorder(
@@ -50,11 +138,20 @@ class RegsiterScreen extends StatelessWidget {
                           gapPadding: 10,
                         ),
                       ),
+                      onChanged: (value) => userInfo["name"] = value,
+                      onSaved: (value) => userInfo["name"] = value,
+                      validator: (value) {
+                        if (value == "") {
+                          return "This field is required";
+                        }
+                      },
                     ),
                     SizedBox(
                       height: 30,
                     ),
                     TextFormField(
+                      keyboardType: TextInputType.phone,
+                      controller: phoneController,
                       decoration: InputDecoration(
                         labelText: 'Phone Number',
                         border: OutlineInputBorder(
@@ -62,11 +159,26 @@ class RegsiterScreen extends StatelessWidget {
                           gapPadding: 10,
                         ),
                       ),
+                      onChanged: (value) => userInfo["phone"] = value,
+                      onSaved: (value) => userInfo["phone"] = value,
+                      validator: (value) {
+                        if (value == "") {
+                          return "This field is required";
+                        }
+                        if (value.length < 10) {
+                          return "Enter a valid phone number";
+                        }
+                        if(value.length>14){
+                          return "Enter a valid phone number";
+                        }
+                      },
                     ),
                     SizedBox(
                       height: 30,
                     ),
                     TextFormField(
+                      keyboardType: TextInputType.emailAddress,
+                      controller: emailController,
                       decoration: InputDecoration(
                         labelText: 'Email',
                         border: OutlineInputBorder(
@@ -74,11 +186,25 @@ class RegsiterScreen extends StatelessWidget {
                           gapPadding: 10,
                         ),
                       ),
+                      onChanged: (value) => userInfo["email"] = value,
+                      onSaved: (value) => userInfo["email"] = value,
+                      validator: (value) {
+                        if (value == "") {
+                          return "This field is required";
+                        }
+                        if (!RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value)) {
+                          return 'Please enter correct email';
+                        }
+                      },
                     ),
                     SizedBox(
                       height: 30,
                     ),
                     TextFormField(
+                      controller: passwordController,
+                      obscureText: true,
                       decoration: InputDecoration(
                         labelText: 'Password',
                         border: OutlineInputBorder(
@@ -86,6 +212,16 @@ class RegsiterScreen extends StatelessWidget {
                           gapPadding: 10,
                         ),
                       ),
+                      onChanged: (value) => userInfo["password"] = value,
+                      onSaved: (value) => userInfo["password"] = value,
+                      validator: (value) {
+                        if (value == "") {
+                          return "This field is required";
+                        }
+                        if (value.length < 8) {
+                          return "Password length must be atleast 8 characters long";
+                        }
+                      },
                     ),
                     SizedBox(
                       height: 30,
@@ -93,7 +229,7 @@ class RegsiterScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        RaisedButton(
+                        (isLoading)?CircularProgressIndicator():RaisedButton(
                           padding: EdgeInsets.symmetric(
                               horizontal:
                                   MediaQuery.of(context).size.width * 0.08,
@@ -116,9 +252,7 @@ class RegsiterScreen extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          onPressed: () {
-                             Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
-                          },
+                          onPressed: _register,
                         ),
                         RaisedButton(
                           padding: EdgeInsets.symmetric(
