@@ -1,5 +1,6 @@
 import 'package:ant_icons/ant_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:project_hestia/screens/home_screen.dart';
 import 'package:project_hestia/screens/login.dart';
 
 import '../utils.dart';
@@ -115,7 +116,9 @@ class RegsiterScreen extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                             Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
+                          },
                         ),
                         RaisedButton(
                           padding: EdgeInsets.symmetric(

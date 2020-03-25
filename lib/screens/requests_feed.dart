@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:project_hestia/model/request.dart';
+import 'package:project_hestia/model/util.dart';
+import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/utils.dart';
 import 'package:project_hestia/widgets/requests_card.dart';
 
+enum Options {
+  Profile,
+  Logout,
+}
+
+
+
 class RequestsFeedScreen extends StatefulWidget {
-  static const routename = '/feed';
+  static const routename = '/reqfeed';
 
   @override
   _RequestsFeedScreenState createState() => _RequestsFeedScreenState();
@@ -33,6 +42,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
     Request(title: 'Name of the thing 3', qty: 3, dateTime: 'Date and time'),
     Request(title: 'Name of the thing 3', qty: 3, dateTime: 'Date and time'),
   ];
+  
 
   @override
   void initState() {
@@ -68,14 +78,15 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AnimatedOpacity(
         duration: const Duration(milliseconds: 100),
         curve: Curves.easeIn,
         opacity: (_fabIsVisible) ? 1.0 : 0.0,
-        child: FloatingActionButton(          
+        child: FloatingActionButton(
           backgroundColor: mainColor,
           onPressed: () {},
-          tooltip: 'Add ',
+          tooltip: 'New request',
           child: Icon(Icons.add),
         ),
       ),
@@ -84,34 +95,56 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
         slivers: <Widget>[
           SliverAppBar(
             elevation: 0,
-            expandedHeight: MediaQuery.of(context).size.height * 0.15,
+            expandedHeight: MediaQuery.of(context).size.height * 0.10,
             snap: true,
             floating: true,
-            backgroundColor: Theme.of(context).canvasColor,
-            flexibleSpace: FlexibleSpaceBar(
-              titlePadding: EdgeInsets.only(
-                  bottom: 16, left: MediaQuery.of(context).size.width * 0.1),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text('Requests'),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.25,
-                  ),
-                  Container(
-                    height: 30,
-                    width: 30,
-                    child: CircleAvatar(
-                      backgroundColor: mainColor,
-                      child: Icon(
-                        Icons.account_circle,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ],
+            title: Padding(
+              padding: const EdgeInsets.only(left: 15.0),
+              child: Text(
+                'Requests',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
+            actions: <Widget>[
+              PopupMenuButton(
+                offset: Offset(0, 50),
+                onSelected: (Options option){
+                  if(option == Options.Profile){
+                    print("profile clicked");
+                  }else if(option == Options.Logout){
+                    print("logout clicked");
+                    Navigator.of(context).pushReplacementNamed(LoginScreen.routename);
+                  }
+                },
+                itemBuilder: (ctx) {
+                  return [
+                    PopupMenuItem(
+                      child: Text('Profile'),
+                      value: Options.Profile,
+                    ),
+                    PopupMenuItem(
+                      child: Text('Logout'),
+                      value: Options.Logout,
+                    ),
+                  ];
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 27.0),
+                  child: CircleAvatar(
+                    backgroundColor: mainColor,
+                    child: Icon(
+                      Icons.account_circle,
+                      size: 40,
+                      color: colorWhite,
+                    ),
+                  ),
+                ),
+              )
+            ],
+            backgroundColor: Theme.of(context).canvasColor,
           ),
           SliverFillRemaining(
             hasScrollBody: false,
@@ -122,7 +155,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
                     // ListTile(
                     //   title: Text('hi'),
                     // ),
-                  RequestCard(requestList[i])
+                    RequestCard(requestList[i])
                 ],
               ),
             ),
