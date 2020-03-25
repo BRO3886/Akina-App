@@ -97,7 +97,8 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Icon(Icons.account_circle),
+                  Image.asset("assets/images/hestia_logo.png", height: 50,),
+                  SizedBox(width: 10,),
                   Text(
                     'HESTIA',
                     style: TextStyle(
