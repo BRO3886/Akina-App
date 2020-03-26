@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+<<<<<<< HEAD
 import 'package:project_hestia/Profile/profilePage.dart';
 import 'package:project_hestia/model/request.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/login.dart';
+=======
+import 'package:flutter/services.dart';
+import 'package:project_hestia/model/request.dart';
+import 'package:project_hestia/model/util.dart';
+import 'package:project_hestia/screens/login.dart';
+import 'package:project_hestia/utils.dart';
+import 'package:project_hestia/widgets/new_request.dart';
+>>>>>>> upstream/master
 import 'package:project_hestia/widgets/requests_card.dart';
 
 enum Options {
@@ -18,10 +27,14 @@ class RequestsFeedScreen extends StatefulWidget {
   _RequestsFeedScreenState createState() => _RequestsFeedScreenState();
 }
 
-class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
+class _RequestsFeedScreenState extends State<RequestsFeedScreen>
+    with TickerProviderStateMixin {
   ScrollController fabController = ScrollController();
 
   var _fabIsVisible = true;
+
+  double _fabHeight = 55;
+  double _fabWidth = 55;
 
   List<Request> requestList = [
     Request(title: 'Name of the thing 1', qty: 5, dateTime: 'Date and time'),
@@ -53,6 +66,8 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
         if (_fabIsVisible == false) {
           setState(() {
             _fabIsVisible = true;
+            _fabHeight = 55;
+            _fabWidth = 55;
           });
         }
       } else {
@@ -60,6 +75,8 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
         if (_fabIsVisible == true) {
           setState(() {
             _fabIsVisible = false;
+            _fabHeight = 0;
+            _fabWidth = 0;
           });
         }
       }
@@ -69,55 +86,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
   void newRequest() {
     showDialog(
       context: context,
-      child: AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        titlePadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-        title: Text('New Request', style: TextStyle(color: Colors.grey[600]),),
-        content: Container(
-          height: MediaQuery.of(context).size.height * 0.17,
-          child: Column(
-            children: <Widget>[
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Title',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    gapPadding: 10,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Quantity',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    gapPadding: 10,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('Cancel'),
-            textColor: mainColor,
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          FlatButton(
-            child: Text('Submit'),
-            textColor: mainColor,
-            onPressed: () {},
-            // onPressed: () => Navigator.of(context).pop(),
-          )
-        ],
-      ),
+      child: NewRequestWidget(),
     );
   }
 
@@ -131,17 +100,26 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: AnimatedOpacity(
-        duration: const Duration(milliseconds: 100),
-        curve: Curves.easeIn,
-        opacity: (_fabIsVisible) ? 1.0 : 0.0,
+      floatingActionButton: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.ease,
+        height: _fabHeight,
+        width: _fabWidth,
         child: FloatingActionButton(
           backgroundColor: mainColor,
           onPressed: newRequest,
           tooltip: 'New request',
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 100),
+            curve: Curves.ease,
+            height: _fabHeight / 2,
+            width: _fabWidth / 2,
+            decoration: BoxDecoration(shape: BoxShape.circle),
+            child: Icon(
+              Icons.add,
+              size: _fabHeight / 2,
+              color: Colors.white,
+            ),
           ),
         ),
       ),
