@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // darkTheme: ThemeData.dark(),
       theme: ThemeData(
+        fontFamily: 'SourceSansPro',
         primaryColor: Color(0xFF00d2d2),
         accentColor: Color(0xFF00d2d2),
         canvasColor: Colors.grey[100],

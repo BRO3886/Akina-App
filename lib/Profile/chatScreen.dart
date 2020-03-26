@@ -21,14 +21,14 @@ class ChatScreenPageState extends State<ChatScreenPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: colorWhite,
+        // backgroundColor: colorWhite,
         appBar: AppBar(
           elevation: 0,
           automaticallyImplyLeading: true,
           iconTheme: IconThemeData(
             color: Colors.black
           ),
-          backgroundColor: colorWhite,
+          backgroundColor: Theme.of(context).canvasColor,
         ),
         body: Container(
             width: MediaQuery

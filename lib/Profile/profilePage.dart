@@ -22,12 +22,11 @@ class ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: colorWhite,
         appBar: AppBar(
           centerTitle: false,
           elevation: 0,
           automaticallyImplyLeading: true,
-          backgroundColor: colorWhite,
+          backgroundColor: Theme.of(context).canvasColor,
           iconTheme: IconThemeData(
             color: Colors.black
           ),
