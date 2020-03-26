@@ -230,10 +230,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          onPressed: () {
-                            signInWithGoogle().whenComplete(() =>
-                                Navigator.of(context).pushReplacementNamed(
-                                    MyHomeScreen.routename));
+                          onPressed: () async{
+                            final msg = await signInWithGoogle();
+                            if(msg!=''){
+                              Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
+                            }
                           },
                         )
                       ],

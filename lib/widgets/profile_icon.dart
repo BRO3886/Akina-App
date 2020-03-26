@@ -13,8 +13,10 @@ enum Options {
 checkGoogle() async{
   final sp = SharedPrefsCustom();
   bool gauthUsed = await sp.getIfUsedGauth();
-  if(gauthUsed){
-    signOutGoogle();
+  if(gauthUsed!=null){
+    if(gauthUsed){
+      signOutGoogle();
+    }
     sp.setIfUsedGauth(false);
   }
 }

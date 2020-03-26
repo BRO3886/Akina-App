@@ -8,18 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:532132307356:android:16a7ab19439435fdab2859",
+        "mobilesdk_app_id": "1:532132307356:android:b2003df5fb6ec35bab2859",
         "android_client_info": {
           "package_name": "com.example.project_hestia"
         }
       },
       "oauth_client": [
         {
-          "client_id": "532132307356-b70einksadcmd9c4b5ee58pbcolou785.apps.googleusercontent.com",
+          "client_id": "532132307356-m5la5td0is18633tuqjqgplashectr06.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.project_hestia",
-            "certificate_hash": "9d36adb73d8fd9eda4073233a20f58c9b2a4cec9"
+            "certificate_hash": "fcf6d6988978d3398752003cedc2c6e11d3c27c6"
           }
         },
         {

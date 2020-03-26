@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:project_hestia/Profile/profilePage.dart';
 import 'package:project_hestia/model/request.dart';
 import 'package:project_hestia/model/util.dart';
-import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/widgets/new_request.dart';
 import 'package:project_hestia/widgets/profile_icon.dart';
 import 'package:project_hestia/widgets/requests_card.dart';
