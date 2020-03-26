@@ -18,7 +18,7 @@ class RequestCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-                color: Color(0x10101010), blurRadius: 3, spreadRadius: 0.0005)
+                color: Color(0x10101010), blurRadius: 5, spreadRadius: 0.0001)
           ],
         ),
         child: Card(
