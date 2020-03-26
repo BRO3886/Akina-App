@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:project_hestia/screens/home_screen.dart';
 import 'package:project_hestia/screens/register.dart';
 import 'package:project_hestia/model/util.dart';
+import 'package:project_hestia/services/google_auth.dart';
+import 'package:project_hestia/services/shared_prefs_custom.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routename = "/login";
@@ -42,7 +44,8 @@ class _LoginScreenState extends State<LoginScreen> {
       Map<String, dynamic> responseBody = jsonDecode(response.body);
       print(responseBody);
       if (responseBody.containsKey("Error")) {
-        content = responseBody["Error"] + ". Please check your email and try again.";
+        content =
+            responseBody["Error"] + ". Please check your email and try again.";
       } else if (responseBody.containsKey("Status")) {
         content = responseBody["Status"] + ". Please enter correct password.";
       }
@@ -67,6 +70,9 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         if (responseBody.containsKey("Token")) {
           print("logged in successfully");
+          final sp = SharedPrefsCustom();
+          sp.setUserEmail(userInfo['email']);
+          sp.setToken(responseBody["Token"]);
           Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
         }
       }
@@ -97,8 +103,13 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Image.asset("assets/images/hestia_logo.png", height: 50,),
-                  SizedBox(width: 10,),
+                  Image.asset(
+                    "assets/images/hestia_logo.png",
+                    height: 50,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Text(
                     'HESTIA',
                     style: TextStyle(
@@ -197,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 onPressed: _login),
                         RaisedButton(
                           padding: EdgeInsets.symmetric(
-                              vertical: 13, horizontal: 30),
+                              vertical: 15, horizontal: 30),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
@@ -219,7 +230,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            signInWithGoogle().whenComplete(() =>
+                                Navigator.of(context).pushReplacementNamed(
+                                    MyHomeScreen.routename));
+                          },
                         )
                       ],
                     ),

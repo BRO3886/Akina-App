@@ -107,6 +107,8 @@ void _launchURL(BuildContext context) async {
         enableDefaultShare: true,
         enableUrlBarHiding: true,
         showPageTitle: true,
+        enableInstantApps: true,
+        animation: new CustomTabsAnimation.fade(),
         // // or user defined animation.
         // animation: new CustomTabsAnimation(
         //   startEnter: 'slide_up',

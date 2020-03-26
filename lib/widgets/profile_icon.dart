@@ -2,13 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:project_hestia/Profile/profilePage.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/login.dart';
+import 'package:project_hestia/services/google_auth.dart';
+import 'package:project_hestia/services/shared_prefs_custom.dart';
 
 
 enum Options {
   Profile,
   Logout,
 }
-
+checkGoogle() async{
+  final sp = SharedPrefsCustom();
+  bool gauthUsed = await sp.getIfUsedGauth();
+  if(gauthUsed){
+    signOutGoogle();
+    sp.setIfUsedGauth(false);
+  }
+}
 
 class ProfileIcon extends StatelessWidget {
   const ProfileIcon({
@@ -25,14 +34,14 @@ class ProfileIcon extends StatelessWidget {
           onSelected: (Options option) {
             if (option == Options.Profile) {
               //print("profile clicked");
-
               Navigator.push(
                   context,
                   new MaterialPageRoute(
                       builder: (BuildContext context) =>
                           ProfilePage()));
             } else if (option == Options.Logout) {
-              print("logout clicked");
+              print("logout clicked");              
+              checkGoogle();
               Navigator.of(context)
                   .pushReplacementNamed(LoginScreen.routename);
             }

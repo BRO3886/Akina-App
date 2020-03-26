@@ -28,6 +28,8 @@ dependencies:
   shared_preferences:
   flutter_svg:
   flutter_custom_tabs: "^0.6.0"
+  firebase_auth:
+  google_sign_in:
 
 dev_dependencies:
   flutter_test:
