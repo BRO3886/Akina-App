@@ -6,12 +6,15 @@ import 'package:project_hestia/screens/news_feed.dart';
 import 'package:project_hestia/screens/register.dart';
 import 'package:project_hestia/screens/requests_feed.dart';
 
-
 void main() {
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarIconBrightness: Brightness.dark,
       statusBarBrightness: Brightness.dark,
       statusBarIconBrightness: Brightness.dark,
-      statusBarColor: Colors.transparent));
+      statusBarColor: Colors.grey[100]),
+  );
   runApp(MyApp());
 }
 
@@ -42,4 +45,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
