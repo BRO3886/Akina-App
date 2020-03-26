@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:project_hestia/Profile/myChats.dart';
@@ -27,8 +26,11 @@ class ProfilePageState extends State<ProfilePage> {
         appBar: AppBar(
           centerTitle: false,
           elevation: 0,
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: true,
           backgroundColor: colorWhite,
+          iconTheme: IconThemeData(
+            color: Colors.black
+          ),
          // title: Text(
             //'Profile',
            // style: TextStyle(color: colorBlack, fontSize: 24.0),
@@ -36,7 +38,7 @@ class ProfilePageState extends State<ProfilePage> {
           // actions: <Widget>[
           //   Container(
           //     margin: EdgeInsets.only(right: 20.0),
-          //     child : Icon(Icons.account_circle,color: colorBlue,)
+          //     child : Icon(Icons.account_circle,color: mainColor,)
           //   )
           // ],
         ),
@@ -60,7 +62,7 @@ class ProfilePageState extends State<ProfilePage> {
                         ),
                         Container(
                           //margin: EdgeInsets.only(right: 10.0),
-                          child : Icon(Icons.account_circle,color: colorBlue,  size: 40.0,)
+                          child : Icon(Icons.account_circle,color: mainColor,  size: 40.0,)
                         )
                       ],
                     ),
@@ -90,7 +92,7 @@ class ProfilePageState extends State<ProfilePage> {
                           margin: EdgeInsets.only(top: 20.0, right: 15.0, bottom: 20.0),
                           padding: EdgeInsets.all(8.0),
                           decoration: new BoxDecoration(
-                            color: colorBlue,
+                            color: mainColor,
                             shape: BoxShape.circle,
                           ),
                           child : Icon(Icons.arrow_forward_ios, color: colorWhite, size: 14.0,)
@@ -140,7 +142,7 @@ class ProfilePageState extends State<ProfilePage> {
                             margin: EdgeInsets.only(top: 20.0, right: 15.0, bottom: 20.0),
                             padding: EdgeInsets.all(8.0),
                             decoration: new BoxDecoration(
-                              color: colorBlue,
+                              color: mainColor,
                               shape: BoxShape.circle,
                             ),
                             child : Icon(Icons.arrow_forward_ios, color: colorWhite, size: 14.0,)
@@ -191,7 +193,7 @@ class ProfilePageState extends State<ProfilePage> {
                             margin: EdgeInsets.only(top: 20.0, right: 15.0, bottom: 20.0),
                             padding: EdgeInsets.all(8.0),
                             decoration: new BoxDecoration(
-                              color: colorBlue,
+                              color: mainColor,
                               shape: BoxShape.circle,
                             ),
                             child : Icon(Icons.arrow_forward_ios, color: colorWhite, size: 14.0,)

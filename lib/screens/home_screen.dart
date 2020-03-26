@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../utils.dart';
+import 'package:project_hestia/model/util.dart';
 import './requests_feed.dart';
 import './news_feed.dart';
 

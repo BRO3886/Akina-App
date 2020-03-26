@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-const Color colorBlue = Colors.cyan;
+final mainColor = Color(0xFF00d2d2);
 const Color colorWhite = Color(0xFFffffff);
 const Color colorBlack = Colors.black;
-const Color colorRed = Colors.red;
+const Color colorRed = Color(0xFFd95071);
 const Color colorGrey = Colors.grey;
 
 const TextStyle smallredHeading=TextStyle(fontSize: 14,color: Colors.red,decoration: TextDecoration.none,fontFamily: 'Raleway',fontWeight: FontWeight.w700);

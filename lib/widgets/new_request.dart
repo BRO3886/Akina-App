@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../utils.dart';
+import 'package:project_hestia/model/util.dart';
 
 
 class NewRequestWidget extends StatelessWidget {

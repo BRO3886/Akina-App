@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_hestia/screens/home_screen.dart';
 import 'package:project_hestia/screens/register.dart';
-import 'package:project_hestia/utils.dart';
+import 'package:project_hestia/model/util.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routename = "/login";
@@ -126,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       autocorrect: false,
-                      validator: (value) {
+                      validator: (String value) {
                         if (value == '') {
                           return 'This field is required';
                         }
