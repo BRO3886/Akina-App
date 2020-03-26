@@ -10,7 +10,7 @@ class RequestCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(7),
       width: MediaQuery.of(context).size.width,
       height: 100,
       child: Container(
@@ -26,6 +26,7 @@ class RequestCard extends StatelessWidget {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           elevation: 0,
           child: ListTile(
+            contentPadding: EdgeInsets.only(top: 2, left: 14, right: 14),
             title: Row(
               children: <Widget>[
                 Text(request.title),

@@ -144,7 +144,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen>
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AnimatedContainer(
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.ease,
         height: _fabHeight,
         width: _fabWidth,
