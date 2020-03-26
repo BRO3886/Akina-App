@@ -50,21 +50,20 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
       print(responseBody);
       if (responseBody.containsKey("Error")) {
         content = responseBody["Error"];
-      } else if (responseBody.containsKey("Status")) {
+      } else if (responseBody.containsKey("Token")) {
         print("registered succesfully");
         try {
           //String loginUrl = 'https://hestia-auth.herokuapp.com/api/user/login';
           String email = userInfo["email"];
           String password = userInfo["password"];
           final loginInfo = {"email": email, "password": password};
-          final loginResponse = await http.post(URL_USER_LOGIN, body: loginInfo);
-          Map<String, dynamic> loginBody = jsonDecode(loginResponse.body);
-          print(loginBody);
+          // final loginResponse = await http.post(URL_USER_LOGIN, body: loginInfo);
+          // Map<String, dynamic> loginBody = jsonDecode(loginResponse.body);
           final sp = SharedPrefsCustom();
           sp.setUserEmail(userInfo["email"]);
           sp.setUserName(userInfo["name"]);
           sp.setPhone(userInfo["phone"]);
-          sp.setToken(loginBody["Token"]);
+          sp.setToken(responseBody["Token"]);
           Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
         } catch (e) {
           print(e);
