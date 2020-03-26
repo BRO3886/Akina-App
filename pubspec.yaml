@@ -27,6 +27,7 @@ dependencies:
   http:
   shared_preferences:
   flutter_svg:
+  flutter_custom_tabs: "^0.6.0"
 
 dev_dependencies:
   flutter_test:

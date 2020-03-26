@@ -9,11 +9,11 @@ import 'package:project_hestia/screens/requests_feed.dart';
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.white,
-      systemNavigationBarIconBrightness: Brightness.dark,
-      statusBarBrightness: Brightness.dark,
-      statusBarIconBrightness: Brightness.dark,
-      statusBarColor: Colors.grey[100]),
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarColor: Colors.grey[100]),
   );
   runApp(MyApp());
 }
@@ -27,6 +27,21 @@ class MyApp extends StatelessWidget {
       // darkTheme: ThemeData.dark(),
       theme: ThemeData(
         fontFamily: 'SourceSansPro',
+        textTheme: TextTheme().copyWith(
+          button: TextStyle(
+            fontSize: 16,
+          ),
+          body2: TextStyle(
+            fontSize: 16,
+          ),
+          title: TextStyle(
+            fontSize: 18,
+          ),
+          body1: TextStyle(
+            fontSize: 16,
+          ),
+
+        ),
         primaryColor: Color(0xFF00d2d2),
         accentColor: Color(0xFF00d2d2),
         canvasColor: Colors.grey[100],

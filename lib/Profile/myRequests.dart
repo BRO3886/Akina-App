@@ -165,7 +165,7 @@ class MyRequestsPageState extends State<MyRequestsPage> {
                                             Text('Date and Time',
                                                 style: TextStyle(
                                                     color: colorGrey,
-                                                    fontSize: 13.0))
+                                                    fontSize: 14.0))
                                           ],
                                         )),
                                     Container(

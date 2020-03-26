@@ -50,7 +50,7 @@ class ProfilePageState extends State<ProfilePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(
+                      Text(
                           'Profile',
                           style: TextStyle(
                               color: colorBlack,
