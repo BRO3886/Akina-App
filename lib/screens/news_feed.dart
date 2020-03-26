@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:project_hestia/Profile/profilePage.dart';
 import 'package:project_hestia/model/news.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/widgets/news_card.dart';
-
-import '../utils.dart';
 
 String desc =
     'This is the description of the news we can show upto 60 words here and then if they want they can click on the link below and visit it. Makes sense eh?';
@@ -78,7 +77,14 @@ class NewsFeedScreen extends StatelessWidget {
                 offset: Offset(0, 50),
                 onSelected: (Options option){
                   if(option == Options.Profile){
-                    print("profile clicked");
+                    //print("profile clicked");
+
+                    Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext
+                        context) => ProfilePage()));
+
                   }else if(option == Options.Logout){
                     print("logout clicked");
                     Navigator.of(context).pushReplacementNamed(LoginScreen.routename);

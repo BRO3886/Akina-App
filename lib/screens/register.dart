@@ -1,12 +1,11 @@
 import 'dart:convert';
-
+import 'package:project_hestia/model/global.dart';
 import 'package:ant_icons/ant_icons.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:project_hestia/screens/home_screen.dart';
 import 'package:project_hestia/screens/login.dart';
-
-import '../utils.dart';
+import 'package:project_hestia/model/util.dart';
 
 class RegsiterScreen extends StatefulWidget {
   static const routename = "/register";
@@ -42,10 +41,10 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
     setState(() {
       isLoading = true;
     });
-    String baseUrl = 'https://hestia-auth.herokuapp.com/api/user/register';
+    //String baseUrl = 'https://hestia-auth.herokuapp.com/api/user/register';
     String content = "";
     try {
-      final response = await http.post(baseUrl, body: userInfo);
+      final response = await http.post(URL_USER_REGISTER, body: userInfo);
       Map<String, dynamic> responseBody = jsonDecode(response.body);
       print(responseBody);
       if (responseBody.containsKey("Error")) {
@@ -53,11 +52,11 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
       } else if (responseBody.containsKey("Status")) {
         print("registered succesfully");
         try {
-          String loginUrl = 'https://hestia-auth.herokuapp.com/api/user/login';
+          //String loginUrl = 'https://hestia-auth.herokuapp.com/api/user/login';
           String email = userInfo["email"];
           String password = userInfo["password"];
           final loginInfo = {"email": email, "password": password};
-          final loginResponse = await http.post(loginUrl, body: loginInfo);
+          final loginResponse = await http.post(URL_USER_LOGIN, body: loginInfo);
           Map<String, dynamic> loginBody = jsonDecode(loginResponse.body);
           print(loginBody);
           Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
@@ -238,7 +237,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
-                              Text('Regsiter'),
+                              Text('Register'),
                               SizedBox(
                                 width: 5,
                               ),

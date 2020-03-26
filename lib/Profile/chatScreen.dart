@@ -1,6 +1,6 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:project_hestia/model/util.dart';
 
 class ChatScreenPage extends StatefulWidget {
@@ -58,7 +58,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                         ),
                         Container(
                           //margin: EdgeInsets.only(right: 10.0),
-                          child : Icon(Icons.battery_alert,color: colorRed,  size: 30.0,)
+                          child : SvgPicture.asset('assets/images/report.svg')
                         )
                       ],
                     ),
@@ -81,7 +81,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                                 offset: Offset(0.5, 0.5))
                           ],
                           shape: BoxShape.rectangle,
-                          color: index==1 ? colorWhite : colorBlue,
+                          color: index==1 ? colorWhite : mainColor,
                           borderRadius:
                           BorderRadius.all(Radius.circular(5))),
                       child: Column(

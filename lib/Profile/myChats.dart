@@ -166,7 +166,7 @@ class MyChatsPageState extends State<MyChatsPage> {
                         ),
                         Container(
                           //margin: EdgeInsets.only(right: 10.0),
-                          child : Icon(Icons.account_circle,color: colorBlue,  size: 40.0,)
+                          child : Icon(Icons.account_circle,color: mainColor,  size: 40.0,)
                         )
                       ],
                     ),
@@ -193,13 +193,13 @@ class MyChatsPageState extends State<MyChatsPage> {
                                       border: Border.all(
                                         width: 1.0,
                                         color: pressAttentionMy
-                                            ? colorBlue
+                                            ? mainColor
                                             : colorWhite,
                                       ),
                                       borderRadius: new BorderRadius.all(
                                           Radius.circular(70.0)),
                                       color:
-                                          pressAttentionMy ? colorBlue : colorWhite),
+                                          pressAttentionMy ? mainColor : colorWhite),
                                   child: Text(
                                     'My Requests',
                                     style: TextStyle(
@@ -221,12 +221,12 @@ class MyChatsPageState extends State<MyChatsPage> {
                                       border: Border.all(
                                         width: 1.0,
                                         color:
-                                            pressAttentionAll ? colorBlue : colorWhite,
+                                            pressAttentionAll ? mainColor : colorWhite,
                                       ),
                                       borderRadius: new BorderRadius.all(
                                           Radius.circular(70.0)),
                                       color:
-                                          pressAttentionAll ? colorBlue : colorWhite),
+                                          pressAttentionAll ? mainColor : colorWhite),
                                   child: Text(
                                     'All Requests',
                                     style: TextStyle(
@@ -287,7 +287,7 @@ class MyChatsPageState extends State<MyChatsPage> {
                               margin: EdgeInsets.only(top: 20.0, right: 15.0, bottom: 20.0),
                               padding: EdgeInsets.all(8.0),
                               decoration: new BoxDecoration(
-                                color: colorBlue,
+                                color: mainColor,
                                 shape: BoxShape.circle,
                               ),
                               child : Icon(Icons.arrow_forward_ios, color: colorWhite, size: 14.0,)

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:project_hestia/Profile/profilePage.dart';
 import 'package:project_hestia/model/request.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/login.dart';
-import 'package:project_hestia/utils.dart';
 import 'package:project_hestia/widgets/requests_card.dart';
 
 enum Options {
@@ -169,6 +169,13 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
                 onSelected: (Options option) {
                   if (option == Options.Profile) {
                     print("profile clicked");
+
+                    Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext
+                        context) => ProfilePage()));
+
                   } else if (option == Options.Logout) {
                     print("logout clicked");
                     Navigator.of(context)

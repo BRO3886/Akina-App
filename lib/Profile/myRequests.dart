@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:project_hestia/model/util.dart';
@@ -22,6 +21,35 @@ class MyRequestsPageState extends State<MyRequestsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: colorWhite,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: GestureDetector(
+            onTap:() {
+              addRequest();
+            },
+            child: Container(
+                                padding: EdgeInsets.all(10.0),
+                                margin: EdgeInsets.only(left: 25, bottom: 20),
+                                decoration: BoxDecoration(
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                      color: Colors.grey[600],
+                                      offset: Offset(0.5, 0.5),
+                                      blurRadius: 1.0,
+                                    ),
+                                  ],
+                                  shape: BoxShape.circle,
+                                  color: mainColor,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.add,
+                                      color: colorWhite,
+                                    ),
+                                  ],
+                                )),
+          ),
         appBar: AppBar(
           centerTitle: false,
           elevation: 0,
@@ -61,7 +89,7 @@ class MyRequestsPageState extends State<MyRequestsPage> {
                         ),
                         Container(
                           //margin: EdgeInsets.only(right: 10.0),
-                          child : Icon(Icons.account_circle,color: colorBlue,  size: 40.0,)
+                          child : Icon(Icons.account_circle,color: mainColor,  size: 40.0,)
                         )
                       ],
                     ),
@@ -129,6 +157,158 @@ class MyRequestsPageState extends State<MyRequestsPage> {
           ]
         )
       )
+    );
+  }
+
+  String name;
+  int quantity;
+  
+  GlobalKey<FormState> _key = new GlobalKey();
+  bool _validate = false;
+
+  addRequest() {
+    return showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+          content: Container(
+              height: MediaQuery.of(context).size.height / 2,
+              child: Form(
+                  key: _key,
+                  autovalidate: _validate,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        child: Container(
+                            padding: EdgeInsets.only(top: 6.0),
+                            child: Theme(
+                                data: ThemeData(
+                                  primaryColor: mainColor,
+                                  accentColor: mainColor,
+                                ),
+                                child: TextFormField(
+                                    maxLines: 1,
+                                    maxLength: 100,
+                                    cursorColor: mainColor,
+                                    style: TextStyle(color: mainColor),
+                                    decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      hintText: 'Name of thing',
+                                      labelStyle: TextStyle(
+                                        //color: mainColor,
+                                      ),
+                                    ),
+                                    keyboardType: TextInputType.text,
+                                    autofocus: true,
+                                    validator: (val) => (val.length == 0)
+                                        ? 'Please enter a name'
+                                        : null,
+                                    onSaved: (String val) {
+                                      setState(() {
+                                        name = val;
+                                      });
+                                    }))),
+                      ),
+                      Expanded(
+                        child: Container(
+                            padding: EdgeInsets.only(top: 6.0),
+                            child: Theme(
+                                data: ThemeData(
+                                  primaryColor: mainColor,
+                                  accentColor: mainColor,
+                                ),
+                                child: TextFormField(
+                                    cursorColor: mainColor,
+                                    style: TextStyle(color: mainColor),
+                                    decoration: const InputDecoration( 
+                                      border: OutlineInputBorder(),
+                                      hintText: 'Quantity',
+                                      labelStyle: TextStyle(
+                                        //color: mainColor,
+                                      ),
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                    autofocus: true,
+                                    validator: (val) => (val.length == 0)
+                                        ? 'Please enter some quantity'
+                                        : null,
+                                    onSaved: (val) {
+                                      setState(() {
+                                        quantity = val as int;
+                                      });
+                                    }))),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          GestureDetector(
+                          onTap: () {
+                          },
+                          child: Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(top: 30.0, right: 10.0),
+                              padding: EdgeInsets.only(
+                                  right: 16.0,
+                                  left: 16.0,
+                                  top: 8.0,
+                                  bottom: 8.0),
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  color: mainColor,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  Text(
+                                    "Done",
+                                    style: TextStyle(color: colorWhite),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 10.0),
+                                    child: Icon(Icons.check, color: colorWhite,) 
+                                  )
+                                ],
+                              ))),
+                            GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(top: 30.0),
+                              padding: EdgeInsets.only(
+                                  right: 16.0,
+                                  left: 16.0,
+                                  top: 8.0,
+                                  bottom: 8.0),
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  color: mainColor,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  Text(
+                                    "Cancel",
+                                    style: TextStyle(color: colorWhite),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 10.0),
+                                    child: Icon(Icons.close, color: colorWhite,)
+                                  )
+                                ],
+                              ))),
+                        ],
+                      ),
+                    ],
+                  )))),
     );
   }
 }
