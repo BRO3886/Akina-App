@@ -1,28 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-<<<<<<< HEAD
-<<<<<<< HEAD
 import 'package:project_hestia/Profile/profilePage.dart';
 import 'package:project_hestia/model/request.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/login.dart';
-=======
-import 'package:flutter/services.dart';
-import 'package:project_hestia/model/request.dart';
-import 'package:project_hestia/model/util.dart';
-import 'package:project_hestia/screens/login.dart';
-import 'package:project_hestia/utils.dart';
 import 'package:project_hestia/widgets/new_request.dart';
->>>>>>> upstream/master
-=======
-import 'package:flutter/services.dart';
-import 'package:project_hestia/model/request.dart';
-import 'package:project_hestia/model/util.dart';
-import 'package:project_hestia/screens/login.dart';
-import 'package:project_hestia/utils.dart';
-import 'package:project_hestia/widgets/new_request.dart';
-
->>>>>>> 9859f26ef8852ea273d73bf0b790cfe602158d84
 import 'package:project_hestia/widgets/requests_card.dart';
 
 enum Options {
