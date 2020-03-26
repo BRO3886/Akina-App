@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "532132307356",
+    "firebase_url": "https://hestia-auth.firebaseio.com",
+    "project_id": "hestia-auth",
+    "storage_bucket": "hestia-auth.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532132307356:android:16a7ab19439435fdab2859",
+        "android_client_info": {
+          "package_name": "com.example.project_hestia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "532132307356-b70einksadcmd9c4b5ee58pbcolou785.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.project_hestia",
+            "certificate_hash": "9d36adb73d8fd9eda4073233a20f58c9b2a4cec9"
+          }
+        },
+        {
+          "client_id": "532132307356-oaf2v8cl6b7elqneechc67aqbm8lvpun.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdzhY6WkmdyaXNBwrTYnCNy9_g2V95XVA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "532132307356-oaf2v8cl6b7elqneechc67aqbm8lvpun.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

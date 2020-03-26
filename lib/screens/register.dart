@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:project_hestia/screens/home_screen.dart';
 import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/model/util.dart';
+import 'package:project_hestia/services/shared_prefs_custom.dart';
 
 class RegsiterScreen extends StatefulWidget {
   static const routename = "/register";
@@ -59,6 +60,11 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
           final loginResponse = await http.post(URL_USER_LOGIN, body: loginInfo);
           Map<String, dynamic> loginBody = jsonDecode(loginResponse.body);
           print(loginBody);
+          final sp = SharedPrefsCustom();
+          sp.setUserEmail(userInfo["email"]);
+          sp.setUserName(userInfo["name"]);
+          sp.setPhone(userInfo["phone"]);
+          sp.setToken(loginBody["Token"]);
           Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
         } catch (e) {
           print(e);

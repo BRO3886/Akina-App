@@ -5,6 +5,10 @@ import 'package:project_hestia/model/request.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/widgets/new_request.dart';
+<<<<<<< HEAD
+=======
+import 'package:project_hestia/widgets/profile_icon.dart';
+>>>>>>> upstream/master
 import 'package:project_hestia/widgets/requests_card.dart';
 
 enum Options {
@@ -19,8 +23,7 @@ class RequestsFeedScreen extends StatefulWidget {
   _RequestsFeedScreenState createState() => _RequestsFeedScreenState();
 }
 
-class _RequestsFeedScreenState extends State<RequestsFeedScreen>
-    with TickerProviderStateMixin {
+class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
   ScrollController fabController = ScrollController();
 
   var _fabIsVisible = true;
@@ -134,48 +137,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen>
               ),
             ),
             actions: <Widget>[
-              PopupMenuButton(
-                offset: Offset(0, 50),
-                onSelected: (Options option) {
-                  if (option == Options.Profile) {
-                    print("profile clicked");
-
-                    Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext
-                        context) => ProfilePage()));
-
-                  } else if (option == Options.Logout) {
-                    print("logout clicked");
-                    Navigator.of(context)
-                        .pushReplacementNamed(LoginScreen.routename);
-                  }
-                },
-                itemBuilder: (ctx) {
-                  return [
-                    PopupMenuItem(
-                      child: Text('Profile'),
-                      value: Options.Profile,
-                    ),
-                    PopupMenuItem(
-                      child: Text('Logout'),
-                      value: Options.Logout,
-                    ),
-                  ];
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 27.0),
-                  child: CircleAvatar(
-                    backgroundColor: mainColor,
-                    child: Icon(
-                      Icons.account_circle,
-                      size: 40,
-                      color: colorWhite,
-                    ),
-                  ),
-                ),
-              )
+              ProfileIcon(),
             ],
             backgroundColor: Theme.of(context).canvasColor,
           ),
