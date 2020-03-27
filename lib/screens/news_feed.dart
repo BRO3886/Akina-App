@@ -61,7 +61,7 @@ class NewsFeedScreen extends StatelessWidget {
                 'News',
                 style: TextStyle(
                   fontSize: 30,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
             ),

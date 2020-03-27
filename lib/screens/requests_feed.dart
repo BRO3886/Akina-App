@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:project_hestia/model/request.dart';
 import 'package:project_hestia/model/util.dart';
-import 'package:project_hestia/widgets/new_request.dart';
+import 'package:project_hestia/screens/new_req_screen.dart';
 import 'package:project_hestia/widgets/profile_icon.dart';
 import 'package:project_hestia/widgets/requests_card.dart';
 
@@ -73,12 +73,12 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
     });
   }
 
-  void newRequest() {
-    showDialog(
-      context: context,
-      child: NewRequestWidget(),
-    );
-  }
+  // void newRequest() {
+  //   showDialog(
+  //     context: context,
+  //     child: NewRequestWidget(),
+  //   );
+  // }
 
   @override
   void dispose() {
@@ -97,7 +97,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
         width: _fabWidth,
         child: FloatingActionButton(
           backgroundColor: mainColor,
-          onPressed: newRequest,
+          onPressed: ()=>Navigator.of(context).pushNamed(NewRequestScreen.routename),
           tooltip: 'New request',
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 100),
@@ -127,7 +127,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
                 'Requests',
                 style: TextStyle(
                   fontSize: 30,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
             ),
