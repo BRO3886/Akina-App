@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:ant_icons/ant_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_hestia/screens/home_screen.dart';
 import 'package:project_hestia/screens/register.dart';
@@ -26,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Map<String, String> userInfo = {"email": "", "password": ""};
 
   Future _login() async {
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     if (!_formKey.currentState.validate()) {
       return;
     }
@@ -85,10 +87,8 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-
   @override
   void initState() {
-    
     super.initState();
   }
 
@@ -238,10 +238,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          onPressed: () async{
+                          onPressed: () async {
                             final msg = await signInWithGoogle();
-                            if(msg!=''){
-                              Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
+                            if (msg != '') {
+                              Navigator.of(context)
+                                  .pushReplacementNamed(MyHomeScreen.routename);
                             }
                           },
                         )

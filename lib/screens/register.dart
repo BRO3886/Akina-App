@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:project_hestia/model/global.dart';
 import 'package:ant_icons/ant_icons.dart';
 import 'package:http/http.dart' as http;
@@ -33,6 +34,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
   };
 
   Future _register() async {
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     if (!_formKey.currentState.validate()) {
       return;
     }
@@ -87,7 +89,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
             ],
           ),
         );
-      } 
+      }
     } catch (e) {
       print(e);
     }
@@ -115,8 +117,13 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Image.asset("assets/images/hestia_logo.png", height: 50,),
-                  SizedBox(width: 10,),
+                  Image.asset(
+                    "assets/images/hestia_logo.png",
+                    height: 50,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Text(
                     'HESTIA',
                     style: TextStyle(
@@ -173,7 +180,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                         if (value.length < 10) {
                           return "Enter a valid phone number";
                         }
-                        if(value.length>14){
+                        if (value.length > 14) {
                           return "Enter a valid phone number";
                         }
                       },
@@ -234,31 +241,35 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        (isLoading)?CircularProgressIndicator():RaisedButton(
-                          padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  MediaQuery.of(context).size.width * 0.08,
-                              vertical: 15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              Text('Register'),
-                              SizedBox(
-                                width: 5,
+                        (isLoading)
+                            ? CircularProgressIndicator()
+                            : RaisedButton(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        MediaQuery.of(context).size.width *
+                                            0.08,
+                                    vertical: 15),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    Text('Register'),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Icon(
+                                      AntIcons.right_outline,
+                                      size: 16,
+                                    )
+                                  ],
+                                ),
+                                color: Theme.of(context).primaryColor,
+                                textColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                onPressed: _register,
                               ),
-                              Icon(
-                                AntIcons.right_outline,
-                                size: 16,
-                              )
-                            ],
-                          ),
-                          color: Theme.of(context).primaryColor,
-                          textColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          onPressed: _register,
-                        ),
                         RaisedButton(
                           padding: EdgeInsets.symmetric(
                               horizontal:

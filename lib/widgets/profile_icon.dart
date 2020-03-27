@@ -16,9 +16,9 @@ resetVariables() async {
     if (gauthUsed) {
       signOutGoogle();
     }
-    sp.setLoggedInStatus(false);
-    sp.setIfUsedGauth(false);
   }
+  sp.setLoggedInStatus(false);
+  sp.setIfUsedGauth(false);
 }
 
 class ProfileIcon extends StatelessWidget {
