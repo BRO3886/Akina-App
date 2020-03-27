@@ -10,7 +10,7 @@ class RequestCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(7),
+      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 5),
       width: MediaQuery.of(context).size.width,
       height: 100,
       child: Container(
@@ -22,7 +22,7 @@ class RequestCard extends StatelessWidget {
               blurRadius: 5,
               spreadRadius: 0,
               // color: Colors.grey[600].withOpacity(0.1),
-              color: Color(0x23000000),
+              color: Color(0x10000000),
               
             )
           ],

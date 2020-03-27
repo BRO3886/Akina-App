@@ -9,7 +9,7 @@ class NewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 5),
       width: MediaQuery.of(context).size.width,
       // height: 100,
       child: Container(
