@@ -5,6 +5,7 @@ import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/screens/news_feed.dart';
 import 'package:project_hestia/screens/register.dart';
 import 'package:project_hestia/screens/requests_feed.dart';
+import 'package:project_hestia/screens/splash_screen.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -40,7 +41,6 @@ class MyApp extends StatelessWidget {
           body1: TextStyle(
             fontSize: 16,
           ),
-
         ),
         primaryColor: Color(0xFF00d2d2),
         accentColor: Color(0xFF00d2d2),
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
           TargetPlatform.android: ZoomPageTransitionsBuilder(),
         }),
       ),
-      home: LoginScreen(),
+      home: SplashScreen(),
       routes: {
         MyHomeScreen.routename: (_) => MyHomeScreen(),
         LoginScreen.routename: (_) => LoginScreen(),

@@ -54,9 +54,9 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
         print("registered succesfully");
         try {
           //String loginUrl = 'https://hestia-auth.herokuapp.com/api/user/login';
-          String email = userInfo["email"];
-          String password = userInfo["password"];
-          final loginInfo = {"email": email, "password": password};
+          // String email = userInfo["email"];
+          // String password = userInfo["password"];
+          // // final loginInfo = {"email": email, "password": password};
           // final loginResponse = await http.post(URL_USER_LOGIN, body: loginInfo);
           // Map<String, dynamic> loginBody = jsonDecode(loginResponse.body);
           final sp = SharedPrefsCustom();

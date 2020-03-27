@@ -5,18 +5,18 @@ import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/services/google_auth.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 
-
 enum Options {
   Profile,
   Logout,
 }
-checkGoogle() async{
+resetVariables() async {
   final sp = SharedPrefsCustom();
   bool gauthUsed = await sp.getIfUsedGauth();
-  if(gauthUsed!=null){
-    if(gauthUsed){
+  if (gauthUsed != null) {
+    if (gauthUsed) {
       signOutGoogle();
     }
+    sp.setLoggedInStatus(false);
     sp.setIfUsedGauth(false);
   }
 }
@@ -32,6 +32,9 @@ class ProfileIcon extends StatelessWidget {
       tag: 'profile',
       child: Material(
         child: PopupMenuButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           offset: Offset(0, 50),
           onSelected: (Options option) {
             if (option == Options.Profile) {
@@ -39,13 +42,11 @@ class ProfileIcon extends StatelessWidget {
               Navigator.push(
                   context,
                   new MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          ProfilePage()));
+                      builder: (BuildContext context) => ProfilePage()));
             } else if (option == Options.Logout) {
-              print("logout clicked");              
-              checkGoogle();
-              Navigator.of(context)
-                  .pushReplacementNamed(LoginScreen.routename);
+              print("logout clicked");
+              resetVariables();
+              Navigator.of(context).pushReplacementNamed(LoginScreen.routename);
             }
           },
           itemBuilder: (ctx) {

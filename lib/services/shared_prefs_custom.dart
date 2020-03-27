@@ -54,6 +54,19 @@ class SharedPrefsCustom {
     print("token stored");
   }
 
+  Future<bool> getLoggedInStatus() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final key = 'logged-in';
+    return prefs.getBool(key);
+  }
+
+  void setLoggedInStatus(bool value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final key = 'logged-in';
+    prefs.setBool(key, value);
+    print("logged in cached");
+  }
+
   Future<bool> getIfUsedGauth() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final key = 'google-auth';

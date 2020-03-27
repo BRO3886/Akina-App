@@ -73,6 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
           final sp = SharedPrefsCustom();
           sp.setUserEmail(userInfo['email']);
           sp.setToken(responseBody["Token"]);
+          sp.setLoggedInStatus(true);
           Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
         }
       }
@@ -82,6 +83,13 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       isLoading = false;
     });
+  }
+
+
+  @override
+  void initState() {
+    
+    super.initState();
   }
 
   @override
@@ -255,7 +263,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(color: mainColor),
                   ),
                 ),
-              )
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.2,
+              ),
             ],
           ),
         ),
