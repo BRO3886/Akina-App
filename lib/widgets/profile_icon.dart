@@ -33,7 +33,7 @@ class ProfileIcon extends StatelessWidget {
       child: Material(
         child: PopupMenuButton(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(5),
           ),
           offset: Offset(0, 50),
           onSelected: (Options option) {

@@ -16,7 +16,7 @@ class RequestCard extends StatelessWidget {
       child: Container(
         
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(5),
           boxShadow: <BoxShadow>[
             BoxShadow(
               blurRadius: 5,
@@ -33,7 +33,7 @@ class RequestCard extends StatelessWidget {
         ),
         child: Card(
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           elevation: 0,
           child: ListTile(
             contentPadding: EdgeInsets.only(top: 2, left: 14, right: 14),

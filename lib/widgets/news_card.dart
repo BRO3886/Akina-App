@@ -14,7 +14,7 @@ class NewsCard extends StatelessWidget {
       // height: 100,
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(5),
             boxShadow: [
               BoxShadow(
                 blurRadius: 5,
@@ -31,7 +31,7 @@ class NewsCard extends StatelessWidget {
             ),
         child: Card(
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           elevation: 0,
           child: Padding(
             padding: const EdgeInsets.all(15.0),
@@ -48,7 +48,7 @@ class NewsCard extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       height: 15,
-                      color: Colors.grey,
+                      color: Colors.grey[200],
                       width: 1,
                     ),
                     Text(
