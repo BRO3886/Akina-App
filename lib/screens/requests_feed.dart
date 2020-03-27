@@ -96,6 +96,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
         height: _fabHeight,
         width: _fabWidth,
         child: FloatingActionButton(
+          elevation: 4,
           backgroundColor: mainColor,
           onPressed: ()=>Navigator.of(context).pushNamed(NewRequestScreen.routename),
           tooltip: 'New request',
@@ -140,6 +141,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
             hasScrollBody: false,
             child: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   for (int i = 0; i < requestList.length; i++)
                     // ListTile(

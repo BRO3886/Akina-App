@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:project_hestia/model/util.dart';
 
 import '../model/request.dart';
@@ -13,14 +14,16 @@ class RequestCard extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: 100,
       child: Container(
+        
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           boxShadow: <BoxShadow>[
             BoxShadow(
               blurRadius: 5,
-              spreadRadius: 0.5,
-              color: Colors.grey[600].withOpacity(0.1),
-              offset: Offset(0.5, 0.5),
+              spreadRadius: 0,
+              // color: Colors.grey[600].withOpacity(0.1),
+              color: Color(0x23000000),
+              
             )
           ],
           // boxShadow: [
@@ -40,7 +43,7 @@ class RequestCard extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 10),
                   height: 15,
-                  color: Colors.grey,
+                  color: Colors.grey[200],
                   width: 1,
                 ),
                 Text(request.qty.toString()),
@@ -50,31 +53,37 @@ class RequestCard extends StatelessWidget {
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                CircleAvatar(
-                  child: Icon(
-                    Icons.home,
-                    color: Colors.white,
+                GestureDetector(
+                  onTap: () {
+                    print("suggest shop");
+                  },
+                  child: Tooltip(
+                    message: 'Suggest a shop',
+                    child: CircleAvatar(
+                      child: SvgPicture.asset("assets/images/store.svg"),
+                      maxRadius: 15,
+                      backgroundColor: mainColor,
+                    ),
                   ),
-                  maxRadius: 15,
-                  backgroundColor: mainColor,
                 ),
                 SizedBox(
                   width: 10,
                 ),
-                CircleAvatar(
-                  child: Icon(
-                    Icons.done,
-                    color: Colors.white,
+                GestureDetector(
+                  onTap: () {
+                    print("acpt req");
+                  },
+                  child: Tooltip(
+                    message: 'Accept this request',
+                    child: CircleAvatar(
+                      child: SvgPicture.asset("assets/images/check.svg"),
+                      maxRadius: 15,
+                      backgroundColor: mainColor,
+                    ),
                   ),
-                  maxRadius: 15,
-                  backgroundColor: mainColor,
                 ),
               ],
             ),
-            // trailing: Row(children: <Widget>[
-            //   CircleAvatar(child: Icon(AntIcons.home),),
-            //   CircleAvatar(child: Icon(Icons.done),),
-            // ],),
           ),
         ),
       ),
