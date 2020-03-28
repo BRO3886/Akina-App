@@ -42,7 +42,7 @@ class NewsCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     newsItem.title,
-                    // softWrap: false,
+                    softWrap: false,
                     overflow: TextOverflow.fade,
                     style: TextStyle(
                       fontSize: 16,
@@ -57,7 +57,7 @@ class NewsCard extends StatelessWidget {
             Text(
               source ?? 'Unkown',
               style: TextStyle(fontWeight: FontWeight.bold),
-              softWrap: false,
+              // ysoftWrap: false,
               overflow: TextOverflow.fade,
             ),
             SizedBox(

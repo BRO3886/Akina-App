@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import '../model/global.dart';
 import 'package:flutter/material.dart';
@@ -29,22 +31,22 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
     "location": "",
   };
 
-  _showSnackBar(int code) {
+  _showSnackBar(int code, String msg) {
     SnackBar snackbar;
     if (code == 201) {
       snackbar = SnackBar(
-        content: Text('Request Submitted'),
+        content: Text(msg),
         backgroundColor: Colors.teal,
       );
     } else if (code == 400) {
       snackbar = SnackBar(
         content:
-            Text('Too many requests. Delete an active request and try again.'),
+            Text(msg),
         backgroundColor: colorRed,
       );
-    } else {
+    } else if(code == 69){}else {
       snackbar = SnackBar(
-        content: Text('Request Not Submitted'),
+        content: Text(msg),
         backgroundColor: colorRed,
       );
     }
@@ -56,6 +58,8 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
     setState(() {
       isLoading = true;
     });
+    Position position;
+    List<Address> address;
     final sp = SharedPrefsCustom();
     String token = await sp.getToken();
     print(token);
@@ -63,9 +67,26 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
       return;
     }
     _newRequestFormKey.currentState.save();
-    //TODO: this condition is for time being, remove after adding location permissions
+    // TODO: this condition is for time being, remove after adding location permissions
     if (customLocation == false) {
-      request['location'] = 'vellore';
+      GeolocationStatus geolocationStatus =
+          await Geolocator().checkGeolocationPermissionStatus();
+      if (geolocationStatus != GeolocationStatus.granted) {
+        _showSnackBar(69, 'Location permission required');
+        // position = await Geolocator()
+        //     .getLastKnownPosition(desiredAccuracy: LocationAccuracy.medium);
+        // address = await Geocoder.local.findAddressesFromCoordinates(
+        //     Coordinates(position.latitude, position.longitude));
+        // request['location'] = address.first.locality;
+        // return AllRequests(
+        //     message: 'Required Permissions Not Granted', request: []);
+      }
+      position = await Geolocator()
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
+      address = await Geocoder.local.findAddressesFromCoordinates(
+          Coordinates(position.latitude, position.longitude));
+      request['location'] = address.first.locality;
+      // request['location'] = 'vellore';
     }
     print(request['location']);
     final body = jsonEncode(request);
@@ -79,12 +100,13 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
         },
         body: request,
       );
-      _showSnackBar(response.statusCode);
+      final resBody = jsonDecode(response.body);
+      _showSnackBar(response.statusCode, resBody['message']);
       if (response.statusCode == 201) {
-        var resBody = jsonDecode(response.body);
         print(resBody['message']);
       } else if (response.statusCode == 400) {
-        print("too many requests");
+        print(resBody['message']);
+        print("location not provided");
       } else {
         print(response.statusCode);
       }
@@ -216,11 +238,6 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                       ),
                       // onChanged: (value) => _locationController.text = value,
                       onSaved: (value) => request["location"] = value,
-                      validator: (value) {
-                        if (value == "") {
-                          return "This field is required";
-                        }
-                      },
                     ),
                     SizedBox(
                       height: 20,
@@ -245,7 +262,8 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                     width: 10,
                   ),
                   RaisedButton(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
                     color: colorWhite,
                     textColor: mainColor,
                     child: Text('Cancel'),
