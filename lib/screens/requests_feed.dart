@@ -5,10 +5,7 @@ import 'package:project_hestia/model/request.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/widgets/new_request.dart';
-<<<<<<< HEAD
-=======
 import 'package:project_hestia/widgets/profile_icon.dart';
->>>>>>> upstream/master
 import 'package:project_hestia/widgets/requests_card.dart';
 
 enum Options {
