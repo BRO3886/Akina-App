@@ -4,8 +4,9 @@ import 'package:project_hestia/model/news.dart';
 import 'package:project_hestia/model/util.dart';
 
 class NewsCard extends StatelessWidget {
-  final News news;
-  NewsCard(this.news);
+  final Item newsItem;
+  final String source;
+  NewsCard(this.newsItem,this.source);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,7 +38,7 @@ class NewsCard extends StatelessWidget {
             Row(
               children: <Widget>[
                 Text(
-                  news.title,
+                  newsItem.title,
                   style: TextStyle(
                     fontSize: 16,
                   ),
@@ -49,7 +50,7 @@ class NewsCard extends StatelessWidget {
                   width: 1,
                 ),
                 Text(
-                  news.source,
+                  source,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -61,7 +62,7 @@ class NewsCard extends StatelessWidget {
               height: 10,
             ),
             Text(
-              news.shortDescription,
+              newsItem.contentSnippet,
               textAlign: TextAlign.justify,
               style: TextStyle(
                 color: Colors.grey,
@@ -74,11 +75,11 @@ class NewsCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  news.dateTime,
+                  '${newsItem.isoDate.day} ${newsItem.isoDate.month} ${newsItem.isoDate.year}',
                   style: TextStyle(color: Colors.grey),
                 ),
                 FlatButton(
-                  onPressed: () => _launchURL(context),
+                  onPressed: () => _launchURL(context, newsItem.link),
                   textColor: mainColor,
                   child: Text(
                     'Read Full Story',
@@ -93,10 +94,10 @@ class NewsCard extends StatelessWidget {
   }
 }
 
-void _launchURL(BuildContext context) async {
+void _launchURL(BuildContext context, String url) async {
   try {
     await launch(
-      'https://dscvit.com/',
+      url,
       option: new CustomTabsOption(
         toolbarColor: Theme.of(context).primaryColor,
         enableDefaultShare: true,

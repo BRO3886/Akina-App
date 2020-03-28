@@ -22,7 +22,7 @@ class ProfileIcon extends StatelessWidget {
       tag: 'profile',
       child: Material(
         child: Padding(
-          padding: EdgeInsets.only(right: 27, top: 2),
+          padding: EdgeInsets.only(right: 20, top: 2),
           child: IconButton(
             // backgroundColor: mainColor,
             onPressed: () {
@@ -38,7 +38,7 @@ class ProfileIcon extends StatelessWidget {
               Icons.account_circle,
               color: mainColor,
             ),
-            iconSize: 40,
+            iconSize: 50,
             // child: IconButton(
             //   icon: Icon(
             //     Icons.account_circle,

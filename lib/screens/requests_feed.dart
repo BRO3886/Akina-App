@@ -98,7 +98,8 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
         child: FloatingActionButton(
           elevation: 4,
           backgroundColor: mainColor,
-          onPressed: ()=>Navigator.of(context).pushNamed(NewRequestScreen.routename),
+          onPressed: () =>
+              Navigator.of(context).pushNamed(NewRequestScreen.routename),
           tooltip: 'New request',
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 100),
@@ -126,16 +127,31 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
               padding: const EdgeInsets.only(left: 15.0),
               child: Text(
                 'Requests',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w800,
-                ),
+                style: screenHeadingStyle,
               ),
             ),
             actions: <Widget>[
               ProfileIcon(),
             ],
             backgroundColor: Theme.of(context).canvasColor,
+            // flexibleSpace: FlexibleSpaceBar(
+            //   centerTitle: true,
+            //   title: DynamicFlexibleSpaceBarTitle(
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       mainAxisSize: MainAxisSize.min,
+            //       children: <Widget>[
+            //         Text(
+            //           'Requests',
+            //           style: screenHeadingStyle,
+            //         ),
+            //         // SizedBox(width: MediaQuery.of(context).size.width * 0.1,),
+            //         ProfileIcon(),
+            //       ],
+            //     ),
+            //   ),
+            //   titlePadding: EdgeInsets.zero,
+            // ),
           ),
           SliverFillRemaining(
             hasScrollBody: false,
