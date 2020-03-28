@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:project_hestia/model/news.dart';
 import 'package:project_hestia/model/util.dart';
+import 'package:project_hestia/services/date_formatter.dart';
 
 class NewsCard extends StatelessWidget {
   final Item newsItem;
@@ -10,7 +11,7 @@ class NewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 14),
       width: MediaQuery.of(context).size.width,
       // height: 100,
       child: Container(
@@ -79,7 +80,7 @@ class NewsCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  '${newsItem.isoDate.day}/${newsItem.isoDate.month}/${newsItem.isoDate.year}',
+                  dateFormatter(newsItem.isoDate),
                   style: TextStyle(color: Colors.grey),
                 ),
                 FlatButton(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:project_hestia/model/util.dart';
+import 'package:project_hestia/services/date_formatter.dart';
 
 import '../model/request.dart';
 
@@ -10,11 +11,11 @@ class RequestCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 14),
       width: MediaQuery.of(context).size.width,
       height: 125,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10,horizontal: 5),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(5),
@@ -45,7 +46,7 @@ class RequestCard extends StatelessWidget {
           ),
           subtitle: Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Text('${request.dateTimeCreated.day}/${request.dateTimeCreated.month}/${request.dateTimeCreated.year}'),
+            child: Text(dateFormatter(request.dateTimeCreated)),
           ),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,

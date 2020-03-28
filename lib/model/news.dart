@@ -1,18 +1,3 @@
-import 'package:flutter/foundation.dart';
-
-// class News {
-//   final String title;
-//   final String source;
-//   final String shortDescription;
-//   final String dateTime;
-//   News({
-//     @required this.title,
-//     @required this.source,
-//     @required this.shortDescription,
-//     @required this.dateTime,
-//   });
-// }
-
 // To parse this JSON data, do
 //
 //     final news = newsFromJson(jsonString);
@@ -25,29 +10,29 @@ String newsToJson(News data) => json.encode(data.toJson());
 
 class News {
     List<Item> items;
-    String title;
     String description;
     String link;
+    String source;
 
     News({
         this.items,
-        this.title,
         this.description,
         this.link,
+        this.source,
     });
 
     factory News.fromJson(Map<String, dynamic> json) => News(
         items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
-        title: json["source"],
         description: json["description"],
         link: json["link"],
+        source: json["source"],
     );
 
     Map<String, dynamic> toJson() => {
         "items": List<dynamic>.from(items.map((x) => x.toJson())),
-        "title": title,
         "description": description,
         "link": link,
+        "source": source,
     };
 }
 

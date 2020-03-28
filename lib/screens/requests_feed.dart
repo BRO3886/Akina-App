@@ -4,6 +4,7 @@ import 'package:project_hestia/model/request.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/new_req_screen.dart';
 import 'package:project_hestia/services/view_all_requests.dart';
+import 'package:project_hestia/widgets/cust_sliver_app_bar.dart';
 import 'package:project_hestia/widgets/profile_icon.dart';
 import 'package:project_hestia/widgets/requests_card.dart';
 
@@ -18,9 +19,11 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
   ScrollController fabController = ScrollController();
 
   var _fabIsVisible = true;
-
+  bool _dataIsLoaded = false;
   double _fabHeight = 55;
   double _fabWidth = 55;
+
+  
 
   @override
   void initState() {
@@ -93,44 +96,41 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
           if (snapshot.hasData) {
             AllRequests allRequests = snapshot.data;
             if (allRequests.request.length <= 0) {
-              return Center(
-                child: Text(allRequests.message),
+              return CustomScrollView(
+                controller: fabController,
+                slivers: <Widget>[
+                  MySliverAppBar(title: 'Requests',),
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Center(
+                      child: Text(allRequests.message),
+                    ),
+                  )
+                ],
               );
             } else {
               return CustomScrollView(
                 controller: fabController,
                 slivers: <Widget>[
-                  SliverAppBar(
-                    elevation: 0,
-                    expandedHeight: MediaQuery.of(context).size.height * 0.10,
-                    snap: true,
-                    floating: true,
-                    title: Padding(
-                      padding: const EdgeInsets.only(left: 15.0, top: 10),
-                      child: Text(
-                        'Requests',
-                        style: screenHeadingStyle,
-                      ),
-                    ),
-                    actions: <Widget>[
-                      ProfileIcon(),
-                    ],
-                    backgroundColor: Theme.of(context).canvasColor,
-                  ),
+                  MySliverAppBar(title: 'Requests',),
                   SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (ctx, index) {
-                    return RequestCard(allRequests.request[index]);
-                  },
-                  childCount: allRequests.request.length
-                ),
-              ),
+                    delegate: SliverChildBuilderDelegate((ctx, index) {
+                      return RequestCard(allRequests.request[index]);
+                    }, childCount: allRequests.request.length),
+                  ),
                 ],
               );
             }
           } else {
-            return Center(
-              child: CircularProgressIndicator(),
+            return CustomScrollView(
+              slivers: <Widget>[
+                MySliverAppBar(title: 'Requests',),
+                SliverFillRemaining(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+              ],
             );
           }
         },

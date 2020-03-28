@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_hestia/model/news.dart';
 import 'package:project_hestia/services/get_news.dart';
+import 'package:project_hestia/widgets/cust_sliver_app_bar.dart';
 import 'package:project_hestia/widgets/news_card.dart';
 import 'package:project_hestia/widgets/profile_icon.dart';
 
@@ -16,31 +17,11 @@ class NewsFeedScreen extends StatelessWidget {
           News news = snapshot.data;
           return CustomScrollView(
             slivers: <Widget>[
-              SliverAppBar(
-                elevation: 0,
-                expandedHeight: MediaQuery.of(context).size.height * 0.10,
-                snap: true,
-                floating: true,
-                title: Padding(
-                  padding: const EdgeInsets.only(left: 15.0, top: 10),
-                  child: Text(
-                    'News',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ),
-                actions: <Widget>[ProfileIcon()],
-                backgroundColor: Theme.of(context).canvasColor,
-              ),
+              MySliverAppBar(title: 'News',),
               SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (ctx, index) {
-                    return NewsCard(news.items[index], news.title);
-                  },
-                  childCount: news.items.length
-                ),
+                delegate: SliverChildBuilderDelegate((ctx, index) {
+                  return NewsCard(news.items[index], news.source);
+                }, childCount: news.items.length),
               ),
               // SliverFillRemaining(
               //   hasScrollBody: false,
@@ -56,8 +37,15 @@ class NewsFeedScreen extends StatelessWidget {
             ],
           );
         } else {
-          return Center(
-            child: CircularProgressIndicator(),
+          return CustomScrollView(
+            slivers: <Widget>[
+              MySliverAppBar(title: 'News',),
+              SliverFillRemaining(
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            ],
           );
         }
       },
