@@ -38,7 +38,7 @@ class News {
 
     factory News.fromJson(Map<String, dynamic> json) => News(
         items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
-        title: json["title"],
+        title: json["source"],
         description: json["description"],
         link: json["link"],
     );
