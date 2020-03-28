@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:ant_icons/ant_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_hestia/screens/home_screen.dart';
 import 'package:project_hestia/screens/register.dart';
@@ -26,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Map<String, String> userInfo = {"email": "", "password": ""};
 
   Future _login() async {
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     if (!_formKey.currentState.validate()) {
       return;
     }
@@ -54,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
           context: context,
           child: AlertDialog(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(5),
             ),
             title: Text('Error'),
             content: Text(content),
@@ -73,7 +75,9 @@ class _LoginScreenState extends State<LoginScreen> {
           final sp = SharedPrefsCustom();
           sp.setUserEmail(userInfo['email']);
           sp.setToken(responseBody["Token"]);
+          sp.setLoggedInStatus(true);
           Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
+          // Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
         }
       }
     } catch (e) {
@@ -82,6 +86,11 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -101,26 +110,26 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: MediaQuery.of(context).size.height * 0.2,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Image.asset(
                     "assets/images/hestia_logo.png",
                     height: 50,
                   ),
                   SizedBox(
-                    width: 10,
+                    width: MediaQuery.of(context).size.width * 0.05,
                   ),
                   Text(
                     'HESTIA',
                     style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w800,
-                        fontSize: 40),
+                        fontSize: 55),
                   ),
                 ],
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.1,
+                height: MediaQuery.of(context).size.height * 0.05,
               ),
               Form(
                 key: _formKey,
@@ -132,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: InputDecoration(
                         labelText: 'Email',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                           gapPadding: 10,
                         ),
                       ),
@@ -159,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: InputDecoration(
                         labelText: 'Password',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                           gapPadding: 10,
                         ),
                       ),
@@ -179,13 +188,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 30,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         (isLoading)
                             ? Center(child: CircularProgressIndicator())
                             : RaisedButton(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 30),
+                                    vertical: 13.9, horizontal: 30),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
@@ -203,9 +212,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: Theme.of(context).primaryColor,
                                 textColor: Colors.white,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
-                                onPressed: _login),
+                                onPressed: _login,
+                              ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.05,
+                        ),
                         RaisedButton(
                           padding: EdgeInsets.symmetric(
                               vertical: 15, horizontal: 30),
@@ -228,12 +241,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           color: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          onPressed: () {
-                            signInWithGoogle().whenComplete(() =>
-                                Navigator.of(context).pushReplacementNamed(
-                                    MyHomeScreen.routename));
+                          onPressed: () async {
+                            final msg = await signInWithGoogle();
+                            if (msg != '') {
+                              Navigator.of(context)
+                                  .pushReplacementNamed(MyHomeScreen.routename);
+                            }
                           },
                         )
                       ],
@@ -254,7 +269,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(color: mainColor),
                   ),
                 ),
-              )
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1,
+              ),
             ],
           ),
         ),

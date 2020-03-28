@@ -4,23 +4,27 @@ import 'package:project_hestia/model/news.dart';
 import 'package:project_hestia/model/util.dart';
 
 class NewsCard extends StatelessWidget {
-  final News news;
-  NewsCard(this.news);
+  final Item newsItem;
+  final String source;
+  NewsCard(this.newsItem, this.source);
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       width: MediaQuery.of(context).size.width,
       // height: 100,
       child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.white,
             boxShadow: [
               BoxShadow(
                 blurRadius: 5,
-                spreadRadius: 0.5,
-                color: Colors.grey[600].withOpacity(0.1),
-                offset: Offset(0.5, 0.5),
+                spreadRadius: 0,
+                color: Color(0x23000000),
+                // color: Colors.grey[600].withOpacity(0.1),
+                // offset: Offset(0.5, 0.5),
               )
             ]
             // boxShadow: [
@@ -29,86 +33,82 @@ class NewsCard extends StatelessWidget {
             // ],
 
             ),
-        child: Card(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          elevation: 0,
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Column(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Text(
-                      news.title,
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
+                Expanded(
+                  child: Text(
+                    newsItem.title,
+                    // softWrap: false,
+                    overflow: TextOverflow.fade,
+                    style: TextStyle(
+                      fontSize: 16,
                     ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      height: 15,
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                    Text(
-                      news.source,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  news.shortDescription,
-                  textAlign: TextAlign.justify,
-                  style: TextStyle(
-                    color: Colors.grey,
                   ),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      news.dateTime,
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    FlatButton(
-                      onPressed: ()=>_launchURL(context),
-                      textColor: mainColor,
-                      child: Text(
-                        'Read Full Story',
-                      ),
-                    ),
-                  ],
-                )
               ],
             ),
-          ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              source ?? 'Unkown',
+              style: TextStyle(fontWeight: FontWeight.bold),
+              softWrap: false,
+              overflow: TextOverflow.fade,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              newsItem.contentSnippet,
+              maxLines: 4,
+              textAlign: TextAlign.justify,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  '${newsItem.isoDate.day}/${newsItem.isoDate.month}/${newsItem.isoDate.year}',
+                  style: TextStyle(color: Colors.grey),
+                ),
+                FlatButton(
+                  onPressed: () => _launchURL(context, newsItem.link),
+                  textColor: mainColor,
+                  child: Text(
+                    'Read Full Story',
+                  ),
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );
   }
 }
 
-void _launchURL(BuildContext context) async {
+void _launchURL(BuildContext context, String url) async {
   try {
     await launch(
-      'https://dscvit.com/',
+      url,
       option: new CustomTabsOption(
         toolbarColor: Theme.of(context).primaryColor,
         enableDefaultShare: true,
         enableUrlBarHiding: true,
         showPageTitle: true,
         enableInstantApps: true,
-        animation: new CustomTabsAnimation.fade(),
+        // animation: new CustomTabsAnimation.,
         // // or user defined animation.
         // animation: new CustomTabsAnimation(
         //   startEnter: 'slide_up',

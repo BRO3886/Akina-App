@@ -30,6 +30,9 @@ dependencies:
   flutter_custom_tabs: "^0.6.0"
   firebase_auth:
   google_sign_in:
+  geolocator:
+  geocoder:
+  permission_handler:
 
 dev_dependencies:
   flutter_test:
@@ -64,36 +67,22 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: SourceSansPro
+    - family: Manrope
       fonts:
-        - asset: assets/fonts/SourceSansPro-Regular.ttf
-        - asset: assets/fonts/SourceSansPro-Italic.ttf
-          style: italic
-        - asset: assets/fonts/SourceSansPro-Black.ttf
-          weight: 900
-        - asset: assets/fonts/SourceSansPro-BlackItalic.ttf
-          weight: 900
-          style: italic
-        - asset: assets/fonts/SourceSansPro-Bold.ttf
+        - asset: assets/fonts/Manrope-Regular.otf
+        - asset: assets/fonts/Manrope-ExtraBold.otf
+          weight: 800
+        - asset: assets/fonts/Manrope-Bold.otf
           weight: 700
-        - asset: assets/fonts/SourceSansPro-BoldItalic.ttf
-          weight: 700
-          style: italic
-        - asset: assets/fonts/SourceSansPro-SemiBold.ttf
+        - asset: assets/fonts/Manrope-SemiBold.otf
           weight: 600
-        - asset: assets/fonts/SourceSansPro-SemiBoldItalic.ttf
-          weight: 600
-          style: italic 
-        - asset: assets/fonts/SourceSansPro-Light.ttf
+        - asset: assets/fonts/Manrope-Medium.otf
+          weight: 500
+        - asset: assets/fonts/Manrope-Light.otf
           weight: 300
-        - asset: assets/fonts/SourceSansPro-LightItalic.ttf
-          weight: 300
-          style: italic
-        - asset: assets/fonts/SourceSansPro-ExtraLight.ttf
+        - asset: assets/fonts/Manrope-ExtraLight.otf
           weight: 200
-        - asset: assets/fonts/SourceSansPro-LightItalic.ttf
-          weight: 300
-          style: italic        
+        
   
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

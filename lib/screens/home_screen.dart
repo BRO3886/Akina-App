@@ -57,7 +57,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.library_books,
+              Icons.calendar_view_day,
               // color: Colors.black,
             ),
             title: Text('Feed'),

@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:project_hestia/Profile/profilePage.dart';
 import 'package:project_hestia/model/request.dart';
 import 'package:project_hestia/model/util.dart';
-import 'package:project_hestia/screens/login.dart';
-import 'package:project_hestia/widgets/new_request.dart';
+import 'package:project_hestia/screens/new_req_screen.dart';
+import 'package:project_hestia/services/view_all_requests.dart';
 import 'package:project_hestia/widgets/profile_icon.dart';
 import 'package:project_hestia/widgets/requests_card.dart';
-
-enum Options {
-  Profile,
-  Logout,
-}
 
 class RequestsFeedScreen extends StatefulWidget {
   static const routename = '/reqfeed';
@@ -28,26 +22,9 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
   double _fabHeight = 55;
   double _fabWidth = 55;
 
-  List<Request> requestList = [
-    Request(title: 'Name of the thing 1', qty: 5, dateTime: 'Date and time'),
-    Request(title: 'Name of the thing 2', qty: 4, dateTime: 'Date and time'),
-    Request(title: 'Name of the thing 3', qty: 3, dateTime: 'Date and time'),
-    Request(title: 'Name of the thing 3', qty: 3, dateTime: 'Date and time'),
-    Request(title: 'Name of the thing 3', qty: 3, dateTime: 'Date and time'),
-    Request(title: 'Name of the thing 3', qty: 3, dateTime: 'Date and time'),
-    Request(title: 'Name of the thing 3', qty: 3, dateTime: 'Date and time'),
-    Request(title: 'Name of the thing 3', qty: 3, dateTime: 'Date and time'),
-    Request(title: 'Name of the thing 3', qty: 3, dateTime: 'Date and time'),
-    Request(title: 'Name of the thing 3', qty: 3, dateTime: 'Date and time'),
-    Request(title: 'Name of the thing 3', qty: 3, dateTime: 'Date and time'),
-    Request(title: 'Name of the thing 3', qty: 3, dateTime: 'Date and time'),
-    Request(title: 'Name of the thing 3', qty: 3, dateTime: 'Date and time'),
-    Request(title: 'Name of the thing 3', qty: 3, dateTime: 'Date and time'),
-    Request(title: 'Name of the thing 3', qty: 3, dateTime: 'Date and time'),
-  ];
-
   @override
   void initState() {
+    // getAllRequests();
     _fabIsVisible = true;
     super.initState();
     // fabController = ScrollController();
@@ -75,13 +52,6 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
     });
   }
 
-  void newRequest() {
-    showDialog(
-      context: context,
-      child: NewRequestWidget(),
-    );
-  }
-
   @override
   void dispose() {
     fabController.dispose();
@@ -98,8 +68,10 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
         height: _fabHeight,
         width: _fabWidth,
         child: FloatingActionButton(
+          elevation: 4,
           backgroundColor: mainColor,
-          onPressed: newRequest,
+          onPressed: () =>
+              Navigator.of(context).pushNamed(NewRequestScreen.routename),
           tooltip: 'New request',
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 100),
@@ -115,44 +87,53 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
           ),
         ),
       ),
-      body: CustomScrollView(
-        controller: fabController,
-        slivers: <Widget>[
-          SliverAppBar(
-            elevation: 0,
-            expandedHeight: MediaQuery.of(context).size.height * 0.10,
-            snap: true,
-            floating: true,
-            title: Padding(
-              padding: const EdgeInsets.only(left: 15.0),
-              child: Text(
-                'Requests',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
+      body: FutureBuilder(
+        future: getAllRequests(),
+        builder: (ctx, snapshot) {
+          if (snapshot.hasData) {
+            AllRequests allRequests = snapshot.data;
+            if (allRequests.request.length <= 0) {
+              return Center(
+                child: Text(allRequests.message),
+              );
+            } else {
+              return CustomScrollView(
+                controller: fabController,
+                slivers: <Widget>[
+                  SliverAppBar(
+                    elevation: 0,
+                    expandedHeight: MediaQuery.of(context).size.height * 0.10,
+                    snap: true,
+                    floating: true,
+                    title: Padding(
+                      padding: const EdgeInsets.only(left: 15.0, top: 10),
+                      child: Text(
+                        'Requests',
+                        style: screenHeadingStyle,
+                      ),
+                    ),
+                    actions: <Widget>[
+                      ProfileIcon(),
+                    ],
+                    backgroundColor: Theme.of(context).canvasColor,
+                  ),
+                  SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (ctx, index) {
+                    return RequestCard(allRequests.request[index]);
+                  },
+                  childCount: allRequests.request.length
                 ),
               ),
-            ),
-            actions: <Widget>[
-              ProfileIcon(),
-            ],
-            backgroundColor: Theme.of(context).canvasColor,
-          ),
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  for (int i = 0; i < requestList.length; i++)
-                    // ListTile(
-                    //   title: Text('hi'),
-                    // ),
-                    RequestCard(requestList[i])
                 ],
-              ),
-            ),
-          ),
-        ],
+              );
+            }
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
     );
   }

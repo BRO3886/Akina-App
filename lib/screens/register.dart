@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:project_hestia/model/global.dart';
 import 'package:ant_icons/ant_icons.dart';
 import 'package:http/http.dart' as http;
@@ -33,6 +34,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
   };
 
   Future _register() async {
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     if (!_formKey.currentState.validate()) {
       return;
     }
@@ -50,21 +52,20 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
       print(responseBody);
       if (responseBody.containsKey("Error")) {
         content = responseBody["Error"];
-      } else if (responseBody.containsKey("Status")) {
+      } else if (responseBody.containsKey("Token")) {
         print("registered succesfully");
         try {
           //String loginUrl = 'https://hestia-auth.herokuapp.com/api/user/login';
-          String email = userInfo["email"];
-          String password = userInfo["password"];
-          final loginInfo = {"email": email, "password": password};
-          final loginResponse = await http.post(URL_USER_LOGIN, body: loginInfo);
-          Map<String, dynamic> loginBody = jsonDecode(loginResponse.body);
-          print(loginBody);
+          // String email = userInfo["email"];
+          // String password = userInfo["password"];
+          // // final loginInfo = {"email": email, "password": password};
+          // final loginResponse = await http.post(URL_USER_LOGIN, body: loginInfo);
+          // Map<String, dynamic> loginBody = jsonDecode(loginResponse.body);
           final sp = SharedPrefsCustom();
           sp.setUserEmail(userInfo["email"]);
           sp.setUserName(userInfo["name"]);
           sp.setPhone(userInfo["phone"]);
-          sp.setToken(loginBody["Token"]);
+          sp.setToken(responseBody["Token"]);
           Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
         } catch (e) {
           print(e);
@@ -75,7 +76,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
           context: context,
           child: AlertDialog(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(5),
             ),
             title: Text('Error'),
             content: Text(content),
@@ -88,7 +89,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
             ],
           ),
         );
-      } 
+      }
     } catch (e) {
       print(e);
     }
@@ -114,21 +115,26 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                 height: MediaQuery.of(context).size.height * 0.1,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Image.asset("assets/images/hestia_logo.png", height: 50,),
-                  SizedBox(width: 10,),
+                  Image.asset(
+                    "assets/images/hestia_logo.png",
+                    height: 50,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.05,
+                  ),
                   Text(
                     'HESTIA',
                     style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w800,
-                        fontSize: 40),
+                        fontSize: 55),
                   ),
                 ],
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.1,
+                height: MediaQuery.of(context).size.height * 0.05,
               ),
               Form(
                 key: _formKey,
@@ -140,7 +146,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                       decoration: InputDecoration(
                         labelText: 'Name',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                           gapPadding: 10,
                         ),
                       ),
@@ -161,7 +167,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                       decoration: InputDecoration(
                         labelText: 'Phone Number',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                           gapPadding: 10,
                         ),
                       ),
@@ -171,12 +177,10 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                         if (value == "") {
                           return "This field is required";
                         }
-                        if (value.length < 10) {
+                        if (value.length != 10) {
                           return "Enter a valid phone number";
                         }
-                        if(value.length>14){
-                          return "Enter a valid phone number";
-                        }
+                        
                       },
                     ),
                     SizedBox(
@@ -188,7 +192,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                       decoration: InputDecoration(
                         labelText: 'Email',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                           gapPadding: 10,
                         ),
                       ),
@@ -214,7 +218,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                       decoration: InputDecoration(
                         labelText: 'Password',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                           gapPadding: 10,
                         ),
                       ),
@@ -233,32 +237,36 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                       height: 30,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        (isLoading)?CircularProgressIndicator():RaisedButton(
-                          padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  MediaQuery.of(context).size.width * 0.08,
-                              vertical: 15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              Text('Register'),
-                              SizedBox(
-                                width: 5,
+                        (isLoading)
+                            ? CircularProgressIndicator()
+                            : RaisedButton(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 30, vertical: 13.9),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    Text('Register'),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Icon(
+                                      AntIcons.right_outline,
+                                      size: 16,
+                                    )
+                                  ],
+                                ),
+                                color: Theme.of(context).primaryColor,
+                                textColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                onPressed: _register,
                               ),
-                              Icon(
-                                AntIcons.right_outline,
-                                size: 16,
-                              )
-                            ],
-                          ),
-                          color: Theme.of(context).primaryColor,
-                          textColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          onPressed: _register,
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.05,
                         ),
                         RaisedButton(
                           padding: EdgeInsets.symmetric(
@@ -284,7 +292,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                           ),
                           color: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(5),
                           ),
                           onPressed: () {},
                         )
