@@ -20,9 +20,10 @@ class NewsCard extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 blurRadius: 5,
-                spreadRadius: 0.5,
-                color: Colors.grey[600].withOpacity(0.1),
-                offset: Offset(0.5, 0.5),
+                spreadRadius: 0,
+                color: Color(0x23000000),
+                // color: Colors.grey[600].withOpacity(0.1),
+                // offset: Offset(0.5, 0.5),
               )
             ]
             // boxShadow: [

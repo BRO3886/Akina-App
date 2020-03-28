@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
           context: context,
           child: AlertDialog(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(5),
             ),
             title: Text('Error'),
             content: Text(content),
@@ -77,6 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
           sp.setToken(responseBody["Token"]);
           sp.setLoggedInStatus(true);
           Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
+          // Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
         }
       }
     } catch (e) {
@@ -140,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: InputDecoration(
                         labelText: 'Email',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                           gapPadding: 10,
                         ),
                       ),
@@ -167,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: InputDecoration(
                         labelText: 'Password',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                           gapPadding: 10,
                         ),
                       ),
@@ -211,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: Theme.of(context).primaryColor,
                                 textColor: Colors.white,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
                                 onPressed: _login,
                               ),
@@ -240,7 +241,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           color: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(5),
                           ),
                           onPressed: () async {
                             final msg = await signInWithGoogle();

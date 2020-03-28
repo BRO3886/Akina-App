@@ -35,13 +35,13 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
         content: Text('Request Submitted'),
         backgroundColor: Colors.teal,
       );
-    } else if(code == 400){
+    } else if (code == 400) {
       snackbar = SnackBar(
-        content: Text('Too many requests. Delete an active request and try again.'),
+        content:
+            Text('Too many requests. Delete an active request and try again.'),
         backgroundColor: colorRed,
       );
-    }
-    else {
+    } else {
       snackbar = SnackBar(
         content: Text('Request Not Submitted'),
         backgroundColor: colorRed,
@@ -131,7 +131,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                       decoration: InputDecoration(
                         labelText: 'Item Name',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                           gapPadding: 10,
                         ),
                       ),
@@ -152,7 +152,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                       decoration: InputDecoration(
                         labelText: 'Quantity',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                           gapPadding: 10,
                         ),
                       ),
@@ -189,20 +189,27 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                       height: 20,
                     ),
                     TextFormField(
-                      // onTap: (){
-                      //   setState(() {
-                      //     customLocation = !customLocation;
-                      //   });
-                      // },
                       enabled: customLocation,
                       controller: _locationController,
                       textCapitalization: TextCapitalization.words,
                       enableInteractiveSelection: true,
                       decoration: InputDecoration(
                         labelText: 'Custom Location',
+                        // labelText: (customLocation)?'Custom Location':'Turn off  \'My Location\' to enable this field',
+                        labelStyle: TextStyle(
+                          color:
+                              (customLocation) ? Colors.grey : Colors.grey[400],
+                        ),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                           gapPadding: 10,
+                        ),
+                        disabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          gapPadding: 10,
+                          borderSide: BorderSide(
+                            color: Colors.grey[200],
+                          ),
                         ),
                       ),
                       // onChanged: (value) => _locationController.text = value,
@@ -235,7 +242,9 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                   SizedBox(
                     width: 10,
                   ),
-                  FlatButton(
+                  RaisedButton(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                    color: colorWhite,
                     textColor: mainColor,
                     child: Text('Cancel'),
                     onPressed: () => Navigator.of(context).pop(),

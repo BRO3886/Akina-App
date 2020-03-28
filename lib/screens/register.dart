@@ -76,7 +76,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
           context: context,
           child: AlertDialog(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(5),
             ),
             title: Text('Error'),
             content: Text(content),
@@ -146,7 +146,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                       decoration: InputDecoration(
                         labelText: 'Name',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                           gapPadding: 10,
                         ),
                       ),
@@ -167,7 +167,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                       decoration: InputDecoration(
                         labelText: 'Phone Number',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                           gapPadding: 10,
                         ),
                       ),
@@ -194,7 +194,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                       decoration: InputDecoration(
                         labelText: 'Email',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                           gapPadding: 10,
                         ),
                       ),
@@ -220,7 +220,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                       decoration: InputDecoration(
                         labelText: 'Password',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                           gapPadding: 10,
                         ),
                       ),
@@ -263,7 +263,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                                 color: Theme.of(context).primaryColor,
                                 textColor: Colors.white,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
                                 onPressed: _register,
                               ),
@@ -294,7 +294,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                           ),
                           color: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(5),
                           ),
                           onPressed: () {},
                         )

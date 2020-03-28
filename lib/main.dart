@@ -29,20 +29,7 @@ class MyApp extends StatelessWidget {
       // darkTheme: ThemeData.dark(),
       theme: ThemeData(
         fontFamily: 'Manrope',
-        // textTheme: TextTheme().copyWith(
-        //   button: TextStyle(
-        //     fontSize: 16,
-        //   ),
-        //   body2: TextStyle(
-        //     fontSize: 16,
-        //   ),
-        //   title: TextStyle(
-        //     fontSize: 18,
-        //   ),
-        //   body1: TextStyle(
-        //     fontSize: 16,
-        //   ),
-        // ),
+        
         primaryColor: Color(0xFF00d2d2),
         accentColor: Color(0xFF00d2d2),
         canvasColor: Colors.grey[100],
