@@ -10,7 +10,7 @@ Future<News> getNews() async {
     if (response.statusCode == 200) {
       News news = newsFromJson(response.body);
       //Remove later
-      print(news.title??'no title');
+      print(news.source??'no title');
       return news;
     } else {
       print(response.statusCode);
