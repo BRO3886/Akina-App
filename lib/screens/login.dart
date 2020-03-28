@@ -109,26 +109,26 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: MediaQuery.of(context).size.height * 0.2,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Image.asset(
                     "assets/images/hestia_logo.png",
                     height: 50,
                   ),
                   SizedBox(
-                    width: 10,
+                    width: MediaQuery.of(context).size.width * 0.05,
                   ),
                   Text(
                     'HESTIA',
                     style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w800,
-                        fontSize: 40),
+                        fontSize: 55),
                   ),
                 ],
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.1,
+                height: MediaQuery.of(context).size.height * 0.05,
               ),
               Form(
                 key: _formKey,
@@ -187,13 +187,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 30,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         (isLoading)
                             ? Center(child: CircularProgressIndicator())
                             : RaisedButton(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 30),
+                                    vertical: 13.9, horizontal: 30),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
@@ -213,7 +213,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                onPressed: _login),
+                                onPressed: _login,
+                              ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.05,
+                        ),
                         RaisedButton(
                           padding: EdgeInsets.symmetric(
                               vertical: 15, horizontal: 30),
@@ -266,7 +270,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.2,
+                height: MediaQuery.of(context).size.height * 0.1,
               ),
             ],
           ),

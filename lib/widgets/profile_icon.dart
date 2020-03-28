@@ -9,17 +9,7 @@ enum Options {
   Profile,
   Logout,
 }
-resetVariables() async {
-  final sp = SharedPrefsCustom();
-  bool gauthUsed = await sp.getIfUsedGauth();
-  if (gauthUsed != null) {
-    if (gauthUsed) {
-      signOutGoogle();
-    }
-  }
-  sp.setLoggedInStatus(false);
-  sp.setIfUsedGauth(false);
-}
+
 
 class ProfileIcon extends StatelessWidget {
   const ProfileIcon({

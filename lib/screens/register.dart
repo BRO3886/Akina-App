@@ -115,26 +115,26 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                 height: MediaQuery.of(context).size.height * 0.1,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Image.asset(
                     "assets/images/hestia_logo.png",
                     height: 50,
                   ),
                   SizedBox(
-                    width: 10,
+                    width: MediaQuery.of(context).size.width * 0.05,
                   ),
                   Text(
                     'HESTIA',
                     style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w800,
-                        fontSize: 40),
+                        fontSize: 55),
                   ),
                 ],
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.1,
+                height: MediaQuery.of(context).size.height * 0.05,
               ),
               Form(
                 key: _formKey,
@@ -239,16 +239,13 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                       height: 30,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         (isLoading)
                             ? CircularProgressIndicator()
                             : RaisedButton(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal:
-                                        MediaQuery.of(context).size.width *
-                                            0.08,
-                                    vertical: 15),
+                                    horizontal: 30, vertical: 13.9),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
@@ -270,6 +267,9 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                                 ),
                                 onPressed: _register,
                               ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.05,
+                        ),
                         RaisedButton(
                           padding: EdgeInsets.symmetric(
                               horizontal:

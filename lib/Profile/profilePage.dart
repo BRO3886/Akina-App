@@ -3,6 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:project_hestia/Profile/myChats.dart';
 import 'package:project_hestia/Profile/myRequests.dart';
 import 'package:project_hestia/model/util.dart';
+import 'package:project_hestia/screens/login.dart';
+import 'package:project_hestia/services/google_auth.dart';
+import 'package:project_hestia/services/shared_prefs_custom.dart';
 
 class ProfilePage extends StatefulWidget {
   static const routename = "/profile";
@@ -14,6 +17,18 @@ class ProfilePage extends StatefulWidget {
 }
 
 class ProfilePageState extends State<ProfilePage> {
+  resetVariables() async {
+    final sp = SharedPrefsCustom();
+    bool gauthUsed = await sp.getIfUsedGauth();
+    if (gauthUsed != null) {
+      if (gauthUsed) {
+        signOutGoogle();
+      }
+    }
+    sp.setLoggedInStatus(false);
+    sp.setIfUsedGauth(false);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -236,6 +251,29 @@ class ProfilePageState extends State<ProfilePage> {
                                 )),
                           ],
                         )),
+                  ),
+                  Container(
+                    // margin:
+                    //     EdgeInsets.only(top: 20.0, right: 15.0, bottom: 20.0),
+                    padding: EdgeInsets.all(8.0),
+                    alignment: Alignment.center,
+                    child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      textColor: colorWhite,
+                      color: mainColor,
+                      child: Container(
+                        height: 60,
+                        alignment: Alignment.center,
+                        width: MediaQuery.of(context).size.width * 0.85,
+                        child: Text('Logout'),
+                      ),
+                      onPressed: () {
+                        resetVariables();
+                        Navigator.of(context)
+                            .pushReplacementNamed(LoginScreen.routename);
+                      },
+                    ),
                   )
                 ])));
   }

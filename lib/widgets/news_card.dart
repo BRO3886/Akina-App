@@ -9,12 +9,14 @@ class NewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 5),
+      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       width: MediaQuery.of(context).size.width,
       // height: 100,
       child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
+            color: Colors.white,
             boxShadow: [
               BoxShadow(
                 blurRadius: 5,
@@ -29,69 +31,61 @@ class NewsCard extends StatelessWidget {
             // ],
 
             ),
-        child: Card(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-          elevation: 0,
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Column(
+        child: Column(
+          children: <Widget>[
+            Row(
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Text(
-                      news.title,
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      height: 15,
-                      color: Colors.grey[200],
-                      width: 1,
-                    ),
-                    Text(
-                      news.source,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
                 Text(
-                  news.shortDescription,
-                  textAlign: TextAlign.justify,
+                  news.title,
                   style: TextStyle(
-                    color: Colors.grey,
+                    fontSize: 16,
                   ),
                 ),
-                SizedBox(
-                  height: 10,
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  height: 15,
+                  color: Colors.grey[200],
+                  width: 1,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      news.dateTime,
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    FlatButton(
-                      onPressed: ()=>_launchURL(context),
-                      textColor: mainColor,
-                      child: Text(
-                        'Read Full Story',
-                      ),
-                    ),
-                  ],
-                )
+                Text(
+                  news.source,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ],
             ),
-          ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              news.shortDescription,
+              textAlign: TextAlign.justify,
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  news.dateTime,
+                  style: TextStyle(color: Colors.grey),
+                ),
+                FlatButton(
+                  onPressed: () => _launchURL(context),
+                  textColor: mainColor,
+                  child: Text(
+                    'Read Full Story',
+                  ),
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );
@@ -108,7 +102,7 @@ void _launchURL(BuildContext context) async {
         enableUrlBarHiding: true,
         showPageTitle: true,
         enableInstantApps: true,
-        animation: new CustomTabsAnimation.fade(),
+        // animation: new CustomTabsAnimation.,
         // // or user defined animation.
         // animation: new CustomTabsAnimation(
         //   startEnter: 'slide_up',
