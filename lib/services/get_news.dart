@@ -1,5 +1,4 @@
 import 'package:http/http.dart' as http;
-import '../model/global.dart';
 import '../model/news.dart';
 
 Future<News> getNews() async {
@@ -11,7 +10,7 @@ Future<News> getNews() async {
     if (response.statusCode == 200) {
       News news = newsFromJson(response.body);
       //Remove later
-      print(news.title);
+      print(news.title??'no title');
       return news;
     } else {
       print(response.statusCode);

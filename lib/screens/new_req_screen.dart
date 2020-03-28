@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import '../model/global.dart';
@@ -70,10 +71,11 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
     final body = jsonEncode(request);
     print(body);
     try {
+      final uri = Uri.https(REQUEST_BASE_URL, URL_NEW_REQUEST);
       final response = await http.post(
-        URL_NEW_REQUEST,
+        uri,
         headers: {
-          'Authorization': token,
+          HttpHeaders.authorizationHeader: token,
         },
         body: request,
       );

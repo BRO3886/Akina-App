@@ -6,7 +6,7 @@ import 'package:project_hestia/model/util.dart';
 class NewsCard extends StatelessWidget {
   final Item newsItem;
   final String source;
-  NewsCard(this.newsItem,this.source);
+  NewsCard(this.newsItem, this.source);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,26 +34,19 @@ class NewsCard extends StatelessWidget {
 
             ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  newsItem.title,
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  height: 15,
-                  color: Colors.grey[200],
-                  width: 1,
-                ),
-                Text(
-                  source,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+                Expanded(
+                  child: Text(
+                    newsItem.title,
+                    // softWrap: false,
+                    overflow: TextOverflow.fade,
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
                   ),
                 ),
               ],
@@ -62,8 +55,19 @@ class NewsCard extends StatelessWidget {
               height: 10,
             ),
             Text(
+              source ?? 'Unkown',
+              style: TextStyle(fontWeight: FontWeight.bold),
+              softWrap: false,
+              overflow: TextOverflow.fade,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
               newsItem.contentSnippet,
+              maxLines: 4,
               textAlign: TextAlign.justify,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Colors.grey,
               ),
@@ -75,7 +79,7 @@ class NewsCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  '${newsItem.isoDate.day} ${newsItem.isoDate.month} ${newsItem.isoDate.year}',
+                  '${newsItem.isoDate.day}/${newsItem.isoDate.month}/${newsItem.isoDate.year}',
                   style: TextStyle(color: Colors.grey),
                 ),
                 FlatButton(

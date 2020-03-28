@@ -30,6 +30,9 @@ dependencies:
   flutter_custom_tabs: "^0.6.0"
   firebase_auth:
   google_sign_in:
+  geolocator:
+  geocoder:
+  permission_handler:
 
 dev_dependencies:
   flutter_test:

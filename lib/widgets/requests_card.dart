@@ -33,19 +33,19 @@ class RequestCard extends StatelessWidget {
           contentPadding: EdgeInsets.only(top: 2, left: 14, right: 14),
           title: Row(
             children: <Widget>[
-              Text(request.title),
+              Text(request.itemName),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 10),
                 height: 15,
                 color: Colors.grey[200],
                 width: 1,
               ),
-              Text(request.qty.toString()),
+              Text(request.quantity),
             ],
           ),
           subtitle: Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Text(request.dateTime),
+            child: Text('${request.dateTimeCreated.day}/${request.dateTimeCreated.month}/${request.dateTimeCreated.year}'),
           ),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,

@@ -177,12 +177,10 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                         if (value == "") {
                           return "This field is required";
                         }
-                        if (value.length < 10) {
+                        if (value.length != 10) {
                           return "Enter a valid phone number";
                         }
-                        if (value.length > 14) {
-                          return "Enter a valid phone number";
-                        }
+                        
                       },
                     ),
                     SizedBox(

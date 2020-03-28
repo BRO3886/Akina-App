@@ -9,60 +9,59 @@ class NewsFeedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            elevation: 0,
-            expandedHeight: MediaQuery.of(context).size.height * 0.10,
-            snap: true,
-            floating: true,
-            title: Padding(
-              padding: const EdgeInsets.only(left: 15.0),
-              child: Text(
-                'News',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w800,
+        body: FutureBuilder(
+      future: getNews(),
+      builder: (ctx, snapshot) {
+        if (snapshot.hasData) {
+          News news = snapshot.data;
+          return CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                elevation: 0,
+                expandedHeight: MediaQuery.of(context).size.height * 0.10,
+                snap: true,
+                floating: true,
+                title: Padding(
+                  padding: const EdgeInsets.only(left: 15.0, top: 10),
+                  child: Text(
+                    'News',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+                actions: <Widget>[ProfileIcon()],
+                backgroundColor: Theme.of(context).canvasColor,
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (ctx, index) {
+                    return NewsCard(news.items[index], news.title);
+                  },
+                  childCount: news.items.length
                 ),
               ),
-            ),
-            actions: <Widget>[ProfileIcon()],
-            backgroundColor: Theme.of(context).canvasColor,
-          ),
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: FutureBuilder(
-              future: getNews(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
-                  News news = snapshot.data;
-                  return ListView.builder(
-                    itemCount: news.items.length,
-                    itemBuilder: (ctx, index) {
-                      return NewsCard(news.items[index], news.title);
-                    },
-                  );
-                }
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-            ),
-          )
-          // SliverFillRemaining(
-          //   hasScrollBody: false,
-          //   child: SingleChildScrollView(
-          //     child: Column(
-          //       children: <Widget>[
-          //         for (int i = 0; i < newsList.length; i++)
-          //           NewsCard(newsList[i])
-          //       ],
-          //     ),
-          //   ),
-          // )
-        ],
-      ),
-    );
+              // SliverFillRemaining(
+              //   hasScrollBody: false,
+              //   child: SingleChildScrollView(
+              //     child: Column(
+              //       children: <Widget>[
+              //         for (int i = 0; i < newsList.length; i++)
+              //           NewsCard(newsList[i])
+              //       ],
+              //     ),
+              //   ),
+              // )
+            ],
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    ));
   }
 }
 
