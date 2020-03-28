@@ -32,12 +32,18 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
     SnackBar snackbar;
     if (code == 201) {
       snackbar = SnackBar(
-        content: Text('Request Submiited'),
-        backgroundColor: Colors.green,
+        content: Text('Request Submitted'),
+        backgroundColor: Colors.teal,
       );
-    } else {
+    } else if(code == 400){
       snackbar = SnackBar(
-        content: Text('Request Not Submiited'),
+        content: Text('Too many requests. Delete an active request and try again.'),
+        backgroundColor: colorRed,
+      );
+    }
+    else {
+      snackbar = SnackBar(
+        content: Text('Request Not Submitted'),
         backgroundColor: colorRed,
       );
     }
@@ -51,7 +57,6 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
     });
     final sp = SharedPrefsCustom();
     String token = await sp.getToken();
-    token = 'Token ' + token;
     print(token);
     if (!_newRequestFormKey.currentState.validate()) {
       return;
@@ -184,9 +189,15 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                       height: 20,
                     ),
                     TextFormField(
+                      // onTap: (){
+                      //   setState(() {
+                      //     customLocation = !customLocation;
+                      //   });
+                      // },
                       enabled: customLocation,
                       controller: _locationController,
                       textCapitalization: TextCapitalization.words,
+                      enableInteractiveSelection: true,
                       decoration: InputDecoration(
                         labelText: 'Custom Location',
                         border: OutlineInputBorder(

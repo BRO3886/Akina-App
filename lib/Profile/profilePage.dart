@@ -5,6 +5,7 @@ import 'package:project_hestia/Profile/myRequests.dart';
 import 'package:project_hestia/model/util.dart';
 
 class ProfilePage extends StatefulWidget {
+  static const routename = "/profile";
   ProfilePage({Key key, this.userID}) : super(key: key);
   final String userID;
 
@@ -50,7 +51,7 @@ class ProfilePageState extends State<ProfilePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                      Text(
+                        Text(
                           'Profile',
                           style: TextStyle(
                               color: colorBlack,
@@ -76,9 +77,15 @@ class ProfilePageState extends State<ProfilePage> {
                       decoration: BoxDecoration(
                           boxShadow: <BoxShadow>[
                             BoxShadow(
-                                blurRadius: 3.0,
-                                color: Colors.grey[600],
-                                offset: Offset(0.5, 0.5))
+                              blurRadius: 5,
+                              spreadRadius: 0,
+                              // color: Colors.grey[600].withOpacity(0.1),
+                              color: Color(0x23000000),
+                            ),
+                            // BoxShadow(
+                            //     blurRadius: 3.0,
+                            //     color: Colors.grey[600],
+                            //     offset: Offset(0.5, 0.5))
                           ],
                           shape: BoxShape.rectangle,
                           color: colorWhite,
@@ -120,9 +127,15 @@ class ProfilePageState extends State<ProfilePage> {
                         decoration: BoxDecoration(
                             boxShadow: <BoxShadow>[
                               BoxShadow(
-                                  blurRadius: 3.0,
-                                  color: Colors.grey[600],
-                                  offset: Offset(0.5, 0.5))
+                                blurRadius: 5,
+                                spreadRadius: 0,
+                                // color: Colors.grey[600].withOpacity(0.1),
+                                color: Color(0x23000000),
+                              )
+                              // BoxShadow(
+                              //     blurRadius: 3.0,
+                              //     color: Colors.grey[600],
+                              //     offset: Offset(0.5, 0.5))
                             ],
                             shape: BoxShape.rectangle,
                             color: colorWhite,
@@ -176,9 +189,15 @@ class ProfilePageState extends State<ProfilePage> {
                         decoration: BoxDecoration(
                             boxShadow: <BoxShadow>[
                               BoxShadow(
-                                  blurRadius: 3.0,
-                                  color: Colors.grey[600],
-                                  offset: Offset(0.5, 0.5))
+                                blurRadius: 5,
+                                spreadRadius: 0,
+                                // color: Colors.grey[600].withOpacity(0.1),
+                                color: Color(0x23000000),
+                              )
+                              // BoxShadow(
+                              //     blurRadius: 3.0,
+                              //     color: Colors.grey[600],
+                              //     offset: Offset(0.5, 0.5))
                             ],
                             shape: BoxShape.rectangle,
                             color: colorWhite,
