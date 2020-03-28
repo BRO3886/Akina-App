@@ -22,6 +22,10 @@ Future<AllRequests> getAllRequests() async {
     }
   }
   try {
+    ServiceStatus serviceStatus = await PermissionHandler().checkServiceStatus(PermissionGroup.location);
+    if(serviceStatus == ServiceStatus.disabled){
+      return AllRequests(message: 'Your location is disabled', request: []);
+    }
     GeolocationStatus geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
     if (geolocationStatus == GeolocationStatus.unknown) {
