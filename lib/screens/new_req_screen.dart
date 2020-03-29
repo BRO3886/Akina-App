@@ -110,7 +110,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
       _showSnackBar(response.statusCode, resBody['message']);
       if (response.statusCode == 201) {
         print(resBody['message']);
-        Future.delayed(Duration(seconds: 2), () => Navigator.of(context).pop());
+        Future.delayed(Duration(milliseconds: 800), () => Navigator.of(context).maybePop());
       } else if (response.statusCode == 400) {
         print(resBody['message']);
         print("location not provided");

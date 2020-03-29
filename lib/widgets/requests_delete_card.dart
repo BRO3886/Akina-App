@@ -70,7 +70,7 @@ class _RequestDeleteCardState extends State<RequestDeleteCard> {
                       onTap: () async {
                         bool deleted =
                             await deleteRequest(widget.request.id.toString());
-                        if(deleted==true){
+                        if (deleted == true) {
                           setState(() {
                             cardDeleted = true;
                           });

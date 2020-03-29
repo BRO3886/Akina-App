@@ -28,7 +28,7 @@ class NewsFeedScreen extends StatelessWidget {
               ),
               SliverToBoxAdapter(
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
+                  height: MediaQuery.of(context).size.height * 0.03,
                 ),
               ),
               SliverList(
@@ -63,7 +63,7 @@ class NewsFeedScreen extends StatelessWidget {
               ),
               SliverToBoxAdapter(
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
+                  height: MediaQuery.of(context).size.height * 0.03,
                 ),
               ),
               SliverFillRemaining(

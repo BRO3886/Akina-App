@@ -11,10 +11,10 @@ class MySliverAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       elevation: 0,
-      // expandedHeight: MediaQuery.of(context).size.height * 0.10,
+      expandedHeight: MediaQuery.of(context).size.height * 0.08,
       snap: true,
       floating: true,
-      titleSpacing: (isReplaced)?-20:10,
+      titleSpacing: (isReplaced) ? -20 : 10,
       leading: (isReplaced)
           ? Container(
               width: 0,

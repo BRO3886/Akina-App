@@ -19,12 +19,129 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final GlobalKey<FormState> _formKey = GlobalKey();
+  final GlobalKey<FormState> _changPassKey = GlobalKey();
 
   bool isLoading = false;
+  bool dialogLoading = false;
+
+  _showSnackBar(int code, String msg) {
+    SnackBar snackbar;
+    if (code == 200) {
+      snackbar = SnackBar(
+        content: Text(msg),
+        backgroundColor: Colors.teal,
+      );
+    } else if (code == 300) {
+      snackbar = SnackBar(
+        content: Text(msg),
+        backgroundColor: Colors.amber[900],
+      );
+    } else {
+      snackbar = SnackBar(
+        content: Text(msg),
+        backgroundColor: colorRed,
+      );
+    }
+    _scaffoldKey.currentState.showSnackBar(snackbar);
+  }
 
   Map<String, String> userInfo = {"email": "", "password": ""};
+
+  _forgotPassword() async {
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
+    if (!_changPassKey.currentState.validate()) {
+      return;
+    }
+    _changPassKey.currentState.save();
+    setState(() {
+      dialogLoading = true;
+    });
+    print(userInfo['email']);
+    final uri = 'https://hestia-auth.herokuapp.com/api/user/forgotPassword';
+    final body = jsonEncode({'email': userInfo['email']});
+    print("encoded");
+    try {
+      final response = await http.post(
+        uri,
+        body: {
+          'email': userInfo['email'],
+        },
+      );
+      print(response.statusCode);
+      Map<String, dynamic> responseBody = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        print(responseBody["Status"]);
+        setState(() {
+          dialogLoading = false;
+        });
+        Navigator.of(context).pop();
+        _showSnackBar(response.statusCode, responseBody["Status"]);
+      } else if (response.statusCode == 404) {
+        setState(() {
+          dialogLoading = false;
+        });
+        Navigator.of(context).pop();
+        _showSnackBar(response.statusCode, responseBody["Error"]);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  openDialog() {
+    showDialog(
+      context: context,
+      child: AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+        backgroundColor: Theme.of(context).canvasColor,
+        title: Text('Enter your email'),
+        actions: <Widget>[
+          (dialogLoading)
+              ? LinearProgressIndicator()
+              : FlatButton(
+                  onPressed: _forgotPassword,
+                  textColor: mainColor,
+                  child: Text('OK'),
+                ),
+        ],
+        content: Container(
+          // height: 0,
+          child: Form(
+            key: _changPassKey,
+            child: TextFormField(
+              controller: emailController,
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                labelText: 'Email',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  gapPadding: 10,
+                ),
+              ),
+              autocorrect: false,
+              validator: (String value) {
+                if (value == '') {
+                  return 'This field is required';
+                }
+                if (!RegExp(
+                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                    .hasMatch(value)) {
+                  return 'Please enter correct email';
+                }
+              },
+              onChanged: (email) => userInfo['email'] = email,
+              onSaved: (email) => userInfo['email'] = email,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   Future _login() async {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
@@ -76,7 +193,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   CircleAvatar(
-                    child: Icon(Icons.cancel, size: 30,color: colorWhite,),
+                    child: Icon(
+                      Icons.cancel,
+                      size: 30,
+                      color: colorWhite,
+                    ),
                     radius: 30,
                     backgroundColor: colorRed,
                   ),
@@ -159,6 +280,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SingleChildScrollView(
         child: Container(
           alignment: Alignment.center,
@@ -248,6 +370,26 @@ class _LoginScreenState extends State<LoginScreen> {
                       onSaved: (password) => userInfo['password'] = password,
                     ),
                     SizedBox(
+                      height: 2,
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: InkWell(
+                        onTap: openDialog,
+                        highlightColor: Colors.blueGrey.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(5),
+                        splashColor: mainColor,
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 5),
+                          // padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            'Forgot Password?',
+                            style: TextStyle(color: colorGrey),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
                       height: 30,
                     ),
                     Row(
@@ -333,8 +475,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.1,
+              Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                ),
               ),
             ],
           ),

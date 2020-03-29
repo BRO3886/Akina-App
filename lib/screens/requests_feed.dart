@@ -132,7 +132,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
                   ),
                   SliverToBoxAdapter(
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.05,
+                      height: MediaQuery.of(context).size.height * 0.03,
                     ),
                   ),
                   SliverFillRemaining(
@@ -140,7 +140,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
                     child: Center(
                       child: Text(allRequests.message),
                     ),
-                  )
+                  ),
                 ],
               );
             } else {
@@ -158,7 +158,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
                   ),
                   SliverToBoxAdapter(
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.05,
+                      height: MediaQuery.of(context).size.height * 0.03,
                     ),
                   ),
                   SliverList(
@@ -184,7 +184,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
                 ),
                 SliverToBoxAdapter(
                   child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.05,
+                    height: MediaQuery.of(context).size.height * 0.03,
                   ),
                 ),
                 SliverFillRemaining(
