@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:project_hestia/Profile/edit_profile.dart';
 import 'package:project_hestia/Profile/myChats.dart';
 import 'package:project_hestia/Profile/myRequests.dart';
 import 'package:project_hestia/model/util.dart';
@@ -87,48 +88,56 @@ class ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                     ),
-                    Container(
-                        margin: EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
-                        decoration: BoxDecoration(
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                blurRadius: 5,
-                                spreadRadius: 0,
-                                // color: Colors.grey[600].withOpacity(0.1),
-                                color: Color(0x23000000),
-                              ),
-                              // BoxShadow(
-                              //     blurRadius: 3.0,
-                              //     color: Colors.grey[600],
-                              //     offset: Offset(0.5, 0.5))
-                            ],
-                            shape: BoxShape.rectangle,
-                            color: colorWhite,
-                            borderRadius: BorderRadius.all(Radius.circular(5))),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(
-                                  top: 20.0, left: 15.0, bottom: 20.0),
-                              child: Text('Edit Profile'),
-                            ),
-                            Container(
-                                margin: EdgeInsets.only(
-                                    top: 20.0, right: 15.0, bottom: 20.0),
-                                padding: EdgeInsets.all(8.0),
-                                decoration: new BoxDecoration(
-                                  color: mainColor,
-                                  shape: BoxShape.circle,
+                    GestureDetector(
+                      onTap: ()=>Navigator.of(context).pushNamed(EditProfileScreen.routename),
+                      child: Container(
+                          margin: EdgeInsets.only(
+                              left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
+                          decoration: BoxDecoration(
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                  blurRadius: 5,
+                                  spreadRadius: 0,
+                                  // color: Colors.grey[600].withOpacity(0.1),
+                                  color: Color(0x23000000),
                                 ),
-                                child: Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: colorWhite,
-                                  size: 14.0,
-                                )),
-                          ],
-                        )),
+                                // BoxShadow(
+                                //     blurRadius: 3.0,
+                                //     color: Colors.grey[600],
+                                //     offset: Offset(0.5, 0.5))
+                              ],
+                              shape: BoxShape.rectangle,
+                              color: colorWhite,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5))),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(
+                                    top: 20.0, left: 15.0, bottom: 20.0),
+                                child: Text('Edit Profile'),
+                              ),
+                              GestureDetector(
+                                onTap: () => Navigator.of(context)
+                                    .pushNamed(EditProfileScreen.routename),
+                                child: Container(
+                                    margin: EdgeInsets.only(
+                                        top: 20.0, right: 15.0, bottom: 20.0),
+                                    padding: EdgeInsets.all(8.0),
+                                    decoration: new BoxDecoration(
+                                      color: mainColor,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: colorWhite,
+                                      size: 14.0,
+                                    )),
+                              ),
+                            ],
+                          )),
+                    ),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -255,16 +264,21 @@ class ProfilePageState extends State<ProfilePage> {
                             ],
                           )),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 17.0, vertical: 10),
+                      child: Divider(),
+                    ),
                     Container(
                       margin:
-                          EdgeInsets.only(top: 20.0, right: 8.0, bottom: 20.0, left: 8),
+                          EdgeInsets.only(right: 8.0, bottom: 20.0, left: 8),
                       padding: EdgeInsets.all(8.0),
                       alignment: Alignment.center,
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),
                         textColor: colorWhite,
-                        color: mainColor,
+                        color: colorRed,
                         child: Container(
                           height: 60,
                           alignment: Alignment.center,

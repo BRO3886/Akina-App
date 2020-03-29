@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:project_hestia/model/util.dart';
-import 'package:project_hestia/widgets/new_request.dart';
+import 'package:project_hestia/screens/new_req_screen.dart';
 
 class MyRequestsPage extends StatefulWidget {
   MyRequestsPage({Key key, this.userID}) : super(key: key);
@@ -196,7 +196,7 @@ class MyRequestsPageState extends State<MyRequestsPage> {
   bool _validate = false;
 
   addRequest() {
-    return showDialog(context: context, child: NewRequestWidget());
+    Navigator.of(context).pushNamed(NewRequestScreen.routename);
   }
   // addRequest() {
   //   return showDialog(

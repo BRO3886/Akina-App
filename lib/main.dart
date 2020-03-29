@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:project_hestia/Profile/edit_profile.dart';
 import 'package:project_hestia/screens/home_screen.dart';
 import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/screens/new_req_screen.dart';
@@ -29,7 +30,6 @@ class MyApp extends StatelessWidget {
       // darkTheme: ThemeData.dark(),
       theme: ThemeData(
         fontFamily: 'Manrope',
-        
         primaryColor: Color(0xFF00d2d2),
         accentColor: Color(0xFF00d2d2),
         canvasColor: Colors.grey[100],
@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
         RequestsFeedScreen.routename: (_) => RequestsFeedScreen(),
         NewsFeedScreen.routename: (_) => NewsFeedScreen(),
         NewRequestScreen.routename: (_) => NewRequestScreen(),
+        EditProfileScreen.routename: (_) => EditProfileScreen(),
       },
     );
   }

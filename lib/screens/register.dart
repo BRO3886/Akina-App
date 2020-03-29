@@ -180,7 +180,6 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                         if (value.length != 10) {
                           return "Enter a valid phone number";
                         }
-                        
                       },
                     ),
                     SizedBox(
