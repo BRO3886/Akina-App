@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
@@ -122,14 +123,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       final response = await http.post(
         uri,
         headers: {
-          HttpHeaders.contentTypeHeader:'application/json',
+          HttpHeaders.contentTypeHeader: 'application/json',
         },
         body: body,
       );
-      if(response.statusCode == 200){
-        Map<String,dynamic> responseBody = jsonDecode(response.body);
-        if(responseBody.containsKey("Status")){
-          _showSnackBar(200,responseBody["Status"]);
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseBody = jsonDecode(response.body);
+        if (responseBody.containsKey("Status")) {
+          _showSnackBar(200, responseBody["Status"]);
         }
       }
     } catch (e) {
@@ -257,7 +258,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 color: mainColor,
                                 textColor: colorWhite,
                                 onPressed: submitData,
-                                child: Text('Submit'),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Text('Submit'),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    SvgPicture.asset("assets/images/check.svg"),
+                                  ],
+                                ),
                               ),
                         SizedBox(
                           width: 15,
@@ -266,8 +276,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5)),
                           color: colorWhite,
-                          textColor: mainColor,
-                          child: Text('Cancel'),
+                          textColor: colorBlack,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text('Cancel'),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Icon(Icons.close, size: 19,)
+                            ],
+                          ),
                           onPressed: () => Navigator.of(context).pop(),
                         ),
                       ],

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
@@ -108,7 +109,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
       _showSnackBar(response.statusCode, resBody['message']);
       if (response.statusCode == 201) {
         print(resBody['message']);
-        Future.delayed(Duration(seconds: 2), ()=>Navigator.of(context).pop());
+        Future.delayed(Duration(seconds: 2), () => Navigator.of(context).pop());
       } else if (response.statusCode == 400) {
         print(resBody['message']);
         print("location not provided");
@@ -261,17 +262,35 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                           color: mainColor,
                           textColor: colorWhite,
                           onPressed: _submitRequest,
-                          child: Text('Submit'),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text('Submit'),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              SvgPicture.asset("assets/images/check.svg"),
+                            ],
+                          ),
                         ),
                   SizedBox(
-                    width: 10,
+                    width: 15,
                   ),
                   RaisedButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5)),
                     color: colorWhite,
-                    textColor: mainColor,
-                    child: Text('Cancel'),
+                    textColor: colorBlack,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text('Cancel'),
+                        Icon(
+                          Icons.close,
+                          size: 19,
+                        ),
+                      ],
+                    ),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                 ],

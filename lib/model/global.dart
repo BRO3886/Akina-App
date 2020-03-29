@@ -1,7 +1,7 @@
 const BASE_URL = 'https://hestia-auth.herokuapp.com/api/user';
 
 const URL_USER_LOGIN  = '$BASE_URL/login';
-const URL_USER_REGISTER = '$BASE_URL/register';
+const URL_USER_REGISTER = '$BASE_URL/registerapp';
 
 const REQUEST_BASE_URL = 'hestia-requests.herokuapp.com';
 const URL_NEW_REQUEST = 'app/item_requests/';
