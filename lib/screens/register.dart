@@ -54,7 +54,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
         content = responseBody["Error"];
       } else if(responseBody.containsKey("Verify")){
         content = responseBody["Verify"];
-        Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
+        Navigator.of(context).pushReplacementNamed(LoginScreen.routename);
       } else if (responseBody.containsKey("Token")) {
         print("registered succesfully");
         try {
