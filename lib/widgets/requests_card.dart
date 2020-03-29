@@ -72,7 +72,7 @@ class _RequestCardState extends State<RequestCard> {
               GestureDetector(
                 onTap: () {
                   if(shopStatus == true || shop == true){
-                    //Navigator.of(context).pop();
+                    Navigator.of(context).maybePop();
                     Navigator.push(
                         context,
                         new MaterialPageRoute(
@@ -100,7 +100,7 @@ class _RequestCardState extends State<RequestCard> {
                 onTap: () {
                   if(widget.requestStatus == true || (accept == true)){  
                       acceptRequest(widget.request.id.toString());
-                      //Navigator.of(context).pop();
+                      Navigator.of(context).maybePop();
                   }
                   else if(widget.requestStatus == false || widget.requestStatus == null){
                     acceptWidget(context, widget.request.id.toString());
@@ -159,7 +159,7 @@ class _RequestCardState extends State<RequestCard> {
                   textColor: colorWhite,
                   onPressed: (){
                     acceptRequest(id);
-                    //Navigator.of(context).pop();
+                    Navigator.of(context).maybePop();
                   },
                   child: Row(
                     mainAxisAlignment:
@@ -259,7 +259,7 @@ class _RequestCardState extends State<RequestCard> {
                   color: mainColor,
                   textColor: colorWhite,
                   onPressed: (){
-                    //Navigator.of(context).pop();
+                    Navigator.of(context).maybePop();
                     Navigator.push(
                         context,
                         new MaterialPageRoute(

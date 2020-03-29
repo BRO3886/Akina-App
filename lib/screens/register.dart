@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_hestia/model/global.dart';
 import 'package:ant_icons/ant_icons.dart';
 import 'package:http/http.dart' as http;
@@ -53,7 +54,8 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
       if (responseBody.containsKey("Error")) {
         content = responseBody["Error"];
       } else if(responseBody.containsKey("Verify")){
-        content = responseBody["Verify"];
+        //content = responseBody["Verify"];
+        Fluttertoast.showToast(msg: responseBody["Verify"]);
         Navigator.of(context).pushReplacementNamed(LoginScreen.routename);
       } else if (responseBody.containsKey("Token")) {
         print("registered succesfully");
@@ -69,6 +71,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
           sp.setUserName(userInfo["name"]);
           sp.setPhone(userInfo["phone"]);
           sp.setToken(responseBody["Token"]);
+          Navigator.of(context).maybePop();
           Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
         } catch (e) {
           print(e);
@@ -87,7 +90,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
               FlatButton(
                 child: Text('Try Again'),
                 textColor: mainColor,
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => Navigator.of(context).maybePop(),
               )
             ],
           ),
