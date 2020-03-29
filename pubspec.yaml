@@ -33,6 +33,7 @@ dependencies:
   geolocator:
   geocoder:
   permission_handler:
+  fluttertoast:
 
 dev_dependencies:
   flutter_test:
