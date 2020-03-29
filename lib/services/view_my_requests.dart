@@ -7,7 +7,7 @@ Future<AllRequests> viewMyRequests() async {
   final sp = SharedPrefsCustom();
   final token = await sp.getToken();
   // TODO: --better practice-- remove later and proivde config file
-  final uri = 'https://hestia-requests.herokuapp.com/app/my_requests/';
+  final uri = 'https://hestia-requests.herokuapp.com/api/requests/my_requests/';
   try {
     final response = await http.get(
       uri,

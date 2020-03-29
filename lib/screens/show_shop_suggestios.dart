@@ -36,7 +36,7 @@ class _ShopSuggestionsScreenState extends State<ShopSuggestionsScreen> {
               return CustomScrollView(
                 controller: fabController,
                 slivers: <Widget>[
-                  MySliverAppBar(title: 'Shops',),
+                  MySliverAppBar(title: 'Shops',isReplaced: false,),
                   SliverFillRemaining(
                     hasScrollBody: false,
                     child: Center(
@@ -49,7 +49,7 @@ class _ShopSuggestionsScreenState extends State<ShopSuggestionsScreen> {
               return CustomScrollView(
                 controller: fabController,
                 slivers: <Widget>[
-                  MySliverAppBar(title: 'Shops',),
+                  MySliverAppBar(title: 'Shops',isReplaced: false,),
                   SliverList(
                     delegate: SliverChildBuilderDelegate((ctx, index) {
                       return ShopCard(allShops.shop[index]);
@@ -61,7 +61,7 @@ class _ShopSuggestionsScreenState extends State<ShopSuggestionsScreen> {
           } else {
             return CustomScrollView(
               slivers: <Widget>[
-                MySliverAppBar(title: 'Shops',),
+                MySliverAppBar(title: 'Shops',isReplaced: false,),
                 SliverFillRemaining(
                   child: Center(
                     child: CircularProgressIndicator(),

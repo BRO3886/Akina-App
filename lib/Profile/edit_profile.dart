@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
+import 'package:project_hestia/widgets/my_back_button.dart';
 
 Future<Map<String, String>> getUserDetails() async {
   final sp = SharedPrefsCustom();
@@ -145,7 +146,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).canvasColor,
         elevation: 0,
-        iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.black),
+        iconTheme: Theme.of(context).iconTheme.copyWith(color: Theme.of(context).canvasColor),
       ),
       body: FutureBuilder(
         future: getUserDetails(),
@@ -158,9 +159,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      'Edit Profile',
-                      style: screenHeadingStyle,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        MyBackButton(),
+                        SizedBox(width: 25,),
+                        Text(
+                          'Edit Profile',
+                          style: screenHeadingStyle,
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 30,
@@ -285,7 +293,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               SizedBox(
                                 width: 5,
                               ),
-                              Icon(Icons.close, size: 19,)
+                              Icon(
+                                Icons.close,
+                                size: 19,
+                              )
                             ],
                           ),
                           onPressed: () => Navigator.of(context).pop(),

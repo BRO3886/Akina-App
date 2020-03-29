@@ -4,8 +4,8 @@ const URL_USER_LOGIN  = '$BASE_URL/login';
 const URL_USER_REGISTER = '$BASE_URL/registerapp';
 
 const REQUEST_BASE_URL = 'hestia-requests.herokuapp.com';
-const URL_NEW_REQUEST = 'app/item_requests/';
-const URL_VIEW_ALL_REQUESTS = 'app/view_all_item_requests/';
+const URL_NEW_REQUEST = 'api/requests/item_requests/';
+const URL_VIEW_ALL_REQUESTS = 'api/requests/view_all_item_requests/';
 const URL_ACCEPT_REQUEST = 'app/accept/';
 
 const SHOP_BASE_URL = 'https://hestia-report.herokuapp.com';

@@ -7,6 +7,7 @@ import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/services/google_auth.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
+import 'package:project_hestia/widgets/my_back_button.dart';
 
 class ProfilePage extends StatefulWidget {
   static const routename = "/profile";
@@ -43,7 +44,7 @@ class ProfilePageState extends State<ProfilePage> {
           elevation: 0,
           automaticallyImplyLeading: true,
           backgroundColor: Theme.of(context).canvasColor,
-          iconTheme: IconThemeData(color: Colors.black),
+          iconTheme: IconThemeData(color: Theme.of(context).canvasColor),
           // title: Text(
           //'Profile',
           // style: TextStyle(color: colorBlack, fontSize: 24.0),
@@ -64,10 +65,17 @@ class ProfilePageState extends State<ProfilePage> {
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.only(
-                          top: 10.0, left: 20.0, right: 20.0, bottom: 18.0),
+                          top: 10.0, left: 14.9, right: 20.0, bottom: 18.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: MyBackButton(),
+                          ),
+                          SizedBox(
+                            width: 25,
+                          ),
                           Text(
                             'Profile',
                             style: TextStyle(
@@ -75,21 +83,28 @@ class ProfilePageState extends State<ProfilePage> {
                                 fontSize: 30.0,
                                 fontWeight: FontWeight.bold),
                           ),
-                          Hero(
-                            tag: 'profile',
-                            child: Container(
-                                //margin: EdgeInsets.only(right: 10.0),
-                                child: Icon(
-                              Icons.account_circle,
-                              color: mainColor,
-                              size: 40.0,
-                            )),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.39,
+                          ),
+                          Expanded(
+                            // flex: 5,
+                            child: Hero(
+                              tag: 'profile',
+                              child: Container(
+                                  //margin: EdgeInsets.only(right: 10.0),
+                                  child: Icon(
+                                Icons.account_circle,
+                                color: mainColor,
+                                size: 40.0,
+                              )),
+                            ),
                           )
                         ],
                       ),
                     ),
                     GestureDetector(
-                      onTap: ()=>Navigator.of(context).pushNamed(EditProfileScreen.routename),
+                      onTap: () => Navigator.of(context)
+                          .pushNamed(EditProfileScreen.routename),
                       child: Container(
                           margin: EdgeInsets.only(
                               left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
