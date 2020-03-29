@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoder/geocoder.dart';
@@ -39,6 +40,7 @@ deleteRequest(String id) async {
       REQUEST_BASE_URL,
       URL_NEW_REQUEST+id+"/",
     );
+    print(uri);
     print(REQUEST_BASE_URL+
       URL_NEW_REQUEST+id+"/");
     final token = await SharedPrefsCustom().getToken();
@@ -48,7 +50,10 @@ deleteRequest(String id) async {
         HttpHeaders.authorizationHeader: token,
       },
     );
-    print("Response for delete is "+response.body.toString());
+    print(response.statusCode);
+    Map<String, dynamic> responseBody = jsonDecode(response.body);
+    print(responseBody);
+    print("Response for delete is ");
     if (response.statusCode == 200) {
       result = "Request successfully deleted";
       getAllRequests();

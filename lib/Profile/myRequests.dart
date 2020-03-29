@@ -348,14 +348,19 @@ class MyRequestsPageState extends State<MyRequestsPage> {
 
 */
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:project_hestia/model/request.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/new_req_screen.dart';
+import 'package:project_hestia/services/shared_prefs_custom.dart';
 import 'package:project_hestia/services/view_all_requests.dart';
+import 'package:project_hestia/services/view_my_requests.dart';
 import 'package:project_hestia/widgets/cust_sliver_app_bar.dart';
 import 'package:project_hestia/widgets/requests_delete_card.dart';
+import 'package:http/http.dart' as http;
 
 class MyRequestsPage extends StatefulWidget {
   static const routename = '/reqfeed';
@@ -373,7 +378,6 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
   double _fabWidth = 55;
 
   
-
   @override
   void initState() {
     _fabIsVisible = true;
@@ -436,7 +440,7 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
         ),
       ),
       body: FutureBuilder(
-        future: getAllRequests(),
+        future: viewMyRequests(),
         builder: (ctx, snapshot) {
           if (snapshot.hasData) {
             AllRequests allRequests = snapshot.data;
@@ -444,7 +448,9 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
               return CustomScrollView(
                 controller: fabController,
                 slivers: <Widget>[
-                  MySliverAppBar(title: 'My Requests',),
+                  MySliverAppBar(
+                    title: 'My Requests',
+                  ),
                   SliverFillRemaining(
                     hasScrollBody: false,
                     child: Center(
@@ -457,7 +463,9 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
               return CustomScrollView(
                 controller: fabController,
                 slivers: <Widget>[
-                  MySliverAppBar(title: 'My Requests',),
+                  MySliverAppBar(
+                    title: 'My Requests',
+                  ),
                   SliverList(
                     delegate: SliverChildBuilderDelegate((ctx, index) {
                       return RequestDeleteCard(allRequests.request[index]);
@@ -469,7 +477,9 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
           } else {
             return CustomScrollView(
               slivers: <Widget>[
-                MySliverAppBar(title: 'My Requests',),
+                MySliverAppBar(
+                  title: 'My Requests',
+                ),
                 SliverFillRemaining(
                   child: Center(
                     child: CircularProgressIndicator(),
@@ -483,4 +493,3 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
     );
   }
 }
-

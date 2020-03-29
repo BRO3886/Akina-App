@@ -88,13 +88,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         },
         body: body,
       );
+      print(token);
       Map<String, dynamic> responseBody = jsonDecode(response.body);
       print(responseBody);
       if (response.statusCode == 200) {
         if (responseBody.containsKey("Status")) {
           _showSnackBar(200, responseBody["Status"]);
-        } else if (responseBody.containsKey("Email")) {
-          _showSnackBar(300, responseBody["Email"]);
+        } else if (responseBody.containsKey("Alert")) {
+          _showSnackBar(300, responseBody["Alert"]);
         }
         sp.setUserName(newuserDetails['name']);
         sp.setUserEmail(newuserDetails['email']);

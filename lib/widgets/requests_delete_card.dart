@@ -44,7 +44,7 @@ class RequestDeleteCard extends StatelessWidget {
                 color: Colors.grey[200],
                 width: 1,
               ),
-              Text(request.quantity),
+              Text(request.quantity, style: TextStyle(fontWeight: FontWeight.w500),),
             ],
           ),
           subtitle: Padding(
@@ -59,7 +59,7 @@ class RequestDeleteCard extends StatelessWidget {
                   deleteRequest(request.id.toString());
                 },
                 child: Tooltip(
-                  message: 'Delete my request',
+                  message: 'Delete this request',
                   child: CircleAvatar(
                     child: Icon(
                       Icons.delete,
