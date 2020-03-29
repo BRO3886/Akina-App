@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:permission_handler/permission_handler.dart';
 import '../model/global.dart';
 import 'package:flutter/material.dart';
 import 'package:project_hestia/model/util.dart';
@@ -40,11 +41,15 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
       );
     } else if (code == 400) {
       snackbar = SnackBar(
-        content:
-            Text(msg),
+        content: Text(msg),
         backgroundColor: colorRed,
       );
-    } else if(code == 69){}else {
+    } else if (code == 69) {
+      snackbar = SnackBar(
+        content: Text(msg),
+        backgroundColor: colorRed,
+      );
+    } else {
       snackbar = SnackBar(
         content: Text(msg),
         backgroundColor: colorRed,
@@ -67,19 +72,18 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
       return;
     }
     _newRequestFormKey.currentState.save();
-    // TODO: this condition is for time being, remove after adding location permissions
+
     if (customLocation == false) {
+      ServiceStatus serviceStatus = await PermissionHandler()
+          .checkServiceStatus(PermissionGroup.location);
+      if (serviceStatus == ServiceStatus.disabled) {
+        _showSnackBar(
+            69, 'You need to enable device location before sending a request');
+      }
       GeolocationStatus geolocationStatus =
           await Geolocator().checkGeolocationPermissionStatus();
       if (geolocationStatus != GeolocationStatus.granted) {
         _showSnackBar(69, 'Location permission required');
-        // position = await Geolocator()
-        //     .getLastKnownPosition(desiredAccuracy: LocationAccuracy.medium);
-        // address = await Geocoder.local.findAddressesFromCoordinates(
-        //     Coordinates(position.latitude, position.longitude));
-        // request['location'] = address.first.locality;
-        // return AllRequests(
-        //     message: 'Required Permissions Not Granted', request: []);
       }
       position = await Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
