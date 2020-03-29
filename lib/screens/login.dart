@@ -39,50 +39,113 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       isLoading = true;
     });
-    String baseUrl = 'https://hestia-auth.herokuapp.com/api/user/login';
-    String content = "";
+    //TODO: --good practice-- remove later
+    String verificationUri =
+        'https://hestia-auth.herokuapp.com/api/user/verifyuser';
     try {
-      final response = await http.post(baseUrl, body: userInfo);
-      Map<String, dynamic> responseBody = jsonDecode(response.body);
-      print(responseBody);
-      if (responseBody.containsKey("Error")) {
-        content =
-            responseBody["Error"] + ". Please check your email and try again.";
-      } else if (responseBody.containsKey("Status")) {
-        content = responseBody["Status"] + ". Please enter correct password.";
-      }
-      if (content != "") {
+      final response = await http.post(
+        verificationUri,
+        body: {
+          'email': userInfo['email'],
+        },
+      );
+      print(response.statusCode);
+      print(jsonDecode(response.body)['Status']);
+
+      if (response.statusCode == 401) {
         showDialog(
           context: context,
           child: AlertDialog(
+            backgroundColor: Theme.of(context).canvasColor,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(10),
             ),
-            title: Text('Error'),
-            content: Text(content),
+            titlePadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             actions: <Widget>[
               FlatButton(
-                child: Text('Try Again'),
                 textColor: mainColor,
-                onPressed: () => Navigator.of(context).pop(),
+                child: Text('Understood'),
+                onPressed: () => Navigator.of(context).maybePop(),
               )
             ],
+            content: Container(
+              height: 200,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  CircleAvatar(
+                    child: Icon(Icons.cancel, size: 30,color: colorWhite,),
+                    radius: 30,
+                    backgroundColor: colorRed,
+                  ),
+                  Text(
+                    'You need to verify your email before you can log in',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
           ),
         );
+        setState(() {
+          isLoading = false;
+        });
+        return;
       } else {
-        if (responseBody.containsKey("Token")) {
-          print("logged in successfully");
-          final sp = SharedPrefsCustom();
-          sp.setUserEmail(userInfo['email']);
-          sp.setToken(responseBody["Token"]);
-          sp.setLoggedInStatus(true);
-          Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
-          // Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
+        String baseUrl = 'https://hestia-auth.herokuapp.com/api/user/login';
+        String content = "";
+        try {
+          final response = await http.post(baseUrl, body: userInfo);
+          Map<String, dynamic> responseBody = jsonDecode(response.body);
+          print(responseBody);
+          if (responseBody.containsKey("Error")) {
+            content = responseBody["Error"] +
+                ". Please check your email and try again.";
+          } else if (responseBody.containsKey("Status")) {
+            content =
+                responseBody["Status"] + ". Please enter correct password.";
+          }
+          if (content != "") {
+            showDialog(
+              context: context,
+              child: AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                title: Text('Error'),
+                content: Text(content),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('Try Again'),
+                    textColor: mainColor,
+                    onPressed: () => Navigator.of(context).pop(),
+                  )
+                ],
+              ),
+            );
+          } else {
+            if (responseBody.containsKey("Token")) {
+              print("logged in successfully");
+              final sp = SharedPrefsCustom();
+              sp.setUserEmail(userInfo['email']);
+              sp.setToken(responseBody["Token"]);
+              sp.setLoggedInStatus(true);
+              Navigator.of(context)
+                  .pushReplacementNamed(MyHomeScreen.routename);
+              // Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
+            }
+          }
+        } catch (e) {
+          print(e);
         }
       }
     } catch (e) {
       print(e);
     }
+
     setState(() {
       isLoading = false;
     });
