@@ -80,5 +80,29 @@ class SharedPrefsCustom {
     print("used google auth, stored");
   }
 
+  
+  Future<bool> getShopStatus() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final key = 'shop-status';
+    return prefs.getBool(key);
+  }
+
+  void setShopStatus(bool value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final key = 'shop-status';
+    prefs.setBool(key, value);
+  }
+
+  Future<bool> getRequestStatus() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final key = 'request-status';
+    return prefs.getBool(key);
+  }
+
+  void setRequestStatus(bool value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final key = 'request-status';
+    prefs.setBool(key, value);
+  }
 
 }

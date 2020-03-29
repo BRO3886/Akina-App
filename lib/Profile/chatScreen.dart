@@ -105,7 +105,24 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                     );
                   }
               )
-            )      
+            ),
+            Container(
+              color: colorWhite,
+              margin: EdgeInsets.all(10.0),
+              child : TextField(
+                decoration: InputDecoration(
+                  fillColor: colorWhite,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5),
+                    gapPadding: 10,
+                  ),
+                  hintText: 'Enter message',
+                  suffix: GestureDetector(
+                    child: Text('Send', style: TextStyle(color: mainColor, fontWeight: FontWeight.bold),)
+                  )
+                ),
+              )  
+            )  
           ]
         )
       )

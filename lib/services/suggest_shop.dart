@@ -3,13 +3,13 @@ import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:project_hestia/model/global.dart';
 import 'package:http/http.dart' as http;
+import 'package:project_hestia/model/shop.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 import '../model/request.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-Future<AllRequests> getAllRequests() async {
-  print("I am in get all request");
-  AllRequests allRequests;
+Future<AllShops> getAllShops() async {
+  AllShops allShops;
   Position position;
   PermissionStatus permissionStatus =
       await PermissionHandler().checkPermissionStatus(PermissionGroup.location);
@@ -18,63 +18,45 @@ Future<AllRequests> getAllRequests() async {
         await PermissionHandler()
             .requestPermissions([PermissionGroup.location]);
     if (permissions[PermissionGroup.location] != PermissionStatus.granted) {
-      return AllRequests(
-          message: 'Required Permissions Not Granted', request: []);
+      return AllShops(
+          message: 'Required Permissions Not Granted', shop: []);
     }
   }
   try {
-    ServiceStatus serviceStatus = await PermissionHandler().checkServiceStatus(PermissionGroup.location);
-    if(serviceStatus == ServiceStatus.disabled){
-      return AllRequests(message: 'Your location is disabled', request: []);
-    }
     GeolocationStatus geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
     if (geolocationStatus == GeolocationStatus.unknown) {
       position = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.medium);
-      // return AllRequests(
-      //     message: 'Required Permissions Not Granted', request: []);
+      
     }
     position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
     final address = await Geocoder.local.findAddressesFromCoordinates(
         Coordinates(position.latitude, position.longitude));
-    //TODO: remove later
-    // for (int i = 0; i < address.length; i++) {
-    //   print("addr line"+address[i].addressLine);
-    //   print("admin area"+address[i].adminArea);
-    //   print("country"+address[i].countryName);
-    //   print("feature name "+address[i].featureName);
-    //   print("locality "+address[i].locality);
-    //   print("postal code "+address[i].postalCode);
-    //   print("sub admin area "+address[i].subAdminArea);
-    //   print("sub locality"+address[i].subLocality);
-    //   print("STF "+address[i].subThoroughfare);
-    // }
     print(address.first.locality);
-    final uri = Uri.https(
-      REQUEST_BASE_URL,
-      URL_VIEW_ALL_REQUESTS,
-      {'location': address.first.locality},
-    );
+    // final uri = Uri.https(
+    //   SHOP_BASE_URL,
+    //   URL_SHOW_SHOPS,
+    //   {'location': address.first.locality},
+    // );
     final token = await SharedPrefsCustom().getToken();
     final response = await http.get(
-      uri,
+      URL_SHOW_SHOPS,
       headers: {
         HttpHeaders.authorizationHeader: token,
       },
     );
-    // print(response.statusCode);
-    // print(jsonDecode(response.body));
+     print(response.statusCode);
     if (response.statusCode == 200) {
-      allRequests = allRequestsFromJson(response.body);
+      allShops = allShopsFromJson(response.body);
+      print(allShops.shop.toString());
     } else if (response.statusCode == 204) {
-      allRequests = AllRequests(message: 'No requests found', request: []);
+      allShops = AllShops(message: 'No shops found', shop: []);
     } else {
-      allRequests =
-          AllRequests(message: 'Something\'s wrong on our end', request: []);
+      allShops = AllShops(message: 'Something\'s wrong on our end', shop: []);
     }
   } catch (e) {
     print(e.toString());
   }
-  return allRequests;
+  return allShops;
 }

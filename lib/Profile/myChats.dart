@@ -323,7 +323,7 @@ class MyChatsPageState extends State<MyChatsPage> {
                                     )
                                   ],
                                 ));
-                          }))
+                          })),
                 ])));
   }
 }

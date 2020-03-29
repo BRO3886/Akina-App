@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:project_hestia/model/request.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/new_req_screen.dart';
+import 'package:project_hestia/services/shared_prefs_custom.dart';
 import 'package:project_hestia/services/view_all_requests.dart';
 import 'package:project_hestia/widgets/cust_sliver_app_bar.dart';
 import 'package:project_hestia/widgets/profile_icon.dart';
@@ -22,8 +23,6 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
   bool _dataIsLoaded = false;
   double _fabHeight = 55;
   double _fabWidth = 55;
-
-  
 
   @override
   void initState() {
@@ -52,6 +51,29 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
           });
         }
       }
+    });
+    getValues();
+  }
+
+  SharedPrefsCustom s = new SharedPrefsCustom();
+
+  Future<bool> checkShopStatus;
+  Future<bool> checkRequestStatus;
+  bool shopStatus, requestStatus;
+
+  getValues() {
+    checkShopStatus = s.getShopStatus();
+    checkShopStatus.then((resultString) {
+      setState(() {
+        shopStatus = resultString;
+      });
+
+      checkRequestStatus = s.getRequestStatus();
+      checkRequestStatus.then((resultStringLogin) {
+        setState(() {
+          requestStatus = resultStringLogin;
+        });
+      });
     });
   }
 
@@ -115,7 +137,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
                   MySliverAppBar(title: 'Requests',),
                   SliverList(
                     delegate: SliverChildBuilderDelegate((ctx, index) {
-                      return RequestCard(allRequests.request[index]);
+                      return RequestCard(allRequests.request[index], requestStatus, shopStatus);
                     }, childCount: allRequests.request.length),
                   ),
                 ],
