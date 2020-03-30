@@ -47,7 +47,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
     
     final userId = await SharedPrefsCustom().getUserId();
     data_passed['user_id'] = userId;
-    print("Body in my chats is "+data_passed.toString());
+    //print("Body in other chats is "+data_passed.toString());
   
     var sp = SharedPrefsCustom();
     final token = await sp.getToken();
@@ -123,7 +123,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                         child: Text(
                                           listOtherChats[index]
                                               .sender
-                                              .toString(),
+                                              .toString() + " -> " + listOtherChats[index].receiver.toString(),
                                           style: TextStyle(fontSize: 17.0),
                                         ),
                                       ),

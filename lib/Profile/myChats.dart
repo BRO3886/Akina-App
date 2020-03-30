@@ -42,7 +42,7 @@ class MyChatsPageState extends State<MyChatsPage> {
   int userID;
 
   getValues() async{
-      userID = await SharedPrefsCustom().getUserID();
+      userID = await SharedPrefsCustom().getUserId();
       setState(() {
         userID;
       });

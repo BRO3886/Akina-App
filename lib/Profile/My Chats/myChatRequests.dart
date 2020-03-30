@@ -48,7 +48,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
     
     final userId = await SharedPrefsCustom().getUserId();
     data_passed['user_id'] = userId;
-    print("Body in my chats is "+data_passed.toString());
+    //print("Body in my chats is "+data_passed.toString());
     var sp = SharedPrefsCustom();
     final token = await sp.getToken();
     print(token);
@@ -65,7 +65,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
       final data = json.decode(response.body);
       //print('Data in my chats is '+data.toString());
       if (response.statusCode == 200) {
-        print("Output of my chat is "+response.body.toString());
+        //print("Output of my chat is "+response.body.toString());
         setState(() {
           listMyChats = Chats.fromJson(data).chats;
         });
@@ -153,7 +153,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                         margin: EdgeInsets.only(
                                             top: 0.0, bottom: 10.0),
                                         child: Text(
-                                          listMyChats[index].sender.toString(),
+                                          listMyChats[index].sender.toString() + "->" + listMyChats[index].receiver.toString(),
                                           style: TextStyle(fontSize: 17.0),
                                         ),
                                       ),

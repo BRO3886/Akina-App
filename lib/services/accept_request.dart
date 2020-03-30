@@ -35,7 +35,7 @@ acceptRequest(String itemID, String itemName, String receiverID) async {
         Coordinates(position.latitude, position.longitude));
     print(address.first.locality);
     final token = await SharedPrefsCustom().getToken();
-    final senderID = await SharedPrefsCustom().getUserID();
+    final senderID = await SharedPrefsCustom().getUserId();
     
     final response = await http.post(
       URL_ACCEPT_REQUEST,
@@ -61,6 +61,12 @@ acceptRequest(String itemID, String itemName, String receiverID) async {
     print(e.toString());
   }
 }
+
+var bodyCreateChatRoom = {
+        'receiver': 1,
+        'sender': 2 ,
+        'title': ""
+      };
 
 createChat(int sender, String receiver, String text) async{  
   print("I am in create chat");

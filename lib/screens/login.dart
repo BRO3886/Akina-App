@@ -272,7 +272,6 @@ class _LoginScreenState extends State<LoginScreen> {
               final sp = SharedPrefsCustom();
               sp.setUserEmail(userInfo['email']);
               sp.setToken(responseBody["Token"]);
-              sp.setUserID(responseBody["id"]);
               sp.setLoggedInStatus(true);
               Navigator.of(context)
                   .pushReplacementNamed(MyHomeScreen.routename);

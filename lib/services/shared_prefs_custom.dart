@@ -15,19 +15,6 @@ class SharedPrefsCustom {
     print("email stored");
   }
 
-  Future<int> getUserID() async {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    final key = "user id";
-    return preferences.getInt(key);
-  }
-
-  void setUserID(int value) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final key = 'id';
-    prefs.setInt(key, value);
-    print("id stored as "+value.toString());
-  }
-
   Future<String> getUserName() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final key = 'name';
@@ -128,7 +115,7 @@ class SharedPrefsCustom {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final key = 'user-id';
     prefs.setInt(key, value);
-    print("id stored");
+    print("id stored as "+value.toString());
   }
 
 
