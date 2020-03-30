@@ -1,7 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:project_hestia/model/global.dart';
 import 'package:project_hestia/model/util.dart';
+import 'package:project_hestia/services/shared_prefs_custom.dart';
+import 'package:http/http.dart' as http;
 
 class ChatScreenPage extends StatefulWidget {
   ChatScreenPage({Key key, this.userID}) : super(key: key);
@@ -15,8 +22,36 @@ class ChatScreenPageState extends State<ChatScreenPage> {
   @override
   void initState() {
     super.initState();
+    showChats("", "", "");
   }
 
+showChats(String r, String s, String t) async{
+  data_create_chat["receiver"] = r;
+  data_create_chat["sender"] = s;
+  data_create_chat["title"] = t;
+  try {
+    final token = await SharedPrefsCustom().getToken();
+    final response = await http.post(
+      URL_GET_MESSAGES,
+      headers: {
+        HttpHeaders.authorizationHeader: token,
+      },
+      body: json.encode({
+        'receiver': 27,
+        'sender': 21 ,
+      })
+    );
+    print("Response in getting messages is "+response.body.toString());
+    final result = json.decode(response.body);
+    print("Messgaes are "+result.toString());
+    if (response.statusCode == 200) {
+    } else {
+        Fluttertoast.showToast(msg: result['message']);
+    }
+  } catch (e) {
+    print(e.toString());
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -118,6 +153,9 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                   ),
                   hintText: 'Enter message',
                   suffix: GestureDetector(
+                    onTap: (){
+                      createChat("27","21","Hello");
+                    },
                     child: Text('Send', style: TextStyle(color: mainColor, fontWeight: FontWeight.bold),)
                   )
                 ),
@@ -128,4 +166,39 @@ class ChatScreenPageState extends State<ChatScreenPage> {
       )
     );
   }
+
+ Map<String, String> data_create_chat = {
+    'receiver': "27",
+    'sender': "21" ,
+    'text': "Hello"
+};
+
+createChat(String r, String s, String t) async{
+  data_create_chat["receiver"] = r;
+  data_create_chat["sender"] = s;
+  data_create_chat["title"] = t;
+  try {
+    final token = await SharedPrefsCustom().getToken();
+    final response = await http.post(
+      URL_CREATE_MESSAGE,
+      headers: {
+        HttpHeaders.authorizationHeader: token,
+      },
+      body: json.encode({
+        'receiver': 27,
+        'sender': 21 ,
+        'text': "Hello"
+      })
+    );
+    print("response is "+response.body.toString());
+    final result = json.decode(response.body);
+    if (response.statusCode == 200) {
+      Fluttertoast.showToast(msg: "Message sent");
+    } else {
+        Fluttertoast.showToast(msg: result['message']);
+    }
+  } catch (e) {
+    print(e.toString());
+  }
+}
 }

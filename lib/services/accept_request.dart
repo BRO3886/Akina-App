@@ -35,20 +35,16 @@ acceptRequest(String id) async {
     final address = await Geocoder.local.findAddressesFromCoordinates(
         Coordinates(position.latitude, position.longitude));
     print(address.first.locality);
-    final uri = Uri.https(
-      REQUEST_BASE_URL,
-      URL_ACCEPT_REQUEST,
-      {
-        'request_id':id,
-        'location': address.first.locality
-      },
-    );
     final token = await SharedPrefsCustom().getToken();
     final response = await http.post(
-      uri,
+      URL_VIEW_ACCEPT_REQUESTS,
       headers: {
         HttpHeaders.authorizationHeader: token,
       },
+      body: {
+        'request_id':id,
+        'location': address.first.locality
+      }
     );
     print("response is "+response.body.toString());
     final result = jsonDecode(response.body);
