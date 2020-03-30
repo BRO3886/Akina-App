@@ -115,7 +115,7 @@ class SharedPrefsCustom {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final key = 'user-id';
     prefs.setInt(key, value);
-    print("email stored");
+    print("id stored");
   }
 
 

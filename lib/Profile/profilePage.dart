@@ -3,33 +3,34 @@ import 'package:flutter/widgets.dart';
 import 'package:project_hestia/Profile/edit_profile.dart';
 import 'package:project_hestia/Profile/myChats.dart';
 import 'package:project_hestia/Profile/myRequests.dart';
+import 'package:project_hestia/model/request.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/services/google_auth.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
+import 'package:project_hestia/services/view_my_requests.dart';
 import 'package:project_hestia/widgets/my_back_button.dart';
 
 resetVariables() async {
-    final sp = SharedPrefsCustom();
-    bool gauthUsed = await sp.getIfUsedGauth();
-    if (gauthUsed != null) {
-      if (gauthUsed) {
-        signOutGoogle();
-      }
+  final sp = SharedPrefsCustom();
+  bool gauthUsed = await sp.getIfUsedGauth();
+  if (gauthUsed != null) {
+    if (gauthUsed) {
+      signOutGoogle();
     }
-    sp.setLoggedInStatus(false);
-    sp.setIfUsedGauth(false);
   }
+  sp.setLoggedInStatus(false);
+  sp.setIfUsedGauth(false);
+}
 
 class ProfilePage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           centerTitle: false,
           elevation: 0,
-          automaticallyImplyLeading: true,
+          automaticallyImplyLeading: false,
           backgroundColor: Theme.of(context).canvasColor,
           iconTheme: IconThemeData(color: Theme.of(context).canvasColor),
           // title: Text(
@@ -55,6 +56,7 @@ class ProfilePage extends StatelessWidget {
                           top: 10.0, left: 14.9, right: 20.0, bottom: 18.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Align(
                             alignment: Alignment.centerLeft,
@@ -71,21 +73,19 @@ class ProfilePage extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.39,
+                            width: MediaQuery.of(context).size.width * 0.359,
                           ),
-                          Expanded(
-                            // flex: 5,
-                            child: Hero(
-                              tag: 'profile',
-                              child: Container(
-                                  //margin: EdgeInsets.only(right: 10.0),
-                                  child: Icon(
-                                Icons.account_circle,
-                                color: mainColor,
-                                size: 40.0,
-                              )),
-                            ),
-                          )
+                          Hero(
+                            tag: 'profile',
+                            child: Container(
+                                padding: EdgeInsets.only(top: 10),
+                                // margin: EdgeInsets.only(right: 10.0),
+                                child: Icon(
+                                  Icons.account_circle,
+                                  color: mainColor,
+                                  size: 40.0,
+                                )),
+                          ),
                         ],
                       ),
                     ),
@@ -172,21 +172,39 @@ class ProfilePage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Container(
-                                  margin: EdgeInsets.only(
-                                      top: 20.0, left: 15.0, bottom: 20.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text('My Requests'),
-                                      Container(
-                                          margin: EdgeInsets.only(left: 18.0),
-                                          child: Text(
-                                            '4',
+                                margin: EdgeInsets.only(
+                                    top: 20.0, left: 15.0, bottom: 20.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text('My Requests'),
+                                    Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 10),
+                                      height: 15,
+                                      color: Colors.grey[200],
+                                      width: 1,
+                                    ),
+                                    FutureBuilder(
+                                      future: getMyRequests(),
+                                      builder: (ctx, snapshot) {
+                                        if (snapshot.hasData) {
+                                          AllRequests allRequests =
+                                              snapshot.data;
+                                          return Text(
+                                            allRequests.request.length
+                                                .toString(),
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold),
-                                          ))
-                                    ],
-                                  )),
+                                          );
+                                        } else {
+                                          return Text('...');
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
                               Container(
                                   margin: EdgeInsets.only(
                                       top: 20.0, right: 15.0, bottom: 20.0),
@@ -204,7 +222,7 @@ class ProfilePage extends StatelessWidget {
                           )),
                     ),
                     GestureDetector(
-                      onTap: () async{
+                      onTap: () async {
                         final userId = await SharedPrefsCustom().getUserId();
                         Navigator.push(
                             context,
