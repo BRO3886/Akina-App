@@ -426,7 +426,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         RaisedButton(
                           padding: EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 30),
+                              vertical: 15, horizontal: MediaQuery.of(context).size.width * 0.05),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
