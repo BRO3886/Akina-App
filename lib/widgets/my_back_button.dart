@@ -10,19 +10,22 @@ class MyBackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.of(context).maybePop(),
-      child: Tooltip(
-        message: 'Back',
-        child: CircleAvatar(
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: colorWhite,
-            semanticLabel: 'Back',
-            size: 15,
+      child: Hero(
+        tag: 'back-button',
+        child: Tooltip(
+          message: 'Back',
+          child: CircleAvatar(
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: colorWhite,
+              semanticLabel: 'Back',
+              size: 15,
+            ),
+            // radius: 16.8,
+            maxRadius: 16.8,
+            // minRadius: 10,
+            backgroundColor: mainColor,
           ),
-          // radius: 16.8,
-          maxRadius: 16.8,
-          // minRadius: 10,
-          backgroundColor: mainColor,
         ),
       ),
     );
