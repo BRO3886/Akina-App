@@ -47,8 +47,10 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
 
 
   Future<List<Chat>> getMyChats() async {
-    data_passed['user_id'] = widget.userID;
-    //print("Body in my chats is "+data_passed.toString());
+    
+    final userId = await SharedPrefsCustom().getUserId();
+    data_passed['user_id'] = userId;
+    print("Body in my chats is "+data_passed.toString());
     var sp = SharedPrefsCustom();
     final token = await sp.getToken();
     print(token);
@@ -66,6 +68,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
       final data = json.decode(response.body);
       //print('Data in my chats is '+data.toString());
       if (response.statusCode == 200) {
+        print("Output of my chat is "+response.body.toString());
         setState(() {
           listMyChats = Chats.fromJson(data).chats;
         });

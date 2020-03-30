@@ -226,11 +226,12 @@ class ProfilePage extends StatelessWidget {
                     GestureDetector(
                       onTap: () async {
                         final userId = await SharedPrefsCustom().getUserId();
+                        print("User id while creating is "+userId.toString());
                         Navigator.push(
                             context,
                             new MaterialPageRoute(
                                 builder: (BuildContext context) => MyChatsPage(
-                                      userID: userId,
+                                      //userID: userId,
                                     )));
                       },
                       child: Container(
