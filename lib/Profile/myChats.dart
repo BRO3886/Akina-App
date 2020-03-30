@@ -21,7 +21,6 @@ import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:flutter_socket_io/flutter_socket_io.dart';
 import 'package:http/http.dart' as http;
- 
 
 class MyChatsPage extends StatefulWidget {
   MyChatsPage({Key key}) : super(key: key);
@@ -36,16 +35,16 @@ class MyChatsPageState extends State<MyChatsPage> {
     super.initState();
     getValues();
     //submitData();
-   // _connectSocket();
+    // _connectSocket();
   }
 
   int userID;
 
-  getValues() async{
-      userID = await SharedPrefsCustom().getUserID();
-      setState(() {
-        userID;
-      });
+  getValues() async {
+    userID = await SharedPrefsCustom().getUserId();
+    setState(() {
+      userID;
+    });
   }
 
   void AllAction() {
@@ -79,7 +78,6 @@ class MyChatsPageState extends State<MyChatsPage> {
     super.dispose();
   }
 
-
   SocketIO socketIO;
 
   /*_connectSocket() { 
@@ -110,10 +108,6 @@ class MyChatsPageState extends State<MyChatsPage> {
         appBar: AppBar(
           elevation: 0,
           automaticallyImplyLeading: false,
-          leading: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: MyBackButton(),
-          ),
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Theme.of(context).canvasColor,
           /*title: Transform(
@@ -219,22 +213,20 @@ class MyChatsPageState extends State<MyChatsPage> {
                     margin: EdgeInsets.only(
                         top: 10.0, left: 20.0, right: 20.0, bottom: 18.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        Text(
-                          'My Chats',
-                          style: TextStyle(
-                              color: colorBlack,
-                              fontSize: 30.0,
-                              fontWeight: FontWeight.bold),
+                        MyBackButton(),
+                        SizedBox(
+                          width: 10,
                         ),
-                        Container(
-                            //margin: EdgeInsets.only(right: 10.0),
-                            child: Icon(
-                          Icons.account_circle,
-                          color: mainColor,
-                          size: 40.0,
-                        ))
+                        Text(
+                          'Chats and Suggestions',
+                          overflow: TextOverflow.ellipsis,
+                          style: screenHeadingStyle.copyWith(fontSize: 25),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
                       ],
                     ),
                   ),
@@ -264,8 +256,8 @@ class MyChatsPageState extends State<MyChatsPage> {
                                         ? mainColor
                                         : colorWhite,
                                   ),
-                                  borderRadius: new BorderRadius.all(
-                                      Radius.circular(5)),
+                                  borderRadius:
+                                      new BorderRadius.all(Radius.circular(5)),
                                   color: pressAttentionMy
                                       ? mainColor
                                       : colorWhite),
@@ -293,8 +285,8 @@ class MyChatsPageState extends State<MyChatsPage> {
                                         ? mainColor
                                         : colorWhite,
                                   ),
-                                  borderRadius: new BorderRadius.all(
-                                      Radius.circular(5)),
+                                  borderRadius:
+                                      new BorderRadius.all(Radius.circular(5)),
                                   color: pressAttentionAll
                                       ? mainColor
                                       : colorWhite),
@@ -310,8 +302,13 @@ class MyChatsPageState extends State<MyChatsPage> {
                       ],
                     ),
                   ),
-                  pressAttentionMy == true ? MyRequestsChatsPage(userID: userID,) : OtherRequestsChatsPage(userID: userID,)
-                
+                  pressAttentionMy == true
+                      ? MyRequestsChatsPage(
+                          userID: userID,
+                        )
+                      : OtherRequestsChatsPage(
+                          userID: userID,
+                        )
                 ])));
   }
 }

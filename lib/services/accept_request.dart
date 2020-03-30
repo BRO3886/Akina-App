@@ -35,7 +35,7 @@ acceptRequest(String itemID, String itemName, String receiverID) async {
         Coordinates(position.latitude, position.longitude));
     print(address.first.locality);
     final token = await SharedPrefsCustom().getToken();
-    final senderID = await SharedPrefsCustom().getUserID();
+    final senderID = await SharedPrefsCustom().getUserId();
     
     final response = await http.post(
       URL_ACCEPT_REQUEST,
