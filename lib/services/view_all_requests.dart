@@ -43,7 +43,11 @@ Future<AllRequests> getAllRequests() async {
     final uri = Uri.https(
       REQUEST_BASE_URL,
       URL_VIEW_ALL_ITEM_REQUESTS,
-      {'location': address.first.locality},
+      {
+        //TODO change location
+        'location': 'Noida'
+        //address.first.locality
+      },
     );
     print("URI in all requests is "+uri.toString());
     final token = await SharedPrefsCustom().getToken();
@@ -58,6 +62,7 @@ Future<AllRequests> getAllRequests() async {
     print("Response in view all requests is "+response.toString());
     if (response.statusCode == 200) {
       allRequests = allRequestsFromJson(response.body);
+      print("Body of view all requests is"+response.body.toString());
       allRequests.request.sort((a,b)=>b.dateTimeCreated.compareTo(a.dateTimeCreated));
     } else if (response.statusCode == 204) {
       allRequests = AllRequests(message: 'No requests found', request: []);

@@ -24,21 +24,28 @@ import 'package:http/http.dart' as http;
  
 
 class MyChatsPage extends StatefulWidget {
-  MyChatsPage({Key key, this.userID}) : super(key: key);
-  final int userID;
+  MyChatsPage({Key key}) : super(key: key);
 
   @override
   MyChatsPageState createState() => MyChatsPageState();
 }
 
 class MyChatsPageState extends State<MyChatsPage> {
-  final int userID;
-  MyChatsPageState({this.userID});
   @override
   void initState() {
     super.initState();
+    getValues();
     //submitData();
    // _connectSocket();
+  }
+
+  int userID;
+
+  getValues() async{
+      userID = await SharedPrefsCustom().getUserID();
+      setState(() {
+        userID;
+      });
   }
 
   void AllAction() {
@@ -303,7 +310,7 @@ class MyChatsPageState extends State<MyChatsPage> {
                       ],
                     ),
                   ),
-                  pressAttentionMy == true ? MyRequestsChatsPage(userID: widget.userID,) : OtherRequestsChatsPage(userID: widget.userID,)
+                  pressAttentionMy == true ? MyRequestsChatsPage(userID: userID,) : OtherRequestsChatsPage(userID: userID,)
                 
                 ])));
   }

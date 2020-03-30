@@ -41,7 +41,10 @@ Future<AllRequests> getMyRequests() async {
     final uri = Uri.https(
       REQUEST_BASE_URL,
       URL_VIEW_MY_REQUESTS,
-      {'location': address.first.locality},
+      {
+        //TODO change location
+        'location': 'Noida'},
+        //address.first.locality},
     );
     print("URI in my request is "+uri.toString());
     final token = await SharedPrefsCustom().getToken();

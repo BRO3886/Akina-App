@@ -44,7 +44,9 @@ acceptRequest(String itemID, String itemName, String receiverID) async {
       },
       body: {
         'request_id':itemID.toString(),
-        'location': address.first.locality
+        'location': 'Noida'
+        
+        //TODO change locationaddress.first.locality
       }
     );
     print("response is "+response.body.toString());

@@ -44,9 +44,11 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
   List<Accept> listViewAccept = [];
 
   Future<List<Chat>> getOtherChats() async {
-    data_passed['user_id'] = widget.userID;
-    //print("Body in my chats is "+data_passed.toString());
-
+    
+    final userId = await SharedPrefsCustom().getUserId();
+    data_passed['user_id'] = userId;
+    print("Body in my chats is "+data_passed.toString());
+  
     var sp = SharedPrefsCustom();
     final token = await sp.getToken();
     //print(token);

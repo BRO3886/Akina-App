@@ -91,8 +91,9 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
       address = await Geocoder.local.findAddressesFromCoordinates(
           Coordinates(position.latitude, position.longitude));
-      request['location'] = address.first.locality;
-      // request['location'] = 'vellore';
+      //TODO change location
+      //request['location'] = address.first.locality;
+       request['location'] = 'Noida';
     }
     print(request['location']);
     final body = jsonEncode(request);
