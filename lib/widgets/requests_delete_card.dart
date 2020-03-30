@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/services/date_formatter.dart';
 import 'package:project_hestia/services/delete_request.dart';
-import 'package:project_hestia/services/view_all_requests.dart';
+
 
 import '../model/request.dart';
 
@@ -82,9 +80,9 @@ class _RequestDeleteCardState extends State<RequestDeleteCard> {
                           child: Icon(
                             Icons.delete,
                             color: colorWhite,
-                            size: 14.0,
+                            size: 18.0,
                           ),
-                          maxRadius: 15,
+                          maxRadius: 20,
                           backgroundColor: colorRed,
                         ),
                       ),

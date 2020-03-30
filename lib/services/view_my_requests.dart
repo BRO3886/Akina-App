@@ -20,6 +20,7 @@ Future<AllRequests> viewMyRequests() async {
       return AllRequests(message: 'No requests found.', request: []);
     } else if (response.statusCode == 200) {
       AllRequests allRequests = allRequestsFromJson(response.body);
+      allRequests.request = allRequests.request.reversed.toList();
       return allRequests;
     } else {
       return AllRequests(

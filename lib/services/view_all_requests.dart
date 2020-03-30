@@ -67,6 +67,7 @@ Future<AllRequests> getAllRequests() async {
     // print(jsonDecode(response.body));
     if (response.statusCode == 200) {
       allRequests = allRequestsFromJson(response.body);
+      allRequests.request = allRequests.request.reversed.toList();
     } else if (response.statusCode == 204) {
       allRequests = AllRequests(message: 'No requests found', request: []);
     } else {

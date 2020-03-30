@@ -60,8 +60,8 @@ class _LoginScreenState extends State<LoginScreen> {
       dialogLoading = true;
     });
     print(userInfo['email']);
+    //TODO: --good practice-- remove later
     final uri = 'https://hestia-auth.herokuapp.com/api/user/forgotPassword';
-    final body = jsonEncode({'email': userInfo['email']});
     print("encoded");
     try {
       final response = await http.post(
