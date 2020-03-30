@@ -26,8 +26,6 @@ const REPORT_BASE_URL = 'https://hestia-report.herokuapp.com';
 const URL_SHOW_CREATE_SUGGESTIONS = '$REPORT_BASE_URL/api/recommend/';
 const URL_REPORT_A_PERSON = '$REPORT_BASE_URL/api/report/';
 const SHOP_BASE_URL = 'https://hestia-report.herokuapp.com';
-const URL_SHOW_SHOPS = 'https://hestia-report.herokuapp.com/api/recommend/';
-const URL_CREATE_SUGGESTIONS = 'https://hestia-report.herokuapp.com/api/recommend/';
 
 const NEWS_BASE_URL = 'http://hestia-info.herokuapp.com';
 const URL_NEWS = "http://hestia-info.herokuapp.com/node";
