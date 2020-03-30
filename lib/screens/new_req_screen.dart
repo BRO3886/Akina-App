@@ -113,7 +113,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
         Future.delayed(Duration(milliseconds: 800), () => Navigator.of(context).maybePop());
       } else if (response.statusCode == 400) {
         print(resBody['message']);
-        print("location not provided");
+        print("400");
       } else {
         print(response.statusCode);
       }

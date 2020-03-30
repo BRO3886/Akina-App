@@ -9,7 +9,7 @@ import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 import 'package:project_hestia/widgets/my_back_button.dart';
 
-Future<Map<String, String>> getUserDetails() async {
+Future<Map<String, String>> _getUserDetails() async {
   final sp = SharedPrefsCustom();
   final name = await sp.getUserName();
   final email = await sp.getUserEmail();
@@ -78,13 +78,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     setState(() {
       isLoading = true;
     });
-    //TODO: --better practice-- remove later and proivde config file
-    String uri = 'https://hestia-auth.herokuapp.com/api/user/updateUser';
     var sp = SharedPrefsCustom();
     final token = await sp.getToken();
     try {
       final response = await http.post(
-        URL_USER_UPDATE,
+        URL_UPDATE_USER,
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           'token': token,
@@ -115,15 +113,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   _changePassword() async {
     final sp = SharedPrefsCustom();
     final email = await sp.getUserEmail();
-    //TODO: --better practice-- remove later and proivde config file
-    String uri = 'https://hestia-auth.herokuapp.com/api/user/forgotPassword';
     Map<String, String> bodyText = {
       'email': email,
     };
     final body = jsonEncode(bodyText);
     try {
       final response = await http.post(
-        uri,
+        URL_RESET_PASSWORD,
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
         },
@@ -155,7 +151,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         iconTheme: Theme.of(context).iconTheme.copyWith(color: Theme.of(context).canvasColor),
       ),
       body: FutureBuilder(
-        future: getUserDetails(),
+        future: _getUserDetails(),
         builder: (ctx, snapshot) {
           if (snapshot.hasData) {
             final Map<String, String> userDetails = snapshot.data;

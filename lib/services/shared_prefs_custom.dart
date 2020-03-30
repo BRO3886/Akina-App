@@ -118,4 +118,18 @@ class SharedPrefsCustom {
     prefs.setBool(key, value);
   }
 
+  Future<int> getUserId() async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    final key = "user-id";
+    return preferences.getInt(key);
+  }
+
+  void setUserId(int value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final key = 'user-id';
+    prefs.setInt(key, value);
+    print("id stored");
+  }
+
+
 }

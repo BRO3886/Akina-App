@@ -1,103 +1,36 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:project_hestia/Profile/edit_profile.dart';
 import 'package:project_hestia/Profile/myChats.dart';
 import 'package:project_hestia/Profile/myRequests.dart';
-import 'package:project_hestia/model/global.dart';
+import 'package:project_hestia/model/request.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/services/google_auth.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
-import 'dart:io';
-import 'package:http/http.dart' as http;
+import 'package:project_hestia/services/view_my_requests.dart';
 import 'package:project_hestia/widgets/my_back_button.dart';
 
-class ProfilePage extends StatefulWidget {
-  static const routename = "/profile";
-  ProfilePage({Key key, this.userID}) : super(key: key);
-  final String userID;
-
-  @override
-  ProfilePageState createState() => ProfilePageState();
+resetVariables() async {
+  final sp = SharedPrefsCustom();
+  bool gauthUsed = await sp.getIfUsedGauth();
+  if (gauthUsed != null) {
+    if (gauthUsed) {
+      signOutGoogle();
+    }
+  }
+  sp.setLoggedInStatus(false);
+  sp.setIfUsedGauth(false);
 }
 
-class ProfilePageState extends State<ProfilePage> {
-  resetVariables() async {
-    final sp = SharedPrefsCustom();
-    bool gauthUsed = await sp.getIfUsedGauth();
-    if (gauthUsed != null) {
-      if (gauthUsed) {
-        signOutGoogle();
-      }
-    }
-    sp.setLoggedInStatus(false);
-    sp.setIfUsedGauth(false);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getValues();
-  }
-
-  SharedPrefsCustom s = new SharedPrefsCustom();
-
-  Future<String> checkEmail;
-  String email="singhsatkriti@gmail.com";
-
-  getValues() {
-    checkEmail = s.getUserEmail();
-    checkEmail.then((resultString) {
-      setState(() {
-        email = resultString;
-      });
-      getUserID();
-    });
-  }
-
-  
-  Map<String, String> getEmail = {
-    "email":"1",
-  };
-
-  int id=0;
-
-  getUserID() async{
-    try{
-    getEmail['email'] = email;
-    final token = await SharedPrefsCustom().getToken();
-    final response = await http.post(
-      URL_GET_ID,
-      headers: {
-        HttpHeaders.authorizationHeader: token,
-        'content-type': 'application/json',
-      },
-      body: json.encode(getEmail)
-    );
-    print("Body is "+getEmail.toString());
-    print(response.statusCode);
-    print(jsonDecode(response.body));
-    if (response.statusCode == 200) {
-      setState(() {
-        id=jsonDecode(response.body)['id'];
-        print("ID is "+id.toString());
-      });
-    } 
-    else if (response.statusCode == 204) {
-    } else {} 
-  }catch (e) {
-      print(e.toString());
-    }
-  }
-
+class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           centerTitle: false,
           elevation: 0,
-          automaticallyImplyLeading: true,
+          automaticallyImplyLeading: false,
           backgroundColor: Theme.of(context).canvasColor,
           iconTheme: IconThemeData(color: Theme.of(context).canvasColor),
           // title: Text(
@@ -123,6 +56,7 @@ class ProfilePageState extends State<ProfilePage> {
                           top: 10.0, left: 14.9, right: 20.0, bottom: 18.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Align(
                             alignment: Alignment.centerLeft,
@@ -138,27 +72,28 @@ class ProfilePageState extends State<ProfilePage> {
                                 fontSize: 30.0,
                                 fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.39,
-                          ),
                           Expanded(
-                            // flex: 5,
-                            child: Hero(
-                              tag: 'profile',
-                              child: Container(
-                                  //margin: EdgeInsets.only(right: 10.0),
-                                  child: Icon(
-                                Icons.account_circle,
-                                color: mainColor,
-                                size: 40.0,
-                              )),
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Hero(
+                                tag: 'profile',
+                                child: Container(
+                                    padding: EdgeInsets.only(top: 10),
+                                    // margin: EdgeInsets.only(right: 10.0),
+                                    child: Icon(
+                                      Icons.account_circle,
+                                      color: mainColor,
+                                      size: 40.0,
+                                    )),
+                              ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
-                    id == 0 ? Container() : GestureDetector(
-                      onTap: ()=>Navigator.of(context).pushNamed(EditProfileScreen.routename),
+                    GestureDetector(
+                      onTap: () => Navigator.of(context)
+                          .pushNamed(EditProfileScreen.routename),
                       child: Container(
                           margin: EdgeInsets.only(
                               left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
@@ -207,13 +142,7 @@ class ProfilePageState extends State<ProfilePage> {
                             ],
                           )),
                     ),
-                    id == 0 ? Container(
-                      height: 200.0,
-                      alignment: Alignment(0, 0),
-                      child : Center(
-                        child : CircularProgressIndicator()
-                        )
-                      ) : GestureDetector(
+                    GestureDetector(
                       onTap: () {
                         Navigator.push(
                             context,
@@ -245,21 +174,39 @@ class ProfilePageState extends State<ProfilePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Container(
-                                  margin: EdgeInsets.only(
-                                      top: 20.0, left: 15.0, bottom: 20.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text('My Requests'),
-                                      Container(
-                                          margin: EdgeInsets.only(left: 18.0),
-                                          child: Text(
-                                            '4',
+                                margin: EdgeInsets.only(
+                                    top: 20.0, left: 15.0, bottom: 20.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text('My Requests'),
+                                    Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 10),
+                                      height: 15,
+                                      color: Colors.grey[200],
+                                      width: 1,
+                                    ),
+                                    FutureBuilder(
+                                      future: getMyRequests(),
+                                      builder: (ctx, snapshot) {
+                                        if (snapshot.hasData) {
+                                          AllRequests allRequests =
+                                              snapshot.data;
+                                          return Text(
+                                            allRequests.request.length
+                                                .toString(),
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold),
-                                          ))
-                                    ],
-                                  )),
+                                          );
+                                        } else {
+                                          return Text('...');
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
                               Container(
                                   margin: EdgeInsets.only(
                                       top: 20.0, right: 15.0, bottom: 20.0),
@@ -276,14 +223,14 @@ class ProfilePageState extends State<ProfilePage> {
                             ],
                           )),
                     ),
-                    id == 0 ? Container() : GestureDetector(
-                      onTap: () {
+                    GestureDetector(
+                      onTap: () async {
+                        final userId = await SharedPrefsCustom().getUserId();
                         Navigator.push(
                             context,
                             new MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    MyChatsPage(
-                                      userID: id,
+                                builder: (BuildContext context) => MyChatsPage(
+                                      userID: userId,
                                     )));
                       },
                       child: Container(

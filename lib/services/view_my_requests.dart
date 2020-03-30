@@ -37,18 +37,6 @@ Future<AllRequests> getMyRequests() async {
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
     final address = await Geocoder.local.findAddressesFromCoordinates(
         Coordinates(position.latitude, position.longitude));
-    //TODO: remove later
-    // for (int i = 0; i < address.length; i++) {
-    //   print("addr line"+address[i].addressLine);
-    //   print("admin area"+address[i].adminArea);
-    //   print("country"+address[i].countryName);
-    //   print("feature name "+address[i].featureName);
-    //   print("locality "+address[i].locality);
-    //   print("postal code "+address[i].postalCode);
-    //   print("sub admin area "+address[i].subAdminArea);
-    //   print("sub locality"+address[i].subLocality);
-    //   print("STF "+address[i].subThoroughfare);
-    // }
     print(address.first.locality);
     final uri = Uri.https(
       REQUEST_BASE_URL,
@@ -63,12 +51,14 @@ Future<AllRequests> getMyRequests() async {
         HttpHeaders.authorizationHeader: token,
       },
     );
-    // print(response.statusCode);
-    // print(jsonDecode(response.body));
-    if (response.statusCode == 200) {
-      allRequests = allRequestsFromJson(response.body);
-    } else if (response.statusCode == 204) {
-      allRequests = AllRequests(message: 'No requests found', request: []);
+    print(response.statusCode);
+    if (response.statusCode == 204) {
+      return AllRequests(message: 'No requests found.', request: []);
+    } else if (response.statusCode == 200) {
+      AllRequests allRequests = allRequestsFromJson(response.body);
+      allRequests.request.sort((a,b)=>b.dateTimeCreated.compareTo(a.dateTimeCreated));
+      return allRequests;
+
     } else {
       allRequests =
           AllRequests(message: 'Something\'s wrong on our end', request: []);

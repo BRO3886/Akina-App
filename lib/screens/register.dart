@@ -131,7 +131,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                     width: MediaQuery.of(context).size.width * 0.05,
                   ),
                   Text(
-                    'HESTIA',
+                    'AKINA',
                     style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w800,
@@ -248,7 +248,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                             ? CircularProgressIndicator()
                             : RaisedButton(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: 30, vertical: 13.9),
+                                    horizontal: MediaQuery.of(context).size.width * 0.05, vertical: 13.9),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
@@ -279,6 +279,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                                   MediaQuery.of(context).size.width * 0.05,
                               vertical: 14),
                           child: Row(
+                            mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Text(
