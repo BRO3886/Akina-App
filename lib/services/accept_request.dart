@@ -62,6 +62,12 @@ acceptRequest(String itemID, String itemName, String receiverID) async {
   }
 }
 
+var bodyCreateChatRoom = {
+        'receiver': 1,
+        'sender': 2 ,
+        'title': ""
+      };
+
 createChat(int sender, String receiver, String text) async{  
   print("I am in create chat");
   try {

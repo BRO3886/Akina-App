@@ -30,6 +30,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
   void initState() {
     super.initState();
     //showChats();
+    getValues();
     
     var URL= 'ws://hestia-chat.herokuapp.com/api/v1/ws?chat='+widget.receiverID.toString();
     print("URL is "+URL);
@@ -40,6 +41,14 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     'receiver': 27,
     'sender': 21 
   };
+  
+  int userID;
+  getValues() async{
+    userID = await SharedPrefsCustom().getUserId();
+    setState(() {
+      userID;
+    });
+  }
 
 Messages m;
 Future<Messages> showChats() async{
@@ -84,6 +93,8 @@ Future<Messages> showChats() async{
   bool _validate = false;
 
   bool left = true;
+
+  Messages messages;
 
   WebSocketChannel channel;
   final TextEditingController controller = TextEditingController();
@@ -148,9 +159,14 @@ Future<Messages> showChats() async{
                     child: StreamBuilder(
                     stream: channel.stream,
                     builder: (context, snapshot) {
-                      print(
-                        "Data in snapshot is "+snapshot.toString()
-                      );
+                      //print(
+                       // "Data in snapshot is "+snapshot.toString()
+                      //);
+                      // if(snapshot.hasData){
+                      //   setState(() {
+                      //     //messages = snapshot.data;
+                      //   });
+                      // }
                       return snapshot.hasData ? 
                         Text(
                           snapshot.data.toString(),
@@ -166,7 +182,7 @@ Future<Messages> showChats() async{
                     future: showChats(),
                     builder: (ctx, snapshot) {
                       if (snapshot.hasData) {
-                        Messages messages = snapshot.data;
+                        messages = snapshot.data;
                         if (messages.msgs.length <= 0) {
                           return Text('No messages found');
                         } else {
@@ -321,10 +337,14 @@ sendMessage() async{
 
   if (_key.currentState.validate()) {
     _key.currentState.save();
+
+    final userID = await SharedPrefsCustom().getUserId();
   
-    data_send_message["receiver"] = widget.receiverID;
-    data_send_message["from"] = widget.senderID;
+    data_send_message["receiver"] = userID == widget.senderID  ? widget.receiverID : widget.senderID;
+    data_send_message["from"] = userID;
     data_send_message["text"] = text;
+
+    print("Data to create text is "+data_send_message.toString());
     
     channel.sink.add(controller.text);
     try {
