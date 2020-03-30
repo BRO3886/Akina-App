@@ -348,14 +348,21 @@ class MyRequestsPageState extends State<MyRequestsPage> {
 
 */
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:project_hestia/model/request.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/new_req_screen.dart';
+<<<<<<< HEAD
 import 'package:project_hestia/services/view_all_requests.dart';
+=======
+>>>>>>> upstream/master
 import 'package:project_hestia/services/view_my_requests.dart';
 import 'package:project_hestia/widgets/cust_sliver_app_bar.dart';
+import 'package:project_hestia/widgets/my_back_button.dart';
+import 'package:project_hestia/widgets/profile_icon.dart';
 import 'package:project_hestia/widgets/requests_delete_card.dart';
 
 class MyRequestsPage extends StatefulWidget {
@@ -372,8 +379,6 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
   bool _dataIsLoaded = false;
   double _fabHeight = 55;
   double _fabWidth = 55;
-
-  
 
   @override
   void initState() {
@@ -437,7 +442,11 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
         ),
       ),
       body: FutureBuilder(
+<<<<<<< HEAD
         future: getMyRequests(),
+=======
+        future: viewMyRequests(),
+>>>>>>> upstream/master
         builder: (ctx, snapshot) {
           if (snapshot.hasData) {
             AllRequests allRequests = snapshot.data;
@@ -445,7 +454,20 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
               return CustomScrollView(
                 controller: fabController,
                 slivers: <Widget>[
-                  MySliverAppBar(title: 'My Requests',),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                    ),
+                  ),
+                  MySliverAppBar(
+                    title: 'My Requests',
+                    isReplaced: false,
+                  ),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                    ),
+                  ),
                   SliverFillRemaining(
                     hasScrollBody: false,
                     child: Center(
@@ -458,10 +480,26 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
               return CustomScrollView(
                 controller: fabController,
                 slivers: <Widget>[
-                  MySliverAppBar(title: 'My Requests',),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                    ),
+                  ),
+                  MySliverAppBar(
+                    title: 'My Requests',
+                    isReplaced: false,
+                  ),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                    ),
+                  ),
                   SliverList(
                     delegate: SliverChildBuilderDelegate((ctx, index) {
-                      return RequestDeleteCard(allRequests.request[index]);
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: RequestDeleteCard(allRequests.request[index]),
+                      );
                     }, childCount: allRequests.request.length),
                   ),
                 ],
@@ -470,7 +508,20 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
           } else {
             return CustomScrollView(
               slivers: <Widget>[
-                MySliverAppBar(title: 'My Requests',),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                  ),
+                ),
+                MySliverAppBar(
+                  title: 'My Requests',
+                  isReplaced: false,
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                  ),
+                ),
                 SliverFillRemaining(
                   child: Center(
                     child: CircularProgressIndicator(),
@@ -484,4 +535,3 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
     );
   }
 }
-

@@ -8,73 +8,91 @@ import 'package:project_hestia/services/view_all_requests.dart';
 
 import '../model/request.dart';
 
-class RequestDeleteCard extends StatelessWidget {
+class RequestDeleteCard extends StatefulWidget {
   final Request request;
   RequestDeleteCard(this.request);
+
+  @override
+  _RequestDeleteCardState createState() => _RequestDeleteCardState();
+}
+
+class _RequestDeleteCardState extends State<RequestDeleteCard> {
+  bool cardDeleted = false;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 14),
-      width: MediaQuery.of(context).size.width,
-      height: 125,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(5),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 5,
-              spreadRadius: 0,
-              // color: Colors.grey[600].withOpacity(0.1),
-              color: Color(0x23000000),
-            ),
-          ],
-        ),
-        // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        // elevation: 0,
-        child: ListTile(
-          contentPadding: EdgeInsets.only(top: 2, left: 14, right: 14),
-          title: Row(
-            children: <Widget>[
-              Text(request.itemName),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                height: 15,
-                color: Colors.grey[200],
-                width: 1,
-              ),
-              Text(request.quantity),
-            ],
-          ),
-          subtitle: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Text(dateFormatter(request.dateTimeCreated)),
-          ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              GestureDetector(
-                onTap: () {
-                  deleteRequest(request.id.toString());
-                },
-                child: Tooltip(
-                  message: 'Delete my request',
-                  child: CircleAvatar(
-                    child: Icon(
-                      Icons.delete,
-                      color: colorWhite,
-                      size: 14.0,
-                    ),
-                    maxRadius: 15,
-                    backgroundColor: colorRed,
+    return (cardDeleted)
+        ? Container()
+        : Container(
+            padding: EdgeInsets.symmetric(horizontal: 25, vertical: 14),
+            width: MediaQuery.of(context).size.width,
+            height: 125,
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5),
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 5,
+                    spreadRadius: 0,
+                    // color: Colors.grey[600].withOpacity(0.1),
+                    color: Color(0x23000000),
                   ),
+                ],
+              ),
+              // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+              // elevation: 0,
+              child: ListTile(
+                contentPadding: EdgeInsets.only(top: 2, left: 14, right: 14),
+                title: Row(
+                  children: <Widget>[
+                    Text(widget.request.itemName),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      height: 15,
+                      color: Colors.grey[200],
+                      width: 1,
+                    ),
+                    Text(
+                      widget.request.quantity,
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(dateFormatter(widget.request.dateTimeCreated)),
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () async {
+                        bool deleted =
+                            await deleteRequest(widget.request.id.toString());
+                        if (deleted == true) {
+                          setState(() {
+                            cardDeleted = true;
+                          });
+                        }
+                      },
+                      child: Tooltip(
+                        message: 'Delete this request',
+                        child: CircleAvatar(
+                          child: Icon(
+                            Icons.delete,
+                            color: colorWhite,
+                            size: 14.0,
+                          ),
+                          maxRadius: 15,
+                          backgroundColor: colorRed,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
   }
 }

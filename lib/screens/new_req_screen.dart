@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:project_hestia/widgets/my_back_button.dart';
 import '../model/global.dart';
 import 'package:flutter/material.dart';
 import 'package:project_hestia/model/util.dart';
@@ -108,7 +110,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
       _showSnackBar(response.statusCode, resBody['message']);
       if (response.statusCode == 201) {
         print(resBody['message']);
-        Navigator.pop(context);
+        Future.delayed(Duration(milliseconds: 800), () => Navigator.of(context).maybePop());
       } else if (response.statusCode == 400) {
         print(resBody['message']);
         print("location not provided");
@@ -131,6 +133,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
         backgroundColor: Theme.of(context).canvasColor,
         centerTitle: true,
         elevation: 0,
+        automaticallyImplyLeading: false,
         iconTheme: Theme.of(context).iconTheme.copyWith(color: colorBlack),
         // title: Text(
         //   'New Request',
@@ -143,9 +146,17 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                'New Request',
-                style: screenHeadingStyle,
+              Row(
+                children: <Widget>[
+                  MyBackButton(),
+                  SizedBox(
+                    width: 25,
+                  ),
+                  Text(
+                    'New Request',
+                    style: screenHeadingStyle,
+                  ),
+                ],
               ),
               SizedBox(
                 height: 20,
@@ -261,17 +272,35 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                           color: mainColor,
                           textColor: colorWhite,
                           onPressed: _submitRequest,
-                          child: Text('Submit'),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text('Submit'),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              SvgPicture.asset("assets/images/check.svg"),
+                            ],
+                          ),
                         ),
                   SizedBox(
-                    width: 10,
+                    width: 15,
                   ),
                   RaisedButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5)),
                     color: colorWhite,
-                    textColor: mainColor,
-                    child: Text('Cancel'),
+                    textColor: colorBlack,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text('Cancel'),
+                        Icon(
+                          Icons.close,
+                          size: 19,
+                        ),
+                      ],
+                    ),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                 ],

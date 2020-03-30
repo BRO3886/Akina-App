@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoder/geocoder.dart';
@@ -6,9 +7,9 @@ import 'package:project_hestia/model/global.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:project_hestia/services/view_all_requests.dart';
+import 'package:project_hestia/services/view_my_requests.dart';
 
-deleteRequest(String id) async {
+Future<bool> deleteRequest(String id) async {
   String result;
   Position position;
   PermissionStatus permissionStatus =
@@ -18,14 +19,16 @@ deleteRequest(String id) async {
         await PermissionHandler()
             .requestPermissions([PermissionGroup.location]);
     if (permissions[PermissionGroup.location] != PermissionStatus.granted) {
-      return 'Required Permissions Not Granted';
+      Fluttertoast.showToast(msg: 'Required permissions not granted');
+      return false;
     }
   }
   try {
     GeolocationStatus geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
     if (geolocationStatus == GeolocationStatus.unknown) {
-      position = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.medium);
+      position = await Geolocator()
+          .getLastKnownPosition(desiredAccuracy: LocationAccuracy.medium);
       // return AllRequests(
       //     message: 'Required Permissions Not Granted', request: []);
     }
@@ -33,14 +36,22 @@ deleteRequest(String id) async {
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
     final address = await Geocoder.local.findAddressesFromCoordinates(
         Coordinates(position.latitude, position.longitude));
-  
+
     print(address.first.locality);
     final uri = Uri.https(
+<<<<<<< HEAD
       ITEM_REQUEST_BASE_URL,
       URL_NEW_REQUEST+id+"/",
     );
     print(ITEM_REQUEST_BASE_URL+
       URL_NEW_REQUEST+id+"/");
+=======
+      REQUEST_BASE_URL,
+      URL_NEW_REQUEST + id + "/",
+    );
+    print(uri);
+    print(REQUEST_BASE_URL + URL_NEW_REQUEST + id + "/");
+>>>>>>> upstream/master
     final token = await SharedPrefsCustom().getToken();
     final response = await http.delete(
       uri,
@@ -48,20 +59,24 @@ deleteRequest(String id) async {
         HttpHeaders.authorizationHeader: token,
       },
     );
-    print("Response for delete is "+response.body.toString());
+    print(response.statusCode);
+    Map<String, dynamic> responseBody = jsonDecode(response.body);
+    print(responseBody);
+    print("Response for delete is ");
     if (response.statusCode == 200) {
       result = "Request successfully deleted";
-      getAllRequests();
+      viewMyRequests();
       Fluttertoast.showToast(msg: "Request successfully deleted");
+      return true;
     } else if (response.statusCode == 204) {
       result = 'No requests found';
       Fluttertoast.showToast(msg: "No requests found");
     } else {
       result = 'Something\'s wrong on our end';
       Fluttertoast.showToast(msg: "Something\'s wrong on our end");
+      return false;
     }
   } catch (e) {
     print(e.toString());
   }
-  return result;
 }

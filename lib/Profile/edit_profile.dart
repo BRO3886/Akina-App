@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
+import 'package:project_hestia/widgets/my_back_button.dart';
 
 Future<Map<String, String>> getUserDetails() async {
   final sp = SharedPrefsCustom();
@@ -88,13 +90,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         },
         body: body,
       );
+      print(token);
       Map<String, dynamic> responseBody = jsonDecode(response.body);
       print(responseBody);
       if (response.statusCode == 200) {
         if (responseBody.containsKey("Status")) {
           _showSnackBar(200, responseBody["Status"]);
-        } else if (responseBody.containsKey("Email")) {
-          _showSnackBar(300, responseBody["Email"]);
+        } else if (responseBody.containsKey("Alert")) {
+          _showSnackBar(300, responseBody["Alert"]);
         }
         sp.setUserName(newuserDetails['name']);
         sp.setUserEmail(newuserDetails['email']);
@@ -121,14 +124,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       final response = await http.post(
         uri,
         headers: {
-          HttpHeaders.contentTypeHeader:'application/json',
+          HttpHeaders.contentTypeHeader: 'application/json',
         },
         body: body,
       );
-      if(response.statusCode == 200){
-        Map<String,dynamic> responseBody = jsonDecode(response.body);
-        if(responseBody.containsKey("Status")){
-          _showSnackBar(200,responseBody["Status"]);
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseBody = jsonDecode(response.body);
+        if (responseBody.containsKey("Status")) {
+          _showSnackBar(200, responseBody["Status"]);
         }
       }
     } catch (e) {
@@ -143,7 +146,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).canvasColor,
         elevation: 0,
-        iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.black),
+        iconTheme: Theme.of(context).iconTheme.copyWith(color: Theme.of(context).canvasColor),
       ),
       body: FutureBuilder(
         future: getUserDetails(),
@@ -156,9 +159,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      'Edit Profile',
-                      style: screenHeadingStyle,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        MyBackButton(),
+                        SizedBox(width: 25,),
+                        Text(
+                          'Edit Profile',
+                          style: screenHeadingStyle,
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 30,
@@ -256,7 +266,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 color: mainColor,
                                 textColor: colorWhite,
                                 onPressed: submitData,
-                                child: Text('Submit'),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Text('Submit'),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    SvgPicture.asset("assets/images/check.svg"),
+                                  ],
+                                ),
                               ),
                         SizedBox(
                           width: 15,
@@ -265,8 +284,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5)),
                           color: colorWhite,
-                          textColor: mainColor,
-                          child: Text('Cancel'),
+                          textColor: colorBlack,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text('Cancel'),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Icon(
+                                Icons.close,
+                                size: 19,
+                              )
+                            ],
+                          ),
                           onPressed: () => Navigator.of(context).pop(),
                         ),
                       ],

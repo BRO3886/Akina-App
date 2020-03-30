@@ -17,7 +17,20 @@ class NewsFeedScreen extends StatelessWidget {
           News news = snapshot.data;
           return CustomScrollView(
             slivers: <Widget>[
-              MySliverAppBar(title: 'News',),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.05,
+                ),
+              ),
+              MySliverAppBar(
+                title: 'News',
+                isReplaced: true,
+              ),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.03,
+                ),
+              ),
               SliverList(
                 delegate: SliverChildBuilderDelegate((ctx, index) {
                   return NewsCard(news.items[index], news.source);
@@ -39,7 +52,20 @@ class NewsFeedScreen extends StatelessWidget {
         } else {
           return CustomScrollView(
             slivers: <Widget>[
-              MySliverAppBar(title: 'News',),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.05,
+                ),
+              ),
+              MySliverAppBar(
+                title: 'News',
+                isReplaced: true,
+              ),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.03,
+                ),
+              ),
               SliverFillRemaining(
                 child: Center(
                   child: CircularProgressIndicator(),

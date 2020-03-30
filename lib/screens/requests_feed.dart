@@ -121,23 +121,50 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
               return CustomScrollView(
                 controller: fabController,
                 slivers: <Widget>[
-                  MySliverAppBar(title: 'Requests',),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                    ),
+                  ),
+                  MySliverAppBar(
+                    title: 'Requests',
+                    isReplaced: true,
+                  ),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.03,
+                    ),
+                  ),
                   SliverFillRemaining(
                     hasScrollBody: false,
                     child: Center(
                       child: Text(allRequests.message),
                     ),
-                  )
+                  ),
                 ],
               );
             } else {
               return CustomScrollView(
                 controller: fabController,
                 slivers: <Widget>[
-                  MySliverAppBar(title: 'Requests',),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                    ),
+                  ),
+                  MySliverAppBar(
+                    title: 'Requests',
+                    isReplaced: true,
+                  ),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.03,
+                    ),
+                  ),
                   SliverList(
                     delegate: SliverChildBuilderDelegate((ctx, index) {
-                      return RequestCard(allRequests.request[index], requestStatus, shopStatus);
+                      return RequestCard(allRequests.request[index],
+                          requestStatus, shopStatus);
                     }, childCount: allRequests.request.length),
                   ),
                 ],
@@ -146,7 +173,20 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
           } else {
             return CustomScrollView(
               slivers: <Widget>[
-                MySliverAppBar(title: 'Requests',),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                  ),
+                ),
+                MySliverAppBar(
+                  title: 'Requests',
+                  isReplaced: true,
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  ),
+                ),
                 SliverFillRemaining(
                   child: Center(
                     child: CircularProgressIndicator(),
