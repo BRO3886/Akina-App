@@ -39,19 +39,11 @@ Future<bool> deleteRequest(String id) async {
 
     print(address.first.locality);
     final uri = Uri.https(
-<<<<<<< HEAD
-      ITEM_REQUEST_BASE_URL,
-      URL_NEW_REQUEST+id+"/",
-    );
-    print(ITEM_REQUEST_BASE_URL+
-      URL_NEW_REQUEST+id+"/");
-=======
       REQUEST_BASE_URL,
-      URL_NEW_REQUEST + id + "/",
+      URL_NEW_ITEM_REQUEST+id+"/",
     );
-    print(uri);
-    print(REQUEST_BASE_URL + URL_NEW_REQUEST + id + "/");
->>>>>>> upstream/master
+    print(REQUEST_BASE_URL+
+      URL_NEW_ITEM_REQUEST+id+"/");
     final token = await SharedPrefsCustom().getToken();
     final response = await http.delete(
       uri,
@@ -65,7 +57,7 @@ Future<bool> deleteRequest(String id) async {
     print("Response for delete is ");
     if (response.statusCode == 200) {
       result = "Request successfully deleted";
-      viewMyRequests();
+      getMyRequests();
       Fluttertoast.showToast(msg: "Request successfully deleted");
       return true;
     } else if (response.statusCode == 204) {

@@ -42,6 +42,7 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
     "description_of_shop": "Sanitizers, medicines, and masks available"
   };
 
+
   Future _createSuggestion() async {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     if (!_formKey.currentState.validate()) {
@@ -49,15 +50,13 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
     }
     _formKey.currentState.save();
     suggestionInfo['recommended_for']=widget.id;
-    final body = jsonEncode(suggestionInfo);
-    print(body);
     setState(() {
       isLoading = true;
     });
     String content = "";
     try {
       final token = await SharedPrefsCustom().getToken();
-      final response = await http.post(URL_SHOW_SHOPS, body: jsonEncode(suggestionInfo), headers: {HttpHeaders.authorizationHeader: token,"Content-Type": "application/json"});
+      final response = await http.post(URL_SHOW_CREATE_SUGGESTIONS, body: jsonEncode(suggestionInfo), headers: {HttpHeaders.authorizationHeader: token,"Content-Type": "application/json"});
       print("Response is "+response.toString());
       Map<String, dynamic> responseBody = jsonDecode(response.body);
       print(responseBody);

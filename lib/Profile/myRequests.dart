@@ -355,10 +355,7 @@ import 'package:flutter/rendering.dart';
 import 'package:project_hestia/model/request.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/new_req_screen.dart';
-<<<<<<< HEAD
 import 'package:project_hestia/services/view_all_requests.dart';
-=======
->>>>>>> upstream/master
 import 'package:project_hestia/services/view_my_requests.dart';
 import 'package:project_hestia/widgets/cust_sliver_app_bar.dart';
 import 'package:project_hestia/widgets/my_back_button.dart';
@@ -442,11 +439,7 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
         ),
       ),
       body: FutureBuilder(
-<<<<<<< HEAD
         future: getMyRequests(),
-=======
-        future: viewMyRequests(),
->>>>>>> upstream/master
         builder: (ctx, snapshot) {
           if (snapshot.hasData) {
             AllRequests allRequests = snapshot.data;

@@ -27,6 +27,18 @@ class AllRequests {
         "Request": List<dynamic>.from(request.map((x) => x.toJson())),
     };
 }
+/*
+ {
+            "id": 45,
+            "request_made_by": "13",
+            "item_name": "Nsnsnb",
+            "quantity": "1",
+            "location": "Guna",
+            "date_time_created": "2020-03-28T19:51:36.068251Z",
+            "accepted_by": "",
+            "key": 4
+        },
+*/
 
 class Request {
     int id;

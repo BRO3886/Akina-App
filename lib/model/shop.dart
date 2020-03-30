@@ -54,7 +54,7 @@ class Shop {
 
     factory Shop.fromJson(Map<String, dynamic> json) => Shop(
         id: json["id"],
-        recommendedFor: json["recommended_for"],
+        recommendedFor: json["recommended_for"].toString(),
         nameOfShop: json["name_of_shop"],
         phone: json["phone_number"],
         landmark: json["landmark"],

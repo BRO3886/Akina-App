@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
+import 'package:project_hestia/model/global.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 import 'package:project_hestia/widgets/my_back_button.dart';
@@ -83,7 +84,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final token = await sp.getToken();
     try {
       final response = await http.post(
-        uri,
+        URL_USER_UPDATE,
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           'token': token,
@@ -92,7 +93,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       );
       print(token);
       Map<String, dynamic> responseBody = jsonDecode(response.body);
-      print(responseBody);
+      print("Response of edit is"+responseBody.toString());
       if (response.statusCode == 200) {
         if (responseBody.containsKey("Status")) {
           _showSnackBar(200, responseBody["Status"]);
@@ -137,6 +138,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override

@@ -1,14 +1,10 @@
-import 'package:ant_icons/ant_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/create_shop_suggestion.dart';
-import 'package:project_hestia/screens/show_shop_suggestios.dart';
 import 'package:project_hestia/services/accept_request.dart';
 import 'package:project_hestia/services/date_formatter.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
-import 'package:project_hestia/widgets/accept_dialog_box.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/request.dart';
 
@@ -98,12 +94,12 @@ class _RequestCardState extends State<RequestCard> {
               ),
               GestureDetector(
                 onTap: () {
-                  if(widget.requestStatus == true || (accept == true)){  
-                      acceptRequest(widget.request.id.toString());
+                  if(widget.requestStatus == true || (accept == true)){
+                      acceptRequest(widget.request.id.toString(), widget.request.itemName, widget.request.requestMadeBy);
                       Navigator.of(context).maybePop();
                   }
                   else if(widget.requestStatus == false || widget.requestStatus == null){
-                    acceptWidget(context, widget.request.id.toString());
+                    acceptWidget(context, widget.request.id, widget.request.itemName, widget.request.requestMadeBy);
                   }
                 },
                 child: Tooltip(
@@ -124,7 +120,7 @@ class _RequestCardState extends State<RequestCard> {
 
   bool accept = false;
 
-  acceptWidget(BuildContext context,String id){
+  acceptWidget(BuildContext context, int itemID, String itemName, String receiverID){
     return showDialog(
     context: context,
     builder: (context) {
@@ -158,7 +154,7 @@ class _RequestCardState extends State<RequestCard> {
                   color: mainColor,
                   textColor: colorWhite,
                   onPressed: (){
-                    acceptRequest(id);
+                    acceptRequest(itemID.toString(), itemName, receiverID);
                     Navigator.of(context).maybePop();
                   },
                   child: Row(

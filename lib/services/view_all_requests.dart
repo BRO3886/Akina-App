@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
@@ -52,8 +53,8 @@ Future<AllRequests> getAllRequests() async {
     // }
     print(address.first.locality);
     final uri = Uri.https(
-      ITEM_REQUEST_BASE_URL,
-      URL_VIEW_ALL_REQUESTS,
+      REQUEST_BASE_URL,
+      URL_VIEW_ALL_ITEM_REQUESTS,
       {'location': address.first.locality},
     );
     print("URI in all requests is "+uri.toString());
@@ -64,8 +65,9 @@ Future<AllRequests> getAllRequests() async {
         HttpHeaders.authorizationHeader: token,
       },
     );
-    // print(response.statusCode);
-    // print(jsonDecode(response.body));
+    print("Token is "+token);
+    print(response.statusCode);
+    print("Response in view all requests is "+response.toString());
     if (response.statusCode == 200) {
       allRequests = allRequestsFromJson(response.body);
     } else if (response.statusCode == 204) {
