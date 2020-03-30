@@ -72,19 +72,21 @@ class ProfilePage extends StatelessWidget {
                                 fontSize: 30.0,
                                 fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.359,
-                          ),
-                          Hero(
-                            tag: 'profile',
-                            child: Container(
-                                padding: EdgeInsets.only(top: 10),
-                                // margin: EdgeInsets.only(right: 10.0),
-                                child: Icon(
-                                  Icons.account_circle,
-                                  color: mainColor,
-                                  size: 40.0,
-                                )),
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Hero(
+                                tag: 'profile',
+                                child: Container(
+                                    padding: EdgeInsets.only(top: 10),
+                                    // margin: EdgeInsets.only(right: 10.0),
+                                    child: Icon(
+                                      Icons.account_circle,
+                                      color: mainColor,
+                                      size: 40.0,
+                                    )),
+                              ),
+                            ),
                           ),
                         ],
                       ),

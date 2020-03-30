@@ -3,7 +3,6 @@ import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/services/date_formatter.dart';
 import 'package:project_hestia/services/delete_request.dart';
 
-
 import '../model/request.dart';
 
 class RequestDeleteCard extends StatefulWidget {
@@ -66,12 +65,53 @@ class _RequestDeleteCardState extends State<RequestDeleteCard> {
                   children: <Widget>[
                     GestureDetector(
                       onTap: () async {
+                        if (cardDeleted == false) {
+                          showDialog(
+                            context: context,
+                            useRootNavigator: true,
+                            child: AlertDialog(
+                              content: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  CircularProgressIndicator(),
+                                  // SizedBox(
+                                  //   width: 10,
+                                  // ),
+                                  Text(
+                                    'Deleting...',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }
                         bool deleted =
                             await deleteRequest(widget.request.id.toString());
                         if (deleted == true) {
+                          Navigator.of(context).pop();
                           setState(() {
                             cardDeleted = true;
                           });
+                          showDialog(
+                            context: context,
+                            child: AlertDialog(
+                              content: Text(
+                                'Request Deleted',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              actions: <Widget>[
+                                FlatButton(
+                                  textColor: mainColor,
+                                  child: Text('Close'),
+                                  onPressed: () =>
+                                      Navigator.of(context).maybePop(),
+                                ),
+                              ],
+                            ),
+                          );
                         }
                       },
                       child: Tooltip(
