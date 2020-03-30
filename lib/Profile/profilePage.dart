@@ -1,12 +1,16 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:project_hestia/Profile/edit_profile.dart';
 import 'package:project_hestia/Profile/myChats.dart';
 import 'package:project_hestia/Profile/myRequests.dart';
+import 'package:project_hestia/model/global.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/services/google_auth.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:project_hestia/widgets/my_back_button.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -34,6 +38,57 @@ class ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
+    getValues();
+  }
+
+  SharedPrefsCustom s = new SharedPrefsCustom();
+
+  Future<String> checkEmail;
+  String email="singhsatkriti@gmail.com";
+
+  getValues() {
+    checkEmail = s.getUserEmail();
+    checkEmail.then((resultString) {
+      setState(() {
+        email = resultString;
+      });
+      getUserID();
+    });
+  }
+
+  
+  Map<String, String> getEmail = {
+    "email":"1",
+  };
+
+  int id=0;
+
+  getUserID() async{
+    try{
+    getEmail['email'] = email;
+    final token = await SharedPrefsCustom().getToken();
+    final response = await http.post(
+      URL_GET_ID,
+      headers: {
+        HttpHeaders.authorizationHeader: token,
+        'content-type': 'application/json',
+      },
+      body: json.encode(getEmail)
+    );
+    print("Body is "+getEmail.toString());
+    print(response.statusCode);
+    print(jsonDecode(response.body));
+    if (response.statusCode == 200) {
+      setState(() {
+        id=jsonDecode(response.body)['id'];
+        print("ID is "+id.toString());
+      });
+    } 
+    else if (response.statusCode == 204) {
+    } else {} 
+  }catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
@@ -102,9 +157,8 @@ class ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () => Navigator.of(context)
-                          .pushNamed(EditProfileScreen.routename),
+                    id == 0 ? Container() : GestureDetector(
+                      onTap: ()=>Navigator.of(context).pushNamed(EditProfileScreen.routename),
                       child: Container(
                           margin: EdgeInsets.only(
                               left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
@@ -153,7 +207,13 @@ class ProfilePageState extends State<ProfilePage> {
                             ],
                           )),
                     ),
-                    GestureDetector(
+                    id == 0 ? Container(
+                      height: 200.0,
+                      alignment: Alignment(0, 0),
+                      child : Center(
+                        child : CircularProgressIndicator()
+                        )
+                      ) : GestureDetector(
                       onTap: () {
                         Navigator.push(
                             context,
@@ -216,13 +276,15 @@ class ProfilePageState extends State<ProfilePage> {
                             ],
                           )),
                     ),
-                    GestureDetector(
+                    id == 0 ? Container() : GestureDetector(
                       onTap: () {
                         Navigator.push(
                             context,
                             new MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    MyChatsPage()));
+                                    MyChatsPage(
+                                      userID: id,
+                                    )));
                       },
                       child: Container(
                           margin: EdgeInsets.only(
