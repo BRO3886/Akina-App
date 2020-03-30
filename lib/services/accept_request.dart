@@ -9,7 +9,7 @@ import 'package:project_hestia/services/shared_prefs_custom.dart';
 import '../model/request.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-acceptRequest(String id) async {
+acceptRequest(String itemID, String itemName, String receiverID) async {
   Position position;
   PermissionStatus permissionStatus =
       await PermissionHandler().checkPermissionStatus(PermissionGroup.location);
@@ -18,7 +18,6 @@ acceptRequest(String id) async {
         await PermissionHandler()
             .requestPermissions([PermissionGroup.location]);
     if (permissions[PermissionGroup.location] != PermissionStatus.granted) {
-      
       Fluttertoast.showToast(msg: 'Required Permissions Not Granted');
       return AllRequests(
           message: 'Required Permissions Not Granted', request: []);
@@ -36,19 +35,49 @@ acceptRequest(String id) async {
         Coordinates(position.latitude, position.longitude));
     print(address.first.locality);
     final token = await SharedPrefsCustom().getToken();
+    final senderID = await SharedPrefsCustom().getUserID();
+    
     final response = await http.post(
-      URL_VIEW_ACCEPT_REQUESTS,
+      URL_ACCEPT_REQUEST,
       headers: {
         HttpHeaders.authorizationHeader: token,
       },
       body: {
-        'request_id':id,
+        'request_id':itemID.toString(),
         'location': address.first.locality
       }
     );
     print("response is "+response.body.toString());
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
+      createChat(senderID, receiverID, itemName);
+      //Fluttertoast.showToast(msg: 'Request accepted!');
+    } else {
+        Fluttertoast.showToast(msg: result['message']);
+    }
+  } catch (e) {
+    print(e.toString());
+  }
+}
+
+createChat(int sender, String receiver, String text) async{  
+  print("I am in create chat");
+  try {
+    final token = await SharedPrefsCustom().getToken();
+    final response = await http.post(
+      URL_CREATE_CHAT,
+      headers: {
+        HttpHeaders.authorizationHeader: token,
+      },
+      body: json.encode({
+        'receiver': int.parse(receiver),
+        'sender': sender ,
+        'title': text
+      })
+    );
+    print("response is "+response.body.toString());
+    final result = json.decode(response.body);
+    if (result["status"] == 200) {
       Fluttertoast.showToast(msg: 'Request accepted!');
     } else {
         Fluttertoast.showToast(msg: result['message']);

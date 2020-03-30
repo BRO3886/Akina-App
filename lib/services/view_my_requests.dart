@@ -39,7 +39,7 @@ Future<AllRequests> getMyRequests() async {
         Coordinates(position.latitude, position.longitude));
     print(address.first.locality);
     final uri = Uri.https(
-      ITEM_REQUEST_BASE_URL,
+      REQUEST_BASE_URL,
       URL_VIEW_MY_REQUESTS,
       {'location': address.first.locality},
     );

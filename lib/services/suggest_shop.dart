@@ -41,7 +41,7 @@ Future<AllShops> getAllShops() async {
     // );
     final token = await SharedPrefsCustom().getToken();
     final response = await http.get(
-      URL_SHOW_SHOPS,
+      URL_SHOW_CREATE_SUGGESTIONS,
       headers: {
         HttpHeaders.authorizationHeader: token,
       },

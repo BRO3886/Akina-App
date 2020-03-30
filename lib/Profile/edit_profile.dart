@@ -91,7 +91,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       );
       print(token);
       Map<String, dynamic> responseBody = jsonDecode(response.body);
-      print(responseBody);
+      print("Response of edit is"+responseBody.toString());
       if (response.statusCode == 200) {
         if (responseBody.containsKey("Status")) {
           _showSnackBar(200, responseBody["Status"]);
@@ -134,6 +134,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
