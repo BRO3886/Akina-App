@@ -15,6 +15,7 @@ import 'package:flutter/foundation.dart';
 import 'package:project_hestia/services/accept_request.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 import 'package:project_hestia/services/view_accept_request.dart';
+import 'package:project_hestia/widgets/my_back_button.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -101,7 +102,11 @@ class MyChatsPageState extends State<MyChatsPage> {
         // backgroundColor: colorWhite,
         appBar: AppBar(
           elevation: 0,
-          automaticallyImplyLeading: true,
+          automaticallyImplyLeading: false,
+          leading: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: MyBackButton(),
+          ),
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Theme.of(context).canvasColor,
           /*title: Transform(
@@ -229,11 +234,11 @@ class MyChatsPageState extends State<MyChatsPage> {
                   Container(
                     alignment: Alignment.center,
                     width: MediaQuery.of(context).size.width * 0.68,
-                    padding: EdgeInsets.symmetric(vertical: 7.0),
+                    // padding: EdgeInsets.symmetric(vertical: 7.0),
                     decoration: new BoxDecoration(
                         color: colorWhite,
                         shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.all(Radius.circular(70))),
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
@@ -243,7 +248,7 @@ class MyChatsPageState extends State<MyChatsPage> {
                           },
                           child: Container(
                               alignment: Alignment.center,
-                              width: 120.0,
+                              width: MediaQuery.of(context).size.width * 0.34,
                               padding: EdgeInsets.all(5.0),
                               decoration: new BoxDecoration(
                                   border: Border.all(
@@ -253,7 +258,7 @@ class MyChatsPageState extends State<MyChatsPage> {
                                         : colorWhite,
                                   ),
                                   borderRadius: new BorderRadius.all(
-                                      Radius.circular(70.0)),
+                                      Radius.circular(5)),
                                   color: pressAttentionMy
                                       ? mainColor
                                       : colorWhite),
@@ -272,7 +277,7 @@ class MyChatsPageState extends State<MyChatsPage> {
                           },
                           child: Container(
                               alignment: Alignment.center,
-                              width: 120.0,
+                              width: MediaQuery.of(context).size.width * 0.34,
                               padding: EdgeInsets.all(5.0),
                               decoration: new BoxDecoration(
                                   border: Border.all(
@@ -282,7 +287,7 @@ class MyChatsPageState extends State<MyChatsPage> {
                                         : colorWhite,
                                   ),
                                   borderRadius: new BorderRadius.all(
-                                      Radius.circular(70.0)),
+                                      Radius.circular(5)),
                                   color: pressAttentionAll
                                       ? mainColor
                                       : colorWhite),
