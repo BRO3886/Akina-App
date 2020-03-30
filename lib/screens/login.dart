@@ -3,6 +3,8 @@ import 'package:ant_icons/ant_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:project_hestia/Profile/edit_profile.dart';
+import 'package:project_hestia/model/global.dart';
 import 'package:project_hestia/screens/home_screen.dart';
 import 'package:project_hestia/screens/register.dart';
 import 'package:project_hestia/model/util.dart';
@@ -143,6 +145,28 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  _getUserDetails(String email) async {
+    final uri = URL_GET_DETAILS;
+    final sp = SharedPrefsCustom();
+    // final body = jsonEncode({'email': email});
+    try {
+      final response = await http.post(uri, body: {'email': email});
+      print("get details on login");
+      print(response.statusCode);
+      if(response.statusCode == 200){
+        Map<String, dynamic> responseBody = jsonDecode(response.body);
+        sp.setUserName(responseBody["name"]);
+        sp.setPhone(responseBody["phone"]);
+        sp.setUserId(responseBody["id"]);
+      }else{
+        print("get detials on login");
+        print(response.statusCode);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   Future _login() async {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     if (!_formKey.currentState.validate()) {
@@ -250,6 +274,7 @@ class _LoginScreenState extends State<LoginScreen> {
           } else {
             if (responseBody.containsKey("Token")) {
               print("logged in successfully");
+              _getUserDetails(userInfo['email']);
               final sp = SharedPrefsCustom();
               sp.setUserEmail(userInfo['email']);
               sp.setToken(responseBody["Token"]);
@@ -426,7 +451,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         RaisedButton(
                           padding: EdgeInsets.symmetric(
-                              vertical: 15, horizontal: MediaQuery.of(context).size.width * 0.05),
+                              vertical: 15,
+                              horizontal:
+                                  MediaQuery.of(context).size.width * 0.05),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[

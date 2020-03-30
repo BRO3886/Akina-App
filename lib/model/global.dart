@@ -10,7 +10,7 @@ const URL_VIEW_ALL_REQUESTS = 'api/requests/view_all_item_requests/';
 const URL_ACCEPT_REQUEST = 'api/requests/accept/';
 const URL_VIEW_MY_REQUESTS = 'api/requests/my_requests/';
 
-const URL_GET_ID = 'https://hestia-auth.herokuapp.com/api/user/getuserdetail';
+const URL_GET_DETAILS = 'https://hestia-auth.herokuapp.com/api/user/getuserdetail';
 
 const SHOP_BASE_URL = 'https://hestia-report.herokuapp.com';
 const URL_SHOW_SHOPS = 'https://hestia-report.herokuapp.com/api/recommend/';

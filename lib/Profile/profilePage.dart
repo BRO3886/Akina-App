@@ -38,57 +38,6 @@ class ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    getValues();
-  }
-
-  SharedPrefsCustom s = new SharedPrefsCustom();
-
-  Future<String> checkEmail;
-  String email="singhsatkriti@gmail.com";
-
-  getValues() {
-    checkEmail = s.getUserEmail();
-    checkEmail.then((resultString) {
-      setState(() {
-        email = resultString;
-      });
-      getUserID();
-    });
-  }
-
-  
-  Map<String, String> getEmail = {
-    "email":"1",
-  };
-
-  int id=0;
-
-  getUserID() async{
-    try{
-    getEmail['email'] = email;
-    final token = await SharedPrefsCustom().getToken();
-    final response = await http.post(
-      URL_GET_ID,
-      headers: {
-        HttpHeaders.authorizationHeader: token,
-        'content-type': 'application/json',
-      },
-      body: json.encode(getEmail)
-    );
-    print("Body is "+getEmail.toString());
-    print(response.statusCode);
-    print(jsonDecode(response.body));
-    if (response.statusCode == 200) {
-      setState(() {
-        id=jsonDecode(response.body)['id'];
-        print("ID is "+id.toString());
-      });
-    } 
-    else if (response.statusCode == 204) {
-    } else {} 
-  }catch (e) {
-      print(e.toString());
-    }
   }
 
   @override
@@ -157,8 +106,9 @@ class ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                     ),
-                    id == 0 ? Container() : GestureDetector(
-                      onTap: ()=>Navigator.of(context).pushNamed(EditProfileScreen.routename),
+                    GestureDetector(
+                      onTap: () => Navigator.of(context)
+                          .pushNamed(EditProfileScreen.routename),
                       child: Container(
                           margin: EdgeInsets.only(
                               left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
@@ -207,13 +157,7 @@ class ProfilePageState extends State<ProfilePage> {
                             ],
                           )),
                     ),
-                    id == 0 ? Container(
-                      height: 200.0,
-                      alignment: Alignment(0, 0),
-                      child : Center(
-                        child : CircularProgressIndicator()
-                        )
-                      ) : GestureDetector(
+                    GestureDetector(
                       onTap: () {
                         Navigator.push(
                             context,
@@ -276,14 +220,14 @@ class ProfilePageState extends State<ProfilePage> {
                             ],
                           )),
                     ),
-                    id == 0 ? Container() : GestureDetector(
-                      onTap: () {
+                    GestureDetector(
+                      onTap: () async{
+                        final userId = await SharedPrefsCustom().getUserId();
                         Navigator.push(
                             context,
                             new MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    MyChatsPage(
-                                      userID: id,
+                                builder: (BuildContext context) => MyChatsPage(
+                                      userID: userId,
                                     )));
                       },
                       child: Container(

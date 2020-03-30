@@ -8,7 +8,7 @@ import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 import 'package:project_hestia/widgets/my_back_button.dart';
 
-Future<Map<String, String>> getUserDetails() async {
+Future<Map<String, String>> _getUserDetails() async {
   final sp = SharedPrefsCustom();
   final name = await sp.getUserName();
   final email = await sp.getUserEmail();
@@ -149,7 +149,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         iconTheme: Theme.of(context).iconTheme.copyWith(color: Theme.of(context).canvasColor),
       ),
       body: FutureBuilder(
-        future: getUserDetails(),
+        future: _getUserDetails(),
         builder: (ctx, snapshot) {
           if (snapshot.hasData) {
             final Map<String, String> userDetails = snapshot.data;
