@@ -354,6 +354,7 @@ import 'package:project_hestia/model/request.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/new_req_screen.dart';
 import 'package:project_hestia/services/view_all_requests.dart';
+import 'package:project_hestia/services/view_my_requests.dart';
 import 'package:project_hestia/widgets/cust_sliver_app_bar.dart';
 import 'package:project_hestia/widgets/requests_delete_card.dart';
 
@@ -436,7 +437,7 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
         ),
       ),
       body: FutureBuilder(
-        future: getAllRequests(),
+        future: getMyRequests(),
         builder: (ctx, snapshot) {
           if (snapshot.hasData) {
             AllRequests allRequests = snapshot.data;

@@ -34,6 +34,8 @@ dependencies:
   geocoder:
   permission_handler:
   fluttertoast:
+  flutter_socket_io:
+  web_socket_channel:
 
 dev_dependencies:
   flutter_test:

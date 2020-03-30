@@ -1,15 +1,14 @@
 import 'dart:io';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:project_hestia/model/global.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_hestia/services/shared_prefs_custom.dart';
+import '../model/request.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:project_hestia/services/view_all_requests.dart';
 
-deleteRequest(String id) async {
-  String result;
+Future<AllRequests> getMyRequests() async {
+  AllRequests allRequests;
   Position position;
   PermissionStatus permissionStatus =
       await PermissionHandler().checkPermissionStatus(PermissionGroup.location);
@@ -18,10 +17,15 @@ deleteRequest(String id) async {
         await PermissionHandler()
             .requestPermissions([PermissionGroup.location]);
     if (permissions[PermissionGroup.location] != PermissionStatus.granted) {
-      return 'Required Permissions Not Granted';
+      return AllRequests(
+          message: 'Required Permissions Not Granted', request: []);
     }
   }
   try {
+    ServiceStatus serviceStatus = await PermissionHandler().checkServiceStatus(PermissionGroup.location);
+    if(serviceStatus == ServiceStatus.disabled){
+      return AllRequests(message: 'Your location is disabled', request: []);
+    }
     GeolocationStatus geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
     if (geolocationStatus == GeolocationStatus.unknown) {
@@ -33,35 +37,44 @@ deleteRequest(String id) async {
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
     final address = await Geocoder.local.findAddressesFromCoordinates(
         Coordinates(position.latitude, position.longitude));
-  
+    //TODO: remove later
+    // for (int i = 0; i < address.length; i++) {
+    //   print("addr line"+address[i].addressLine);
+    //   print("admin area"+address[i].adminArea);
+    //   print("country"+address[i].countryName);
+    //   print("feature name "+address[i].featureName);
+    //   print("locality "+address[i].locality);
+    //   print("postal code "+address[i].postalCode);
+    //   print("sub admin area "+address[i].subAdminArea);
+    //   print("sub locality"+address[i].subLocality);
+    //   print("STF "+address[i].subThoroughfare);
+    // }
     print(address.first.locality);
     final uri = Uri.https(
       ITEM_REQUEST_BASE_URL,
-      URL_NEW_REQUEST+id+"/",
+      URL_VIEW_MY_REQUESTS,
+      {'location': address.first.locality},
     );
-    print(ITEM_REQUEST_BASE_URL+
-      URL_NEW_REQUEST+id+"/");
+    print("URI in my request is "+uri.toString());
     final token = await SharedPrefsCustom().getToken();
-    final response = await http.delete(
+    final response = await http.get(
       uri,
       headers: {
         HttpHeaders.authorizationHeader: token,
       },
     );
-    print("Response for delete is "+response.body.toString());
+    // print(response.statusCode);
+    // print(jsonDecode(response.body));
     if (response.statusCode == 200) {
-      result = "Request successfully deleted";
-      getAllRequests();
-      Fluttertoast.showToast(msg: "Request successfully deleted");
+      allRequests = allRequestsFromJson(response.body);
     } else if (response.statusCode == 204) {
-      result = 'No requests found';
-      Fluttertoast.showToast(msg: "No requests found");
+      allRequests = AllRequests(message: 'No requests found', request: []);
     } else {
-      result = 'Something\'s wrong on our end';
-      Fluttertoast.showToast(msg: "Something\'s wrong on our end");
+      allRequests =
+          AllRequests(message: 'Something\'s wrong on our end', request: []);
     }
   } catch (e) {
     print(e.toString());
   }
-  return result;
+  return allRequests;
 }

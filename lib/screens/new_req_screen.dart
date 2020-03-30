@@ -96,7 +96,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
     final body = jsonEncode(request);
     print(body);
     try {
-      final uri = Uri.https(REQUEST_BASE_URL, URL_NEW_REQUEST);
+      final uri = Uri.https(ITEM_REQUEST_BASE_URL, URL_NEW_REQUEST);
       final response = await http.post(
         uri,
         headers: {

@@ -52,10 +52,11 @@ Future<AllRequests> getAllRequests() async {
     // }
     print(address.first.locality);
     final uri = Uri.https(
-      REQUEST_BASE_URL,
+      ITEM_REQUEST_BASE_URL,
       URL_VIEW_ALL_REQUESTS,
       {'location': address.first.locality},
     );
+    print("URI in all requests is "+uri.toString());
     final token = await SharedPrefsCustom().getToken();
     final response = await http.get(
       uri,
