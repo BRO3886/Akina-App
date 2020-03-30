@@ -146,9 +146,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).canvasColor,
         elevation: 0,
-        iconTheme: Theme.of(context).iconTheme.copyWith(color: Theme.of(context).canvasColor),
+        iconTheme: Theme.of(context)
+            .iconTheme
+            .copyWith(color: Theme.of(context).canvasColor),
       ),
       body: FutureBuilder(
         future: _getUserDetails(),
@@ -165,7 +168,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         MyBackButton(),
-                        SizedBox(width: 25,),
+                        SizedBox(
+                          width: 25,
+                        ),
                         Text(
                           'Edit Profile',
                           style: screenHeadingStyle,

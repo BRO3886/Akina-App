@@ -98,9 +98,32 @@ class _RequestDeleteCardState extends State<RequestDeleteCard> {
                           showDialog(
                             context: context,
                             child: AlertDialog(
-                              content: Text(
-                                'Request Deleted',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                              content: Container(
+                                height: 120,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    CircleAvatar(
+                                      child: Icon(
+                                        Icons.delete,
+                                        color: colorWhite,
+                                        size: 30,
+                                      ),
+                                      radius: 30,
+                                      backgroundColor: colorRed,
+                                    ),
+                                    Text(
+                                      'Your Request has been deleted',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                               actions: <Widget>[
                                 FlatButton(

@@ -263,7 +263,7 @@ class ProfilePage extends StatelessWidget {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      Text('My Chats'),
+                                      Text('Chats and Suggestions'),
                                       Container(
                                           margin: EdgeInsets.only(left: 18.0),
                                           child: Text(

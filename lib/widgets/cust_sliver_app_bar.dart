@@ -33,7 +33,7 @@ class MySliverAppBar extends StatelessWidget {
         ),
       ),
       actions: <Widget>[
-        ProfileIcon(),
+        ProfileIcon(enabled: isReplaced,),
       ],
       backgroundColor: Theme.of(context).canvasColor,
     );

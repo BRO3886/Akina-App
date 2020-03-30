@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:project_hestia/Profile/profilePage.dart';
 import 'package:project_hestia/model/util.dart';
-import 'package:project_hestia/screens/login.dart';
-import 'package:project_hestia/services/google_auth.dart';
-import 'package:project_hestia/services/shared_prefs_custom.dart';
-
-enum Options {
-  Profile,
-  Logout,
-}
-
 
 class ProfileIcon extends StatelessWidget {
+  final bool enabled;
   const ProfileIcon({
+    @required this.enabled,
     Key key,
   }) : super(key: key);
 
@@ -28,12 +21,14 @@ class ProfileIcon extends StatelessWidget {
             // backgroundColor: mainColor,
             onPressed: () {
               print("navigate to profile");
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (BuildContext context) => ProfilePage(),
-                ),
-              );
+              if (enabled) {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (BuildContext context) => ProfilePage(),
+                  ),
+                );
+              }
             },
             icon: Icon(
               Icons.account_circle,
