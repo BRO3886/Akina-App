@@ -1,29 +1,15 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:project_hestia/Profile/edit_profile.dart';
 import 'package:project_hestia/Profile/myChats.dart';
 import 'package:project_hestia/Profile/myRequests.dart';
-import 'package:project_hestia/model/global.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/services/google_auth.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
-import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:project_hestia/widgets/my_back_button.dart';
 
-class ProfilePage extends StatefulWidget {
-  static const routename = "/profile";
-  ProfilePage({Key key, this.userID}) : super(key: key);
-  final String userID;
-
-  @override
-  ProfilePageState createState() => ProfilePageState();
-}
-
-class ProfilePageState extends State<ProfilePage> {
-  resetVariables() async {
+resetVariables() async {
     final sp = SharedPrefsCustom();
     bool gauthUsed = await sp.getIfUsedGauth();
     if (gauthUsed != null) {
@@ -35,10 +21,7 @@ class ProfilePageState extends State<ProfilePage> {
     sp.setIfUsedGauth(false);
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
+class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {

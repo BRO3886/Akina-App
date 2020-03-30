@@ -6,7 +6,6 @@ import 'package:project_hestia/screens/new_req_screen.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 import 'package:project_hestia/services/view_all_requests.dart';
 import 'package:project_hestia/widgets/cust_sliver_app_bar.dart';
-import 'package:project_hestia/widgets/profile_icon.dart';
 import 'package:project_hestia/widgets/requests_card.dart';
 
 class RequestsFeedScreen extends StatefulWidget {
@@ -20,7 +19,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
   ScrollController fabController = ScrollController();
 
   var _fabIsVisible = true;
-  bool _dataIsLoaded = false;
+  // bool _dataIsLoaded = false;
   double _fabHeight = 55;
   double _fabWidth = 55;
 

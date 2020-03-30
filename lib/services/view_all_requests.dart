@@ -38,18 +38,6 @@ Future<AllRequests> getAllRequests() async {
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
     final address = await Geocoder.local.findAddressesFromCoordinates(
         Coordinates(position.latitude, position.longitude));
-    //TODO: remove later
-    // for (int i = 0; i < address.length; i++) {
-    //   print("addr line"+address[i].addressLine);
-    //   print("admin area"+address[i].adminArea);
-    //   print("country"+address[i].countryName);
-    //   print("feature name "+address[i].featureName);
-    //   print("locality "+address[i].locality);
-    //   print("postal code "+address[i].postalCode);
-    //   print("sub admin area "+address[i].subAdminArea);
-    //   print("sub locality"+address[i].subLocality);
-    //   print("STF "+address[i].subThoroughfare);
-    // }
     print(address.first.locality);
     final uri = Uri.https(
       ITEM_REQUEST_BASE_URL,

@@ -131,7 +131,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                     width: MediaQuery.of(context).size.width * 0.05,
                   ),
                   Text(
-                    'HESTIA',
+                    'AKINA',
                     style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w800,

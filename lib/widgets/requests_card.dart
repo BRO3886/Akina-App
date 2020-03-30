@@ -1,15 +1,10 @@
-import 'package:ant_icons/ant_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/create_shop_suggestion.dart';
-import 'package:project_hestia/screens/show_shop_suggestios.dart';
 import 'package:project_hestia/services/accept_request.dart';
 import 'package:project_hestia/services/date_formatter.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
-import 'package:project_hestia/widgets/accept_dialog_box.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../model/request.dart';
 
 class RequestCard extends StatefulWidget {

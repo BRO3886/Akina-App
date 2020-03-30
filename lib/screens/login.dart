@@ -3,7 +3,6 @@ import 'package:ant_icons/ant_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:project_hestia/Profile/edit_profile.dart';
 import 'package:project_hestia/model/global.dart';
 import 'package:project_hestia/screens/home_screen.dart';
 import 'package:project_hestia/screens/register.dart';
@@ -62,12 +61,10 @@ class _LoginScreenState extends State<LoginScreen> {
       dialogLoading = true;
     });
     print(userInfo['email']);
-    //TODO: --good practice-- remove later
-    final uri = 'https://hestia-auth.herokuapp.com/api/user/forgotPassword';
     print("encoded");
     try {
       final response = await http.post(
-        uri,
+        URL_RESET_PASSWORD,
         body: {
           'email': userInfo['email'],
         },
@@ -180,12 +177,9 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       isLoading = true;
     });
-    //TODO: --good practice-- remove later
-    String verificationUri =
-        'https://hestia-auth.herokuapp.com/api/user/verifyuser';
     try {
       final response = await http.post(
-        verificationUri,
+        URL_USER_VERIFY,
         body: {
           'email': userInfo['email'],
         },
@@ -330,7 +324,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: MediaQuery.of(context).size.width * 0.05,
                   ),
                   Text(
-                    'HESTIA',
+                    'AKINA',
                     style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w800,

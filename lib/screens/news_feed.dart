@@ -3,7 +3,7 @@ import 'package:project_hestia/model/news.dart';
 import 'package:project_hestia/services/get_news.dart';
 import 'package:project_hestia/widgets/cust_sliver_app_bar.dart';
 import 'package:project_hestia/widgets/news_card.dart';
-import 'package:project_hestia/widgets/profile_icon.dart';
+
 
 class NewsFeedScreen extends StatelessWidget {
   static const routename = "/newsfeed";
