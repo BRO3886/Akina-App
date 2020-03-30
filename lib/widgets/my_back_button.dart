@@ -16,6 +16,7 @@ class MyBackButton extends StatelessWidget {
           child: Icon(
             Icons.arrow_back_ios,
             color: colorWhite,
+            semanticLabel: 'Back',
             size: 15,
           ),
           // radius: 16.8,

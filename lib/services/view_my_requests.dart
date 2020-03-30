@@ -56,7 +56,7 @@ Future<AllRequests> getMyRequests() async {
       return AllRequests(message: 'No requests found.', request: []);
     } else if (response.statusCode == 200) {
       AllRequests allRequests = allRequestsFromJson(response.body);
-      allRequests.request = allRequests.request.reversed.toList();
+      allRequests.request.sort((a,b)=>b.dateTimeCreated.compareTo(a.dateTimeCreated));
       return allRequests;
 
     } else {

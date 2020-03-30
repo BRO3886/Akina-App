@@ -46,7 +46,10 @@ class _RequestCardState extends State<RequestCard> {
           contentPadding: EdgeInsets.only(top: 2, left: 14, right: 14),
           title: Row(
             children: <Widget>[
-              Text(widget.request.itemName),
+              Text(
+                widget.request.itemName,
+                overflow: TextOverflow.ellipsis,
+              ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 10),
                 height: 15,
@@ -55,6 +58,7 @@ class _RequestCardState extends State<RequestCard> {
               ),
               Text(
                 widget.request.quantity,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontWeight: FontWeight.w500),
               ),
             ],
