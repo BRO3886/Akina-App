@@ -42,7 +42,6 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     super.initState();
     getValues();
     showChats();
-    
 
     var URL = 'ws://hestia-chat.herokuapp.com/api/v1/ws?chat=' +
         widget.receiverID.toString();
@@ -109,7 +108,6 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     Timer(Duration(milliseconds: 0),
         () => _controller.jumpTo(_controller.position.maxScrollExtent));
     return messages;
-    
   }
 
   @override
@@ -227,10 +225,16 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                                       suffix: GestureDetector(
                                         onTap: () {
                                           sendMessage();
+                                          Timer(
+                                              Duration(milliseconds: 0),
+                                              () => _controller.jumpTo(
+                                                  _controller.position
+                                                      .maxScrollExtent));
                                         },
                                         child: Container(
-                                            margin: EdgeInsets.only(
-                                                left: 5.0, right: 5),
+                                            // margin: EdgeInsets.all(5),
+                                            width: 50,
+                                            // color: colorRed,
                                             child: Text(
                                               'Send',
                                               style: TextStyle(
