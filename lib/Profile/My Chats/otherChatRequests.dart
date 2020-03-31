@@ -128,7 +128,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                           style: TextStyle(fontSize: 17.0),
                                         ),
                                       ),
-                                      Text('Item',
+                                      Text(listOtherChats[index].title,
                                           style: TextStyle(
                                               color: colorGrey, fontSize: 13.0))
                                     ],
@@ -145,6 +145,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                                 receiverID:
                                                     listOtherChats[index]
                                                         .receiver,
+                                                itemName: listOtherChats[index].title,
                                               )));
                                 },
                                 child: Container(

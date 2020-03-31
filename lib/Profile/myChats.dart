@@ -347,7 +347,7 @@ class MyChatsPageState extends State<MyChatsPage> {
                                       ? mainColor
                                       : colorWhite),
                               child: Text(
-                                'All Requests',
+                                'Others Requests',
                                 style: TextStyle(
                                     color: pressAttentionAllText
                                         ? colorWhite
