@@ -295,7 +295,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
             ),
             Container(
               color: colorWhite,
-              margin: EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(10.0),
               child : Form(
                   key: _key,
                   autovalidate: _validate,

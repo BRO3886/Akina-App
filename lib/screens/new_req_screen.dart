@@ -172,6 +172,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                 child: Column(
                   children: <Widget>[
                     TextFormField(
+                      maxLength: 100,
                       controller: _itemNameController,
                       textCapitalization: TextCapitalization.words,
                       decoration: InputDecoration(
@@ -193,6 +194,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                       height: 20,
                     ),
                     TextFormField(
+                      maxLength: 100,
                       controller: _quantityController,
                       // textCapitalization: TextCapitalization.words,
                       decoration: InputDecoration(
@@ -235,6 +237,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                       height: 20,
                     ),
                     TextFormField(
+                      maxLength: 100,
                       enabled: customLocation,
                       controller: _locationController,
                       textCapitalization: TextCapitalization.words,

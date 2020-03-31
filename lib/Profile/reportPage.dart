@@ -94,6 +94,8 @@ class _ReportScreenState extends State<ReportScreen> {
                 child: Column(
                   children: <Widget>[
                     TextFormField(
+                      maxLength: 250,
+                      maxLines: 10,
                       controller: dataController,
                       textCapitalization: TextCapitalization.words,
                       decoration: InputDecoration(

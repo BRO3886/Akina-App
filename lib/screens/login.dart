@@ -420,7 +420,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 30,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         (isLoading)
                             ? Center(child: CircularProgressIndicator())
@@ -448,7 +448,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 onPressed: _login,
                               ),
-                        SizedBox(
+                        /*SizedBox(
                           width: MediaQuery.of(context).size.width * 0.05,
                         ),
                         RaisedButton(
@@ -484,7 +484,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   .pushReplacementNamed(MyHomeScreen.routename);
                             }
                           },
-                        )
+                        )*/
                       ],
                     ),
                   ],

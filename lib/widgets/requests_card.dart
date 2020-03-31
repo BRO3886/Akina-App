@@ -106,7 +106,7 @@ class _RequestCardState extends State<RequestCard> {
               GestureDetector(
                 onTap: () {
                   if (widget.requestStatus == true || (accept == true)) {
-                    acceptRequest(widget.request.id.toString(),
+                    acceptRequest(context,widget.request.id.toString(),
                         widget.request.itemName, widget.request.requestMadeBy);
                     Navigator.of(context).maybePop();
                   } else if (widget.requestStatus == false ||
@@ -176,7 +176,7 @@ class _RequestCardState extends State<RequestCard> {
                             textColor: colorWhite,
                             onPressed: () {
                               acceptRequest(
-                                  itemID.toString(), itemName, receiverID);
+                                  context, itemID.toString(), itemName, receiverID);
                               Navigator.of(context).maybePop();
                             },
                             child: Row(
