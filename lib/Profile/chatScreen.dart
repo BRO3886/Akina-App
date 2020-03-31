@@ -312,6 +312,7 @@ Future<Messages> showChats() async{
                     children: <Widget>[
                       Expanded(
                         child : TextFormField(
+                        controller: controller,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.only(left: 5.0, right: 5.0),
                           fillColor: colorWhite,
