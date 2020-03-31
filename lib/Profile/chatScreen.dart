@@ -16,16 +16,18 @@ import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class ChatScreenPage extends StatefulWidget {
-  ChatScreenPage({Key key, this.senderID, this.receiverID}) : super(key: key);
+  ChatScreenPage({Key key, this.senderID, this.receiverID, @required this.itemName}) : super(key: key);
   final int senderID, receiverID;
+  final String itemName;
 
   @override
   ChatScreenPageState createState() => ChatScreenPageState();
 }
 
 class ChatScreenPageState extends State<ChatScreenPage> {
-  ChatScreenPageState({this.senderID, this.receiverID});
+  ChatScreenPageState({this.senderID, this.receiverID, this.itemName});
   final int senderID, receiverID;
+  final String itemName;
   @override
   void initState() {
     super.initState();
@@ -152,7 +154,7 @@ Future<Messages> showChats() async{
                               'Person Name',
                               style: TextStyle(color: colorBlack, fontSize: 20.0, fontWeight: FontWeight.bold),
                             ),
-                            Text('Item Name')
+                            Text(widget.itemName)
                           ],
                         ),
                         GestureDetector(
@@ -172,24 +174,24 @@ Future<Messages> showChats() async{
                       ],
                     ),
                   ),
-                  new Expanded(
+                  /*new Expanded(
                     child: StreamBuilder(
                     stream: channel.stream,
                     builder: (context, snapshot) {
                       if(snapshot.hasData){
                         setState(() {
-                          messages.msgs.add(json.decode(snapshot.data));
+                          //messages.msgs.add(json.decode(snapshot.data));
                         });
                       }
-                      return snapshot.hasData ? 
+                      return Container(); /*snapshot.hasData ? 
                         Text(
                           snapshot.data.toString(),
                         )
                         :
-                        CircularProgressIndicator();
+                        CircularProgressIndicator();*/
                     },
                   ),
-                  ),
+                  ),*/
                   new Expanded(
                   child : bodyMessages(),
                   /*FutureBuilder(
@@ -350,7 +352,12 @@ Future<Messages> showChats() async{
         child: CircularProgressIndicator()
       );
     }
-    else if(snapshot=='Got Data'){
+    if(snapshot=='Got Data' && messages.msgs.length==0){
+      return Center(
+        child: Text("No messages found"),
+      );
+    }
+    else if(snapshot=='Got Data' && messages.msgs.length>0){
       return ListView.builder(
         itemCount: messages.msgs.length,
         itemBuilder: (BuildContext ctxt, int index) {
@@ -363,7 +370,7 @@ Future<Messages> showChats() async{
             decoration: BoxDecoration(
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                      blurRadius: 3.0,
+                      blurRadius: 0.0,
                       color: Colors.grey[600],
                       offset: Offset(0.5, 0.5))
                 ],
@@ -375,13 +382,13 @@ Future<Messages> showChats() async{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
+                /*Container(
                   margin: EdgeInsets.only(top: 0.0, bottom: 10.0),
                   child : Text(messages.msgs[index].title, style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, color: (messages.msgs[index].sender.toString() != userID.toString()) ? colorBlack : colorWhite,),),
-                ),
+                ),*/
                 Container(
                   margin: EdgeInsets.only(top: 0.0, bottom: 10.0),
-                  child : Text('Item', style: TextStyle(color: (messages.msgs[index].sender.toString() != userID.toString()) ? colorBlack : colorWhite, fontSize: 13.0,)),
+                  child : Text(messages.msgs[index].title, style: TextStyle(color: (messages.msgs[index].sender.toString() != userID.toString()) ? colorBlack : colorWhite, fontSize: 13.0,)),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 0.0, bottom: 10.0),

@@ -158,7 +158,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                           style: TextStyle(fontSize: 17.0),
                                         ),
                                       ),
-                                      Text('Item',
+                                      Text(listMyChats[index].title,
                                           style: TextStyle(
                                               color: colorGrey, fontSize: 13.0))
                                     ],
@@ -174,6 +174,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                                     listMyChats[index].sender,
                                                 receiverID:
                                                     listMyChats[index].receiver,
+                                                itemName: listMyChats[index].title,
                                               )));
                                 },
                                 child: Container(
@@ -203,37 +204,5 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
         },
       )
     ]));
-  }
-
-  Map<String, String> data_create_chat = {
-    'receiver': "",
-    'sender': "",
-    'title': "",
-  };
-
-  createChat(String r, String s, String t) async {
-    data_create_chat["receiver"] = r;
-    data_create_chat["sender"] = s;
-    data_create_chat["title"] = t;
-    try {
-      final token = await SharedPrefsCustom().getToken();
-      final response = await http.post(URL_CREATE_CHAT,
-          headers: {
-            HttpHeaders.authorizationHeader: token,
-          },
-          body: json.encode({'receiver': 27, 'sender': 21, 'title': "Hello"}));
-      //print("response is "+response.body.toString());
-      final result = json.decode(response.body);
-      if (response.statusCode == 200) {
-        Navigator.push(
-            context,
-            new MaterialPageRoute(
-                builder: (BuildContext context) => ChatScreenPage()));
-      } else {
-        Fluttertoast.showToast(msg: result['message']);
-      }
-    } catch (e) {
-      print(e.toString());
-    }
   }
 }
