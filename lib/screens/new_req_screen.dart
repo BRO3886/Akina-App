@@ -24,6 +24,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
   TextEditingController _itemNameController = TextEditingController();
   TextEditingController _quantityController = TextEditingController();
   TextEditingController _locationController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
   final GlobalKey<ScaffoldState> _snackBarKey = GlobalKey<ScaffoldState>();
   bool isLoading = false;
   bool customLocation = false;
@@ -32,6 +33,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
     "item_name": "",
     "quantity": "",
     "location": "",
+    "description":"",
   };
 
   _showSnackBar(int code, String msg) {
@@ -209,6 +211,25 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                           return "This field is required";
                         }
                       },
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: _descriptionController,
+                      // textCapitalization: TextCapitalization.words,
+                      maxLines: 3,
+                      autocorrect: true,
+                      decoration: InputDecoration(
+                        labelText: 'Description',
+                        alignLabelWithHint: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          gapPadding: 10,
+                        ),
+                      ),
+                      // onChanged: (value) => _itemNameController.text = value,
+                      onSaved: (value) => request['description'] = value,
                     ),
                     SizedBox(
                       height: 20,

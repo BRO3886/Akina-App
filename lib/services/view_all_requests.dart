@@ -57,12 +57,12 @@ Future<AllRequests> getAllRequests() async {
       },
     );
     //print("Token is "+token);
-    //print(response.statusCode);
+    print(response.statusCode);
     //print("Response in view all requests is "+response.toString());
     if (response.statusCode == 200) {
       allRequests = allRequestsFromJson(response.body);
       //print("Body of view all requests is"+response.body.toString());
-      allRequests.request.sort((a,b)=>b.dateTimeCreated.compareTo(a.dateTimeCreated));
+      allRequests.request.sort((a,b)=>b.id.compareTo(a.id));
     } else if (response.statusCode == 204) {
       allRequests = AllRequests(message: 'No requests found', request: []);
     } else {

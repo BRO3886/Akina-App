@@ -44,7 +44,7 @@ class NewsCard extends StatelessWidget {
                   child: Text(
                     newsItem.title,
                     softWrap: false,
-                    overflow: TextOverflow.fade,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 16,
                     ),
