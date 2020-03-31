@@ -123,7 +123,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
           return data;
         },
         child: FutureBuilder(
-          future: getAllRequests(),
+          future: data,
           builder: (ctx, snapshot) {
             if (snapshot.hasData) {
               AllRequests allRequests = snapshot.data;
