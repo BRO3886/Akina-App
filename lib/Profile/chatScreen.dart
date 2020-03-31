@@ -33,6 +33,7 @@ class ChatScreenPage extends StatefulWidget {
 }
 
 class ChatScreenPageState extends State<ChatScreenPage> {
+  ScrollController _controller = ScrollController();
   ChatScreenPageState({this.senderID, this.receiverID, this.itemName});
   final int senderID, receiverID;
   final String itemName;
@@ -41,6 +42,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     super.initState();
     getValues();
     showChats();
+    
 
     var URL = 'ws://hestia-chat.herokuapp.com/api/v1/ws?chat=' +
         widget.receiverID.toString();
@@ -104,7 +106,10 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     } catch (e) {
       print("Error in getting messages is " + e.toString());
     }
+    Timer(Duration(milliseconds: 0),
+        () => _controller.jumpTo(_controller.position.maxScrollExtent));
     return messages;
+    
   }
 
   @override
@@ -181,7 +186,10 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                           },
                           child: Container(
                             //margin: EdgeInsets.only(right: 10.0),
-                            child: SvgPicture.asset('assets/images/report.svg', width: 30,),
+                            child: SvgPicture.asset(
+                              'assets/images/report.svg',
+                              width: 30,
+                            ),
                           ),
                         ),
                       ],
@@ -202,11 +210,34 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                             children: <Widget>[
                               Expanded(
                                 child: TextFormField(
+                                    onTap: () {
+                                      Timer(
+                                          Duration(milliseconds: 300),
+                                          () => _controller.jumpTo(_controller
+                                              .position.maxScrollExtent));
+                                    },
                                     controller: controller,
+                                    // enableSuggestions: true,
+                                    maxLines: 5,
+                                    minLines: 1,
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.only(
                                           left: 5.0, right: 5.0),
-                                      fillColor: colorWhite,
+                                      // fillColor: colorWhite,
+                                      suffix: GestureDetector(
+                                        onTap: () {
+                                          sendMessage();
+                                        },
+                                        child: Container(
+                                            margin: EdgeInsets.only(
+                                                left: 5.0, right: 5),
+                                            child: Text(
+                                              'Send',
+                                              style: TextStyle(
+                                                  color: mainColor,
+                                                  fontWeight: FontWeight.bold),
+                                            )),
+                                      ),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(5),
                                         gapPadding: 5,
@@ -222,19 +253,6 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                                       });
                                     }),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  sendMessage();
-                                },
-                                child: Container(
-                                    margin: EdgeInsets.only(left: 5.0),
-                                    child: Text(
-                                      'Send',
-                                      style: TextStyle(
-                                          color: mainColor,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                              )
                             ],
                           )))
                 ])));
@@ -250,6 +268,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
       );
     } else if (snapshot == 'Got Data' && messages.msgs.length > 0) {
       return ListView.builder(
+          controller: _controller,
           itemCount: messages.msgs.length,
           itemBuilder: (BuildContext ctxt, int index) {
             return Stack(
@@ -380,6 +399,9 @@ class ChatScreenPageState extends State<ChatScreenPage> {
         controller.text = '';
         controller.clear();
       });
+
+      Timer(Duration(milliseconds: 500),
+          () => _controller.jumpTo(_controller.position.maxScrollExtent));
       try {
         final token = await SharedPrefsCustom().getToken();
         final response = await http.post(URL_CREATE_MESSAGE,
