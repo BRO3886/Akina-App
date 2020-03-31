@@ -26,7 +26,7 @@ class _RequestCardState extends State<RequestCard> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 25, vertical: 14),
       width: MediaQuery.of(context).size.width,
-      height: 125,
+      // height: 125,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
         decoration: BoxDecoration(
@@ -62,6 +62,7 @@ class _RequestCardState extends State<RequestCard> {
                 child: Text(
                   widget.request.quantity,
                   softWrap: false,
+                  style: TextStyle(fontWeight: FontWeight.w600),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -69,37 +70,51 @@ class _RequestCardState extends State<RequestCard> {
           ),
           subtitle: Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Text(dateFormatter(widget.request.dateTimeCreated)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(dateFormatter(widget.request.dateTimeCreated)),
+                Text(
+                  widget.request.description ??
+                      'This is a small description since the backend is not taking the description into account',
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
           ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              GestureDetector(
-                onTap: () {
-                  if (shopStatus == true || shop == true) {
-                    //Navigator.of(context).maybePop();
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                CreateShopSuggestionScreen(
-                                  userID: widget.request.id.toString(),
-                                  itemName: widget.request.itemName,
-                                )));
-                  } else if (shopStatus == false || shopStatus == null) {
-                    suggestShop(context, widget.request.id.toString(),
-                        widget.request.itemName.toString());
-                  }
-                },
-                child: Tooltip(
-                  message: 'Suggest a shop',
-                  child: CircleAvatar(
-                    child: SvgPicture.asset("assets/images/store.svg"),
-                    maxRadius: 15,
-                    backgroundColor: mainColor,
+          trailing: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () {
+                    if (shopStatus == true || shop == true) {
+                      //Navigator.of(context).maybePop();
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  CreateShopSuggestionScreen(
+                                    userID: widget.request.id.toString(),
+                                    itemName: widget.request.itemName,
+                                  )));
+                    } else if (shopStatus == false || shopStatus == null) {
+                      suggestShop(context, widget.request.id.toString(),
+                          widget.request.itemName.toString());
+                    }
+                  },
+                  child: Tooltip(
+                    message: 'Suggest a shop',
+                    child: CircleAvatar(
+                      child: SvgPicture.asset("assets/images/store.svg"),
+                      maxRadius: 15,
+                      backgroundColor: mainColor,
+                    ),
                   ),
                 ),
-              ),
+              
               SizedBox(
                 width: 10,
               ),
@@ -123,8 +138,8 @@ class _RequestCardState extends State<RequestCard> {
                     backgroundColor: mainColor,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

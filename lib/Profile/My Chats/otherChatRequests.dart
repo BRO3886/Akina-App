@@ -45,13 +45,12 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
   List<Accept> listViewAccept = [];
 
   Future<List<Chat>> getOtherChats() async {
-    
     final userId = await SharedPrefsCustom().getUserId();
     data_passed['user_id'] = userId;
     //
-    
-    print("Body in other chats is "+data_passed.toString());
-  
+
+    print("Body in other chats is " + data_passed.toString());
+
     var sp = SharedPrefsCustom();
     final token = await sp.getToken();
     //print(token);
@@ -64,14 +63,14 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
         body: json.encode(data_passed),
       );
 
-      print("Response of other chats is "+response.statusCode.toString());
+      print("Response of other chats is " + response.statusCode.toString());
       final data = json.decode(response.body);
       //print('Data in other chats is '+data.toString());
       if (response.statusCode == 200) {
         setState(() {
           listOtherChats = Chats.fromJson(data).chats;
         });
-        print("List is "+listOtherChats[0].toString());
+        print("List is " + listOtherChats[0].toString());
       } else {
         setState(() {
           listOtherChats = [];
@@ -95,78 +94,101 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                 child: ListView.builder(
                     itemCount: listOtherChats.length,
                     itemBuilder: (BuildContext ctxt, int index) {
-                      return Container(
-                          margin: EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                  blurRadius: 5,
-                                  spreadRadius: 0,
-                                  color: Color(0x23000000),
-                                ),
-                              ],
-                              shape: BoxShape.rectangle,
-                              color: colorWhite,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.only(
-                                      top: 20.0, left: 15.0, bottom: 20.0),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                            top: 0.0, bottom: 10.0),
-                                        child: Text(
-                                          listOtherChats[index]
-                                              .receiverName,
-                                          style: TextStyle(fontSize: 17.0),
-                                        ),
-                                      ),
-                                      Text(listOtherChats[index].title,
-                                          style: TextStyle(
-                                              color: colorGrey, fontSize: 13.0))
-                                    ],
-                                  )),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      new MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              ChatScreenPage(
-                                                senderID: listOtherChats[index]
-                                                    .sender,
-                                                receiverID:
-                                                    listOtherChats[index]
-                                                        .receiver,
-                                                itemName: listOtherChats[index].title,
-                                                personName: listOtherChats[index].receiverName,
-                                              )));
-                                },
-                                child: Container(
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                              builder: (BuildContext context) => ChatScreenPage(
+                                senderID: listOtherChats[index].sender,
+                                receiverID: listOtherChats[index].receiver,
+                                itemName: listOtherChats[index].title,
+                                personName: listOtherChats[index].receiverName,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Container(
+                            margin: EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 25),
+                            // margin: EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                    blurRadius: 5,
+                                    spreadRadius: 0,
+                                    color: Color(0x23000000),
+                                  ),
+                                ],
+                                shape: BoxShape.rectangle,
+                                color: colorWhite,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5))),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Container(
                                     margin: EdgeInsets.only(
-                                        top: 20.0, right: 15.0, bottom: 20.0),
-                                    padding: EdgeInsets.all(8.0),
-                                    decoration: new BoxDecoration(
-                                      color: mainColor,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: colorWhite,
-                                      size: 14.0,
+                                        top: 20.0, left: 15.0, bottom: 20.0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              top: 0.0, bottom: 10.0),
+                                          child: Text(
+                                            listOtherChats[index].receiverName,
+                                            style: TextStyle(fontSize: 17.0),
+                                          ),
+                                        ),
+                                        Text(listOtherChats[index].title,
+                                            style: TextStyle(
+                                                color: colorGrey,
+                                                fontSize: 13.0))
+                                      ],
                                     )),
-                              )
-                            ],
-                          ));
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                ChatScreenPage(
+                                                  senderID:
+                                                      listOtherChats[index]
+                                                          .sender,
+                                                  receiverID:
+                                                      listOtherChats[index]
+                                                          .receiver,
+                                                  itemName:
+                                                      listOtherChats[index]
+                                                          .title,
+                                                  personName:
+                                                      listOtherChats[index]
+                                                          .receiverName,
+                                                )));
+                                  },
+                                  child: Container(
+                                      margin: EdgeInsets.only(
+                                          top: 20.0, right: 15.0, bottom: 20.0),
+                                      padding: EdgeInsets.all(8.0),
+                                      decoration: new BoxDecoration(
+                                        color: mainColor,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: colorWhite,
+                                        size: 14.0,
+                                      )),
+                                )
+                              ],
+                            )),
+                      );
                     }));
           } else {
             return Text("No chats found");

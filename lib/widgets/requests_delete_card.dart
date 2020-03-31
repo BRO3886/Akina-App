@@ -17,12 +17,14 @@ class _RequestDeleteCardState extends State<RequestDeleteCard> {
   bool cardDeleted = false;
   @override
   Widget build(BuildContext context) {
+    widget.request.description =
+        'This is the full description since the backend is not taking the description into account';
     return (cardDeleted)
         ? Container()
         : Container(
             padding: EdgeInsets.symmetric(horizontal: 25, vertical: 14),
             width: MediaQuery.of(context).size.width,
-            height: 125,
+            // height: 125,
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
               decoration: BoxDecoration(
@@ -56,103 +58,105 @@ class _RequestDeleteCardState extends State<RequestDeleteCard> {
                     ),
                   ],
                 ),
-                subtitle: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(dateFormatter(widget.request.dateTimeCreated)),
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    GestureDetector(
-                      onTap: () async {
-                        if (cardDeleted == false) {
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            child: AlertDialog(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                              content: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  CircularProgressIndicator(),
-                                  // SizedBox(
-                                  //   width: 10,
-                                  // ),
-                                  Text(
-                                    'Deleting...',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }
-                        bool deleted =
-                            await deleteRequest(widget.request.id.toString());
-                        if (deleted == true) {
-                          Navigator.of(context).pop();
-                          setState(() {
-                            cardDeleted = true;
-                          });
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            child: AlertDialog(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              content: Container(
-                                height: 120,
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    CircleAvatar(
-                                      child: Icon(
-                                        Icons.delete,
-                                        color: colorWhite,
-                                        size: 30,
-                                      ),
-                                      radius: 30,
-                                      backgroundColor: colorRed,
-                                    ),
-                                    Text(
-                                      'Your Request has been deleted',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              actions: <Widget>[
-                                FlatButton(
-                                  textColor: mainColor,
-                                  child: Text('Close'),
-                                  onPressed: () =>
-                                      Navigator.of(context).maybePop(),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                      },
-                      child: Tooltip(
-                        message: 'Delete this request',
-                        child: CircleAvatar(
-                          child: Icon(
-                            Icons.delete,
-                            color: colorWhite,
-                            size: 18.0,
-                          ),
-                          maxRadius: 20,
-                          backgroundColor: colorRed,
-                        ),
-                      ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child:
+                          Text(dateFormatter(widget.request.dateTimeCreated)),
+                    ),
+                    Text(
+                      widget.request.description ?? '',
+                      textAlign: TextAlign.justify,
                     ),
                   ],
+                ),
+                trailing: GestureDetector(
+                  onTap: () async {
+                    if (cardDeleted == false) {
+                      showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        child: AlertDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          content: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              CircularProgressIndicator(),
+                              // SizedBox(
+                              //   width: 10,
+                              // ),
+                              Text(
+                                'Deleting...',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                    bool deleted =
+                        await deleteRequest(widget.request.id.toString());
+                    if (deleted == true) {
+                      Navigator.of(context).pop();
+                      setState(() {
+                        cardDeleted = true;
+                      });
+                      showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        child: AlertDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          content: Container(
+                            height: 120,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                CircleAvatar(
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: colorWhite,
+                                    size: 30,
+                                  ),
+                                  radius: 30,
+                                  backgroundColor: colorRed,
+                                ),
+                                Text(
+                                  'Your Request has been deleted',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            FlatButton(
+                              textColor: mainColor,
+                              child: Text('Close'),
+                              onPressed: () => Navigator.of(context).maybePop(),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  },
+                  child: Tooltip(
+                    message: 'Delete this request',
+                    child: CircleAvatar(
+                      child: Icon(
+                        Icons.delete,
+                        color: colorWhite,
+                        size: 18.0,
+                      ),
+                      maxRadius: 20,
+                      backgroundColor: colorRed,
+                    ),
+                  ),
                 ),
               ),
             ),

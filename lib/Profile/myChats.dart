@@ -1,28 +1,15 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_socket_io/socket_io_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_hestia/Profile/My%20Chats/myChatRequests.dart';
 import 'package:project_hestia/Profile/My%20Chats/otherChatRequests.dart';
 import 'package:project_hestia/Profile/chatScreen.dart';
-import 'package:project_hestia/model/getChats.dart';
-import 'package:project_hestia/model/getViewAccepts.dart';
-import 'package:project_hestia/model/global.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:project_hestia/screens/show_shop_suggestios.dart';
-import 'package:project_hestia/services/accept_request.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
-import 'package:project_hestia/services/view_accept_request.dart';
 import 'package:project_hestia/widgets/my_back_button.dart';
-import 'package:web_socket_channel/io.dart';
-import 'package:flutter/material.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:flutter_socket_io/flutter_socket_io.dart';
-import 'package:http/http.dart' as http;
 
 class MyChatsPage extends StatefulWidget {
   MyChatsPage({Key key}) : super(key: key);
@@ -223,8 +210,9 @@ class MyChatsPageState extends State<MyChatsPage> {
                         ),
                         Text(
                           'Chats and Suggestions',
+                          softWrap: false,
                           overflow: TextOverflow.ellipsis,
-                          style: screenHeadingStyle.copyWith(fontSize: 21),
+                          style: screenHeadingStyle.copyWith(fontSize: MediaQuery.of(context).size.width * 0.06),
                         ),
                         SizedBox(
                           width: 10,

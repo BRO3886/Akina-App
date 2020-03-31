@@ -27,18 +27,6 @@ class AllRequests {
         "Request": List<dynamic>.from(request.map((x) => x.toJson())),
     };
 }
-/*
- {
-            "id": 45,
-            "request_made_by": "13",
-            "item_name": "Nsnsnb",
-            "quantity": "1",
-            "location": "Guna",
-            "date_time_created": "2020-03-28T19:51:36.068251Z",
-            "accepted_by": "",
-            "key": 4
-        },
-*/
 
 class Request {
     int id;
@@ -46,7 +34,10 @@ class Request {
     String itemName;
     String quantity;
     String location;
+    String description;
     DateTime dateTimeCreated;
+    String acceptedBy;
+    int key;
 
     Request({
         this.id,
@@ -54,7 +45,10 @@ class Request {
         this.itemName,
         this.quantity,
         this.location,
+        this.description,
         this.dateTimeCreated,
+        this.acceptedBy,
+        this.key,
     });
 
     factory Request.fromJson(Map<String, dynamic> json) => Request(
@@ -63,7 +57,10 @@ class Request {
         itemName: json["item_name"],
         quantity: json["quantity"],
         location: json["location"],
+        description: json["description"] == null ? null : json["description"],
         dateTimeCreated: DateTime.parse(json["date_time_created"]),
+        acceptedBy: json["accepted_by"],
+        key: json["key"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -72,18 +69,9 @@ class Request {
         "item_name": itemName,
         "quantity": quantity,
         "location": location,
+        "description": description == null ? null : description,
         "date_time_created": dateTimeCreated.toIso8601String(),
+        "accepted_by": acceptedBy,
+        "key": key,
     };
 }
-
-
-// class Request {
-//   final String title;
-//   final int qty;
-//   final String dateTime;
-//   Request({
-//     @required this.title,
-//     @required this.qty,
-//     @required this.dateTime,
-//   });
-// }

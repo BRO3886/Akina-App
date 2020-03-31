@@ -10,6 +10,7 @@ import 'package:project_hestia/screens/home_screen.dart';
 import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
+import 'package:project_hestia/widgets/my_back_button.dart';
 
 class CreateShopSuggestionScreen extends StatefulWidget {
   CreateShopSuggestionScreen({@required this.userID, @required this.itemName});
@@ -85,6 +86,7 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
       appBar: AppBar(
         backgroundColor: Theme.of(context).canvasColor,
         centerTitle: true,
+        automaticallyImplyLeading: false,
         elevation: 0,
         iconTheme: Theme.of(context).iconTheme.copyWith(color: colorBlack),
       ),
@@ -94,9 +96,15 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                'Suggest a Shop',
-                style: screenHeadingStyle,
+              Row(
+                children: <Widget>[
+                  MyBackButton(),
+                  SizedBox(width: 25,),
+                  Text(
+                    'Suggest a Shop',
+                    style: screenHeadingStyle,
+                  ),
+                ],
               ),
               SizedBox(
                 height: 20,
@@ -161,6 +169,7 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                       autocorrect: true,
                       decoration: InputDecoration(
                         labelText: 'Description of the shop',
+                        alignLabelWithHint: true,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
                           gapPadding: 10,
@@ -207,6 +216,7 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                       maxLines: 3,
                       decoration: InputDecoration(
                         labelText: 'Extra Instruction',
+                        alignLabelWithHint: true,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
                           gapPadding: 10,
@@ -214,11 +224,6 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                       ),
                       // onChanged: (value) => _itemNameController.text = value,
                       onSaved: (value) => suggestionInfo['extra_instruction'] = value,
-                      validator: (value) {
-                        if (value == "") {
-                          return "This field is required";
-                        }
-                      },
                     ),
                     SizedBox(
                       height: 20,
