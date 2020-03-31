@@ -44,9 +44,9 @@ acceptRequest(String itemID, String itemName, String receiverID) async {
       },
       body: {
         'request_id':itemID.toString(),
-        'location': 'Noida'
+        'location': 'Surat'//address.first.locality
         
-        //TODO change locationaddress.first.locality
+        //TODO change location address.first.locality
       }
     );
     print("response is "+response.body.toString());
@@ -63,10 +63,12 @@ acceptRequest(String itemID, String itemName, String receiverID) async {
 }
 
 var bodyCreateChatRoom = {
-        'receiver': 1,
-        'sender': 2 ,
-        'title': ""
-      };
+    "request_sender": 4,
+    "request_receiver": 20,
+    "receiver": 4,
+    "sender": 20,
+    "title": "Sample chat"
+  };
 
 createChat(int sender, String receiver, String text) async{  
   print("I am in create chat");
@@ -80,12 +82,15 @@ createChat(int sender, String receiver, String text) async{
       body: json.encode({
         'receiver': int.parse(receiver),
         'sender': sender ,
-        'title': text
+        'title': text,
+        "request_sender": int.parse(receiver),
+	      "request_receiver": sender,
       })
     );
     print("response is "+response.body.toString());
     final result = json.decode(response.body);
-    if (result["status"] == 200) {
+    print("Result of create chat room is "+result.toString());
+    if (result["code"] == 200) {
       Fluttertoast.showToast(msg: 'Request accepted!');
     } else {
         Fluttertoast.showToast(msg: result['message']);

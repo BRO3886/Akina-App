@@ -9,7 +9,7 @@ import '../model/request.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 Future<AllRequests> getAllRequests() async {
-  print("I am in get all request");
+  //print("I am in get all request");
   AllRequests allRequests;
   Position position;
   PermissionStatus permissionStatus =
@@ -45,11 +45,10 @@ Future<AllRequests> getAllRequests() async {
       URL_VIEW_ALL_ITEM_REQUESTS,
       {
         //TODO change location
-        'location': 'Noida'
-        //address.first.locality
+        'location': 'Surat'//address.first.locality
       },
     );
-    print("URI in all requests is "+uri.toString());
+    //print("URI in all requests is "+uri.toString());
     final token = await SharedPrefsCustom().getToken();
     final response = await http.get(
       uri,
@@ -57,12 +56,12 @@ Future<AllRequests> getAllRequests() async {
         HttpHeaders.authorizationHeader: token,
       },
     );
-    print("Token is "+token);
-    print(response.statusCode);
-    print("Response in view all requests is "+response.toString());
+    //print("Token is "+token);
+    //print(response.statusCode);
+    //print("Response in view all requests is "+response.toString());
     if (response.statusCode == 200) {
       allRequests = allRequestsFromJson(response.body);
-      print("Body of view all requests is"+response.body.toString());
+      //print("Body of view all requests is"+response.body.toString());
       allRequests.request.sort((a,b)=>b.dateTimeCreated.compareTo(a.dateTimeCreated));
     } else if (response.statusCode == 204) {
       allRequests = AllRequests(message: 'No requests found', request: []);

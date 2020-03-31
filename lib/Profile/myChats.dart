@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_socket_io/socket_io_manager.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_hestia/Profile/My%20Chats/myChatRequests.dart';
 import 'package:project_hestia/Profile/My%20Chats/otherChatRequests.dart';
@@ -12,6 +13,7 @@ import 'package:project_hestia/model/getViewAccepts.dart';
 import 'package:project_hestia/model/global.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:flutter/foundation.dart';
+import 'package:project_hestia/screens/show_shop_suggestios.dart';
 import 'package:project_hestia/services/accept_request.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 import 'package:project_hestia/services/view_accept_request.dart';
@@ -238,10 +240,54 @@ class MyChatsPageState extends State<MyChatsPage> {
                       ],
                     ),
                   ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) => ShopSuggestionsScreen()));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 15.0, right: 15.0),
+                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                      //width: MediaQuery.of(context).size.width * 0.75,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 5,
+                            spreadRadius: 0,
+                            color: Color(0x23000000),
+                          ),
+                        ],
+                      ),
+                      child: ListTile(
+                        leading: SvgPicture.asset("assets/images/suggestions.svg", color: mainColor, ),
+                      trailing : Container(
+                        padding: EdgeInsets.all(8.0),
+                        decoration: new BoxDecoration(
+                          color: mainColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          color: colorWhite,
+                          size: 14.0,
+                        )),
+                        contentPadding: EdgeInsets.only(top: 2, left: 14, right: 14),
+                        title: Text(
+                          'Suggestions',
+                          textAlign: TextAlign.left,
+                        ),
+                      )
+                    ),
+                  ),
+
                   Container(
                     alignment: Alignment.center,
                     width: MediaQuery.of(context).size.width * 0.68,
-                    // padding: EdgeInsets.symmetric(vertical: 7.0),
+                    margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
                     decoration: new BoxDecoration(
                         color: colorWhite,
                         shape: BoxShape.rectangle,
@@ -310,8 +356,8 @@ class MyChatsPageState extends State<MyChatsPage> {
                       ],
                     ),
                   ),
+        
                   pressAttentionMy == true ? MyRequestsChatsPage(userID: userID,) : OtherRequestsChatsPage(userID: userID,)
-                
                 ])));
   }
 }

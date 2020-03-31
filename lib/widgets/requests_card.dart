@@ -48,7 +48,9 @@ class _RequestCardState extends State<RequestCard> {
           contentPadding: EdgeInsets.only(top: 2, left: 14, right: 14),
           title: Row(
             children: <Widget>[
-              Text(widget.request.itemName),
+              Text( 
+                (widget.request.itemName.length > 15 ) ? (widget.request.itemName).substring(0, 14)+".." : widget.request.itemName, 
+                overflow: TextOverflow.fade,),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 10),
                 height: 15,
@@ -68,16 +70,16 @@ class _RequestCardState extends State<RequestCard> {
               GestureDetector(
                 onTap: () {
                   if(shopStatus == true || shop == true){
-                    Navigator.of(context).maybePop();
+                    //Navigator.of(context).maybePop();
                     Navigator.push(
                         context,
                         new MaterialPageRoute(
                             builder:
                                 (BuildContext context) =>
-                                    CreateShopSuggestionScreen(id: widget.request.id.toString(),)));
+                                    CreateShopSuggestionScreen(userID: widget.request.id.toString(), itemName: widget.request.itemName,)));
                   }
                   else if(shopStatus == false || shopStatus == null){
-                    suggestShop(context, widget.request.id.toString());
+                    suggestShop(context, widget.request.id.toString(), widget.request.itemName.toString());
                   }
                 },
                 child: Tooltip(
@@ -222,7 +224,7 @@ class _RequestCardState extends State<RequestCard> {
 
   bool shop = false;
 
-  suggestShop(BuildContext context, String id){
+  suggestShop(BuildContext context, String userID, String itemName){
     return showDialog(
     context: context,
     builder: (context) {
@@ -255,13 +257,13 @@ class _RequestCardState extends State<RequestCard> {
                   color: mainColor,
                   textColor: colorWhite,
                   onPressed: (){
-                    Navigator.of(context).maybePop();
+                    //Navigator.of(context).maybePop();
                     Navigator.push(
                         context,
                         new MaterialPageRoute(
                             builder:
                                 (BuildContext context) =>
-                                    CreateShopSuggestionScreen(id: id,)));
+                                    CreateShopSuggestionScreen(userID: userID, itemName: itemName,)));
                     //Navigator.of(context).pop();
                   },
                   child: Row(

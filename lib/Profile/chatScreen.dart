@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -29,12 +29,17 @@ class ChatScreenPageState extends State<ChatScreenPage> {
   @override
   void initState() {
     super.initState();
-    //showChats();
     getValues();
-    
+    showChats();
+
     var URL= 'ws://hestia-chat.herokuapp.com/api/v1/ws?chat='+widget.receiverID.toString();
     print("URL is "+URL);
-    channel = WebSocketChannel.connect(Uri.parse(URL));
+    channel = WebSocketChannel.connect(Uri.parse(URL),);
+    channel.stream.listen((message){
+      setState(() {
+        messages.msgs.add(jsonDecode(message));
+      });
+    });
   }
 
   Map<String, int> data_create_chat = {
@@ -44,19 +49,27 @@ class ChatScreenPageState extends State<ChatScreenPage> {
   
   int userID;
   getValues() async{
+    print("I am in chat screens");
     userID = await SharedPrefsCustom().getUserId();
     setState(() {
       userID;
     });
+    new Timer.periodic( new Duration(seconds: 30), (Timer t) => doSomething());
   }
 
-Messages m;
+  doSomething(){
+    channel.sink.add("Hey, Satkriti here");
+    print("Message sent to server");
+  }
+
+  String snapshot='';
+
 Future<Messages> showChats() async{
-  //print("I am in show chats");
+  print("I am in show chats");
   //final receiverID = await SharedPrefsCustom().getUserID();
   data_create_chat["receiver"] = widget.receiverID;
   data_create_chat["sender"] = widget.senderID;
-  //print("Body of getting messages is "+data_create_chat.toString());
+  print("Body of getting messages is "+data_create_chat.toString());
   try {
     final token = await SharedPrefsCustom().getToken();
     final response = await http.post(
@@ -68,18 +81,22 @@ Future<Messages> showChats() async{
     );
     //print("Response in getting messages is "+response.body.toString());
     final result = json.decode(response.body);
-    //print("Messgaes are "+result.toString());
+    print("Messgaes are "+result.toString());
     if (response.statusCode == 200) {
       setState(() {
-        m = Messages.fromJson(result);
+        messages = Messages.fromJson(result);
+        snapshot = 'Got Data';
       });
     } else {
-        Fluttertoast.showToast(msg: result['message']);
+      setState(() {
+        snapshot = result['message'];
+      });
+      Fluttertoast.showToast(msg: result['message']);
     }
   } catch (e) {
-    print(e.toString());
+    print("Error in getting messages is "+e.toString());
   }
-  return m;
+  return messages;
 }
 
   @override
@@ -159,18 +176,14 @@ Future<Messages> showChats() async{
                     child: StreamBuilder(
                     stream: channel.stream,
                     builder: (context, snapshot) {
-                      //print(
-                       // "Data in snapshot is "+snapshot.toString()
-                      //);
-                      // if(snapshot.hasData){
-                      //   setState(() {
-                      //     //messages = snapshot.data;
-                      //   });
-                      // }
+                      if(snapshot.hasData){
+                        setState(() {
+                          messages.msgs.add(json.decode(snapshot.data));
+                        });
+                      }
                       return snapshot.hasData ? 
                         Text(
                           snapshot.data.toString(),
-                          style: Theme.of(context).textTheme.display1
                         )
                         :
                         CircularProgressIndicator();
@@ -178,7 +191,8 @@ Future<Messages> showChats() async{
                   ),
                   ),
                   new Expanded(
-                  child : FutureBuilder(
+                  child : bodyMessages(),
+                  /*FutureBuilder(
                     future: showChats(),
                     builder: (ctx, snapshot) {
                       if (snapshot.hasData) {
@@ -186,11 +200,12 @@ Future<Messages> showChats() async{
                         if (messages.msgs.length <= 0) {
                           return Text('No messages found');
                         } else {
+                        if(snapshot == ''){
                           return ListView.builder(
                             itemCount: messages.msgs.length,
                             itemBuilder: (BuildContext ctxt, int index) {
                               return Container(
-                                margin: (messages.msgs[index].sender.toString() != widget.senderID.toString())? 
+                                margin: (messages.msgs[index].sender.toString() != userID.toString())? 
                                   EdgeInsets.only(left: 15.0, right: 100.0, top: 10.0, bottom: 10.0)
                                   :
                                   EdgeInsets.only(left: 100.0, right: 15.0, top: 10.0, bottom: 10.0),
@@ -203,7 +218,7 @@ Future<Messages> showChats() async{
                                           offset: Offset(0.5, 0.5))
                                     ],
                                     shape: BoxShape.rectangle,
-                                    color: (messages.msgs[index].sender.toString() != widget.senderID.toString()) ? colorWhite : mainColor,
+                                    color: (messages.msgs[index].sender.toString() != userID.toString()) ? colorWhite : mainColor,
                                     borderRadius:
                                     BorderRadius.all(Radius.circular(5))),
                                 child: Column(
@@ -212,21 +227,22 @@ Future<Messages> showChats() async{
                                   children: <Widget>[
                                     Container(
                                       margin: EdgeInsets.only(top: 0.0, bottom: 10.0),
-                                      child : Text(messages.msgs[index].title, style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, color: (messages.msgs[index].sender.toString() != widget.senderID.toString()) ? colorBlack : colorWhite,),),
+                                      child : Text(messages.msgs[index].title, style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, color: (messages.msgs[index].sender.toString() != userID.toString()) ? colorBlack : colorWhite,),),
                                     ),
                                     Container(
                                       margin: EdgeInsets.only(top: 0.0, bottom: 10.0),
-                                      child : Text('Item', style: TextStyle(color: (messages.msgs[index].sender.toString() != widget.senderID.toString()) ? colorBlack : colorWhite, fontSize: 13.0,)),
+                                      child : Text('Item', style: TextStyle(color: (messages.msgs[index].sender.toString() != userID.toString()) ? colorBlack : colorWhite, fontSize: 13.0,)),
                                     ),
                                     Container(
                                       margin: EdgeInsets.only(top: 0.0, bottom: 10.0),
-                                      child : Text(dateFormatter(messages.msgs[index].createdAt), style: TextStyle(color: (messages.msgs[index].sender.toString() != widget.senderID.toString()) ? colorGrey : colorWhite, fontSize: 13.0,))
+                                      child : Text(dateFormatter(messages.msgs[index].createdAt), style: TextStyle(color: (messages.msgs[index].sender.toString() != userID.toString()) ? colorGrey : colorWhite, fontSize: 13.0,))
                                     )
                                   ],
                                 )
                               );
                             }
                         );
+                        }
                         }
                       } else {
                         return Container(
@@ -237,7 +253,7 @@ Future<Messages> showChats() async{
                         );
                       }
                     },
-                  )
+                  )*/
                   
                   
                  /* ListView.builder(
@@ -327,9 +343,66 @@ Future<Messages> showChats() async{
     );
   }
 
+  bodyMessages(){
+    
+    if(snapshot==''){
+      return Center(
+        child: CircularProgressIndicator()
+      );
+    }
+    else if(snapshot=='Got Data'){
+      return ListView.builder(
+        itemCount: messages.msgs.length,
+        itemBuilder: (BuildContext ctxt, int index) {
+          return Container(
+            margin: (messages.msgs[index].sender.toString() != userID.toString())? 
+              EdgeInsets.only(left: 15.0, right: 100.0, top: 10.0, bottom: 10.0)
+              :
+              EdgeInsets.only(left: 100.0, right: 15.0, top: 10.0, bottom: 10.0),
+            padding: EdgeInsets.only(top: 15.0, bottom: 15.0, left: 15.0, right: 15.0),
+            decoration: BoxDecoration(
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      blurRadius: 3.0,
+                      color: Colors.grey[600],
+                      offset: Offset(0.5, 0.5))
+                ],
+                shape: BoxShape.rectangle,
+                color: (messages.msgs[index].sender.toString() != userID.toString()) ? colorWhite : mainColor,
+                borderRadius:
+                BorderRadius.all(Radius.circular(5))),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top: 0.0, bottom: 10.0),
+                  child : Text(messages.msgs[index].title, style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, color: (messages.msgs[index].sender.toString() != userID.toString()) ? colorBlack : colorWhite,),),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 0.0, bottom: 10.0),
+                  child : Text('Item', style: TextStyle(color: (messages.msgs[index].sender.toString() != userID.toString()) ? colorBlack : colorWhite, fontSize: 13.0,)),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 0.0, bottom: 10.0),
+                  child : Text(dateFormatter(messages.msgs[index].createdAt), style: TextStyle(color: (messages.msgs[index].sender.toString() != userID.toString()) ? colorGrey : colorWhite, fontSize: 13.0,))
+                )
+              ],
+            )
+          );
+        }
+    );
+    }
+    else{
+      Center(
+        child: Text(snapshot),
+      );
+    }
+  }
+
 var data_send_message = {
     'receiver': 27,
-    'from' : 1,
+    'sender' : 1,
     'text': "fv" 
 };
 
@@ -341,7 +414,7 @@ sendMessage() async{
     final userID = await SharedPrefsCustom().getUserId();
   
     data_send_message["receiver"] = userID == widget.senderID  ? widget.receiverID : widget.senderID;
-    data_send_message["from"] = userID;
+    data_send_message["sender"] = userID;
     data_send_message["text"] = text;
 
     print("Data to create text is "+data_send_message.toString());

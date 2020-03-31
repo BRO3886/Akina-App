@@ -40,13 +40,14 @@ Future<AllShops> getAllShops() async {
     //   {'location': address.first.locality},
     // );
     final token = await SharedPrefsCustom().getToken();
+    print("Token for seeing suggestions is "+token.toString());
     final response = await http.get(
-      URL_SHOW_CREATE_SUGGESTIONS,
+      URL_SHOW_CREATE_SUGGESTIONS+"update/",
       headers: {
         HttpHeaders.authorizationHeader: token,
       },
     );
-     print(response.statusCode);
+     print("Body is "+response.body.toString());
     if (response.statusCode == 200) {
       allShops = allShopsFromJson(response.body);
       print(allShops.shop.toString());

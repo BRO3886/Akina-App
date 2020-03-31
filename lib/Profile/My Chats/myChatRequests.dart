@@ -34,6 +34,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
   @override
   void initState() {
     super.initState();
+    getMyChats();
   }
 
   Map<String, int> data_passed = {
@@ -51,7 +52,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
     //print("Body in my chats is "+data_passed.toString());
     var sp = SharedPrefsCustom();
     final token = await sp.getToken();
-    print(token);
+    //print(token);
     try {
       final response = await http.post(
         URL_GET_MY_CHATS,
@@ -84,7 +85,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
   Widget build(BuildContext context) {
     return Expanded(
         child: Column(children: <Widget>[
-      GestureDetector(
+      /*GestureDetector(
         onTap: () {
           Navigator.push(
               context,
@@ -111,7 +112,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
             textAlign: TextAlign.center,
           ),
         ),
-      ),
+      ),*/
       FutureBuilder(
         future: getMyChats(),
         builder: (ctx, snapshot) {
@@ -207,7 +208,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
   Map<String, String> data_create_chat = {
     'receiver': "",
     'sender': "",
-    'title': ""
+    'title': "",
   };
 
   createChat(String r, String s, String t) async {

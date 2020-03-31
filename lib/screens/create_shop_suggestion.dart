@@ -12,16 +12,16 @@ import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 
 class CreateShopSuggestionScreen extends StatefulWidget {
-  CreateShopSuggestionScreen({this.id});
-  final id;
+  CreateShopSuggestionScreen({@required this.userID, @required this.itemName});
+  final userID, itemName;
   @override
   _CreateShopSuggestionScreenState createState() => _CreateShopSuggestionScreenState();
 }
 
 class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen> {
-  _CreateShopSuggestionScreenState({this.id});
+  _CreateShopSuggestionScreenState({this.userID, this.itemName});
 
-  final String id;
+  final String userID, itemName;
 
   TextEditingController nameController = TextEditingController();
   TextEditingController landmarkController = TextEditingController();
@@ -39,7 +39,8 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
     "phone_number": "68794039245",
     "landmark": "Chettinad Hospital",
     "extra_instruction": "Go towards the right bifurcation at the end of the avenue, shop should be at the right",
-    "description_of_shop": "Sanitizers, medicines, and masks available"
+    "description_of_shop": "Sanitizers, medicines, and masks available",
+    "item":"hn"
   };
 
 
@@ -49,12 +50,14 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
       return;
     }
     _formKey.currentState.save();
-    suggestionInfo['recommended_for']=widget.id;
+    suggestionInfo['recommended_for']=widget.userID;
+    suggestionInfo['item']=widget.itemName;
     setState(() {
       isLoading = true;
     });
     String content = "";
     try {
+      print("Body sent to add shop suggestion is "+suggestionInfo.toString());
       final token = await SharedPrefsCustom().getToken();
       final response = await http.post(URL_SHOW_CREATE_SUGGESTIONS, body: jsonEncode(suggestionInfo), headers: {HttpHeaders.authorizationHeader: token,"Content-Type": "application/json"});
       print("Response is "+response.toString());
@@ -63,6 +66,7 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
       if (response.statusCode==201) {
         Fluttertoast.showToast(msg: "Successfully added");
         Navigator.pop(context);
+        Navigator.of(context).canPop();
       } else {
         Fluttertoast.showToast(msg: responseBody['message']);
       }

@@ -89,7 +89,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         },
         body: body,
       );
-      print(token);
+      //print(token);
       Map<String, dynamic> responseBody = jsonDecode(response.body);
       print("Response of edit is"+responseBody.toString());
       if (response.statusCode == 200) {
