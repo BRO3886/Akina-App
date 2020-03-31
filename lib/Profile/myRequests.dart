@@ -406,6 +406,7 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
   @override
   void dispose() {
     fabController.dispose();
+    getMyRequests();
     super.dispose();
   }
 

@@ -67,9 +67,10 @@ class _RequestDeleteCardState extends State<RequestDeleteCard> {
                       onTap: () async {
                         if (cardDeleted == false) {
                           showDialog(
+                            barrierDismissible: false,
                             context: context,
-                            useRootNavigator: true,
                             child: AlertDialog(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                               content: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
@@ -96,6 +97,7 @@ class _RequestDeleteCardState extends State<RequestDeleteCard> {
                             cardDeleted = true;
                           });
                           showDialog(
+                            barrierDismissible: false,
                             context: context,
                             child: AlertDialog(
                               shape: RoundedRectangleBorder(

@@ -53,9 +53,10 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
       print(responseBody);
       if (responseBody.containsKey("Error")) {
         content = responseBody["Error"];
-      } else if(responseBody.containsKey("Verify")){
+      } else if (responseBody.containsKey("Verify")) {
         //content = responseBody["Verify"];
-        Fluttertoast.showToast(msg: 'An email has been sent to your registered mail ID');
+        Fluttertoast.showToast(
+            msg: 'An email has been sent to your registered mail ID');
         Navigator.of(context).pushReplacementNamed(LoginScreen.routename);
       } else if (responseBody.containsKey("Token")) {
         print("registered succesfully");
@@ -128,14 +129,16 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                     height: 50,
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.05,
+                    width: MediaQuery.of(context).size.width * 0.08,
                   ),
                   Text(
                     'AKINA',
                     style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 55),
+                      color: Colors.black,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1.5,
+                      fontSize: 55,
+                    ),
                   ),
                 ],
               ),
@@ -248,7 +251,10 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                             ? CircularProgressIndicator()
                             : RaisedButton(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: MediaQuery.of(context).size.width * 0.05, vertical: 13.9),
+                                    horizontal:
+                                        MediaQuery.of(context).size.width *
+                                            0.05,
+                                    vertical: 13.9),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,

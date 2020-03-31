@@ -32,18 +32,24 @@ class _LoginScreenState extends State<LoginScreen> {
     SnackBar snackbar;
     if (code == 200) {
       snackbar = SnackBar(
+        behavior: SnackBarBehavior.floating,
         content: Text(msg),
         backgroundColor: Colors.teal,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       );
     } else if (code == 300) {
       snackbar = SnackBar(
+        behavior: SnackBarBehavior.floating,
         content: Text(msg),
         backgroundColor: Colors.amber[900],
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       );
     } else {
       snackbar = SnackBar(
+        behavior: SnackBarBehavior.floating,
         content: Text(msg),
         backgroundColor: colorRed,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       );
     }
     _scaffoldKey.currentState.showSnackBar(snackbar);
@@ -150,12 +156,12 @@ class _LoginScreenState extends State<LoginScreen> {
       final response = await http.post(uri, body: {'email': email});
       print("get details on login");
       print(response.statusCode);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Map<String, dynamic> responseBody = jsonDecode(response.body);
         sp.setUserName(responseBody["name"]);
         sp.setPhone(responseBody["phone"]);
         sp.setUserId(responseBody["id"]);
-      }else{
+      } else {
         print("get detials on login");
         print(response.statusCode);
       }
@@ -321,14 +327,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 50,
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.05,
+                    width: MediaQuery.of(context).size.width * 0.08,
                   ),
                   Text(
                     'AKINA',
                     style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 55),
+                      color: Colors.black,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 55,
+                      letterSpacing: 1.5,
+                    ),
                   ),
                 ],
               ),

@@ -43,18 +43,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     SnackBar snackbar;
     if (code == 200) {
       snackbar = SnackBar(
+        behavior: SnackBarBehavior.floating,
         content: Text(msg),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         backgroundColor: Colors.teal,
       );
     } else if (code == 300) {
       snackbar = SnackBar(
+        behavior: SnackBarBehavior.floating,
         content: Text(msg),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         backgroundColor: Colors.amber[900],
       );
     } else {
       snackbar = SnackBar(
+        behavior: SnackBarBehavior.floating,
         content: Text(msg),
         backgroundColor: colorRed,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       );
     }
     _scaffoldKey.currentState.showSnackBar(snackbar);

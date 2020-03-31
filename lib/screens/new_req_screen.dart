@@ -38,21 +38,26 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
     SnackBar snackbar;
     if (code == 201) {
       snackbar = SnackBar(
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         content: Text(msg),
         backgroundColor: Colors.teal,
       );
     } else if (code == 400) {
       snackbar = SnackBar(
+        behavior: SnackBarBehavior.floating,
         content: Text(msg),
         backgroundColor: colorRed,
       );
     } else if (code == 69) {
       snackbar = SnackBar(
+        behavior: SnackBarBehavior.floating,
         content: Text(msg),
         backgroundColor: colorRed,
       );
     } else {
       snackbar = SnackBar(
+        behavior: SnackBarBehavior.floating,
         content: Text(msg),
         backgroundColor: colorRed,
       );
@@ -111,7 +116,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
       _showSnackBar(response.statusCode, resBody['message']);
       if (response.statusCode == 201) {
         print(resBody['message']);
-        Future.delayed(Duration(milliseconds: 800), () => Navigator.of(context).maybePop());
+        Future.delayed(Duration(milliseconds: 1000), () => Navigator.of(context).maybePop());
       } else if (response.statusCode == 400) {
         print(resBody['message']);
         print("400");
