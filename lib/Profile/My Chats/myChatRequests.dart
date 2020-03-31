@@ -44,6 +44,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
   SocketIO socketIO;
 
   List<Chat> listMyChats = [];
+  Chats chat;
 
   Future<List<Chat>> getMyChats() async {
     
@@ -64,11 +65,12 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
 
       //print("Response of my chats is "+response.statusCode.toString());
       final data = json.decode(response.body);
-      //print('Data in my chats is '+data.toString());
+      print('Data in my chats is '+data.toString());
       if (response.statusCode == 200) {
         //print("Output of my chat is "+response.body.toString());
         setState(() {
           listMyChats = Chats.fromJson(data).chats;
+          chat = Chats.fromJson(data);
         });
       } else {
         setState(() {
@@ -154,7 +156,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                         margin: EdgeInsets.only(
                                             top: 0.0, bottom: 10.0),
                                         child: Text(
-                                          listMyChats[index].sender.toString() + "->" + listMyChats[index].receiver.toString(),
+                                          chat.receiverName,
                                           style: TextStyle(fontSize: 17.0),
                                         ),
                                       ),

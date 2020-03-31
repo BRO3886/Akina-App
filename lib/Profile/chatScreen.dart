@@ -296,51 +296,54 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                     );
                   }
               )*/
-                  ),
-                  Container(
-                      color: colorWhite,
-                      margin: EdgeInsets.all(10.0),
-                      child: Form(
-                          key: _key,
-                          autovalidate: _validate,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Expanded(
-                                child: TextFormField(
-                                    decoration: InputDecoration(
-                                      contentPadding:
-                                          EdgeInsets.only(left: 5.0),
-                                      fillColor: colorWhite,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(5),
-                                        gapPadding: 5,
-                                      ),
-                                      hintText: 'Enter message',
-                                    ),
-                                    validator: (val) => (val.length == 0)
-                                        ? 'Please enter some text'
-                                        : null,
-                                    onSaved: (String val) {
-                                      setState(() {
-                                        text = val;
-                                      });
-                                    }),
-                              ),
-                              GestureDetector(
-                                  onTap: () {
-                                    sendMessage();
-                                  },
-                                  child: Text(
-                                    'Send',
-                                    style: TextStyle(
-                                        color: mainColor,
-                                        fontWeight: FontWeight.bold),
-                                  ))
-                            ],
-                          )))
-                ])));
+            ),
+            Container(
+              color: colorWhite,
+              margin: EdgeInsets.all(10.0),
+              child : Form(
+                  key: _key,
+                  autovalidate: _validate,
+                  child : Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Expanded(
+                        child : TextFormField(
+                        controller: controller,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 5.0, right: 5.0),
+                          fillColor: colorWhite,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            gapPadding: 5,
+                          ),
+                          hintText: 'Enter message',
+                        ),
+                        validator: (val) => (val.length == 0)
+                              ? 'Please enter some text'
+                              : null,
+                          onSaved: (String val) {
+                            setState(() {
+                              text = val;
+                            });
+                          }
+                      ),),
+                      GestureDetector(
+                        onTap: (){
+                          sendMessage();
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 5.0),
+                          child : Text('Send', style: TextStyle(color: mainColor, fontWeight: FontWeight.bold),)
+                        ),
+                      )
+                    ],
+                  )) 
+            )
+          ]
+        )
+      )
+    );
   }
 
   bodyMessages() {
@@ -472,22 +475,29 @@ class ChatScreenPageState extends State<ChatScreenPage> {
       data_send_message["sender"] = userID;
       data_send_message["text"] = text;
 
-      print("Data to create text is " + data_send_message.toString());
-
-      channel.sink.add(controller.text);
-      try {
-        final token = await SharedPrefsCustom().getToken();
-        final response = await http.post(URL_CREATE_MESSAGE,
-            headers: {
-              HttpHeaders.authorizationHeader: token,
-            },
-            body: json.encode(data_send_message));
-        print("response is " + response.body.toString());
-        final result = json.decode(response.body);
-        if (response.statusCode == 200) {
-          Fluttertoast.showToast(msg: "Message sent");
-          showChats();
-        } else {
+    print("Data to create text is "+data_send_message.toString());
+    
+    channel.sink.add(controller.text);
+    
+    setState(() {
+      controller.text = '';
+      controller.clear();
+    });
+    try {
+      final token = await SharedPrefsCustom().getToken();
+      final response = await http.post(
+        URL_CREATE_MESSAGE,
+        headers: {
+          HttpHeaders.authorizationHeader: token,
+        },
+        body: json.encode(data_send_message)
+      );
+      print("response is "+response.body.toString());
+      final result = json.decode(response.body);
+      if (response.statusCode == 200) {
+        Fluttertoast.showToast(msg: "Message sent");
+        showChats();
+      } else {
           Fluttertoast.showToast(msg: result['message']);
         }
       } catch (e) {

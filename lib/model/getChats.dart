@@ -25,10 +25,13 @@
 }
 */
 
+import 'dart:convert';
+
 class Chats {
   final List<Chat> chats;
+  String senderName, receiverName;
 
-  Chats({this.chats});
+  Chats({this.chats, this.receiverName, this.senderName});
 
   factory Chats.fromJson(Map<String, dynamic> parsedJson){
 
@@ -37,8 +40,9 @@ class Chats {
 
 
     return Chats(
-      chats: chatsList
-
+      chats: chatsList,
+      senderName: parsedJson['sender_name'],
+      receiverName: parsedJson['receiver_name']
     );
   }
 }
@@ -54,7 +58,7 @@ class Chat {
    return Chat(
      sender:parsedJson['sender'],
      title:parsedJson['title'],
-     receiver: parsedJson['receiver']
+     receiver: parsedJson['receiver'],
    );
   }
 }
