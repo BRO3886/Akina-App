@@ -114,7 +114,6 @@ class _RequestCardState extends State<RequestCard> {
                     ),
                   ),
                 ),
-              
               SizedBox(
                 width: 10,
               ),
@@ -138,6 +137,7 @@ class _RequestCardState extends State<RequestCard> {
                     backgroundColor: mainColor,
                   ),
                 ),
+              ),
               ],
             ),
           ),
