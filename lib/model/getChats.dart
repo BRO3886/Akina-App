@@ -29,9 +29,8 @@ import 'dart:convert';
 
 class Chats {
   final List<Chat> chats;
-  String senderName, receiverName;
 
-  Chats({this.chats, this.receiverName, this.senderName});
+  Chats({this.chats});
 
   factory Chats.fromJson(Map<String, dynamic> parsedJson){
 
@@ -41,8 +40,6 @@ class Chats {
 
     return Chats(
       chats: chatsList,
-      senderName: parsedJson['sender_name'],
-      receiverName: parsedJson['receiver_name']
     );
   }
 }
@@ -51,14 +48,17 @@ class Chat {
   final int receiver;
   final int sender;
   final String title;
+  String senderName, receiverName;
 
-  Chat({this.sender, this.title, this.receiver});
+  Chat({this.sender, this.title, this.receiver, this.receiverName, this.senderName});
 
   factory Chat.fromJson(Map<String, dynamic> parsedJson){
    return Chat(
-     sender:parsedJson['sender'],
-     title:parsedJson['title'],
-     receiver: parsedJson['receiver'],
+      sender:parsedJson['sender'],
+      title:parsedJson['title'],
+      receiver: parsedJson['receiver'],
+      senderName: parsedJson['sender_name'],
+      receiverName: parsedJson['receiver_name']
    );
   }
 }

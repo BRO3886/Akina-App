@@ -16,11 +16,10 @@ import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class ChatScreenPage extends StatefulWidget {
-  ChatScreenPage(
-      {Key key, this.senderID, this.receiverID, @required this.itemName})
-      : super(key: key);
+  ChatScreenPage({Key key, this.senderID, this.receiverID, @required this.itemName, this.personName}) : super(key: key);
+
   final int senderID, receiverID;
-  final String itemName;
+  final String itemName, personName;
 
   @override
   ChatScreenPageState createState() => ChatScreenPageState();
@@ -146,11 +145,8 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              'Person Name',
-                              style: TextStyle(
-                                  color: colorBlack,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold),
+                              widget.personName,
+                              style: TextStyle(color: colorBlack, fontSize: 20.0, fontWeight: FontWeight.bold),
                             ),
                             Text(widget.itemName)
                           ],

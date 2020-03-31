@@ -64,13 +64,14 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
         body: json.encode(data_passed),
       );
 
-      //print("Response of other chats is "+response.statusCode.toString());
+      print("Response of other chats is "+response.statusCode.toString());
       final data = json.decode(response.body);
       //print('Data in other chats is '+data.toString());
       if (response.statusCode == 200) {
         setState(() {
           listOtherChats = Chats.fromJson(data).chats;
         });
+        print("List is "+listOtherChats[0].toString());
       } else {
         setState(() {
           listOtherChats = [];
@@ -125,8 +126,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                             top: 0.0, bottom: 10.0),
                                         child: Text(
                                           listOtherChats[index]
-                                              .sender
-                                              .toString() + " -> " + listOtherChats[index].receiver.toString(),
+                                              .receiverName,
                                           style: TextStyle(fontSize: 17.0),
                                         ),
                                       ),
@@ -148,6 +148,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                                     listOtherChats[index]
                                                         .receiver,
                                                 itemName: listOtherChats[index].title,
+                                                personName: listOtherChats[index].receiverName,
                                               )));
                                 },
                                 child: Container(

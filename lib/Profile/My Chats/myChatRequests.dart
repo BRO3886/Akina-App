@@ -44,7 +44,6 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
   SocketIO socketIO;
 
   List<Chat> listMyChats = [];
-  Chats chat;
 
   Future<List<Chat>> getMyChats() async {
     
@@ -70,7 +69,6 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
         //print("Output of my chat is "+response.body.toString());
         setState(() {
           listMyChats = Chats.fromJson(data).chats;
-          chat = Chats.fromJson(data);
         });
       } else {
         setState(() {
@@ -156,7 +154,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                         margin: EdgeInsets.only(
                                             top: 0.0, bottom: 10.0),
                                         child: Text(
-                                          chat.receiverName,
+                                          listMyChats[index].senderName,
                                           style: TextStyle(fontSize: 17.0),
                                         ),
                                       ),
@@ -177,6 +175,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                                 receiverID:
                                                     listMyChats[index].receiver,
                                                 itemName: listMyChats[index].title,
+                                                personName: listMyChats[index].senderName,
                                               )));
                                 },
                                 child: Container(
