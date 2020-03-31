@@ -23,7 +23,27 @@ resetVariables() async {
   sp.setIfUsedGauth(false);
 }
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  int myRequests = 0;
+
+  _getRequests() async {
+    final AllRequests allRequests = await getMyRequests();
+    setState(() {
+      myRequests = allRequests.request.length;
+    });
+  }
+
+  @override
+  void initState() {
+    _getRequests();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -187,22 +207,11 @@ class ProfilePage extends StatelessWidget {
                                       color: Colors.grey[200],
                                       width: 1,
                                     ),
-                                    FutureBuilder(
-                                      future: getMyRequests(),
-                                      builder: (ctx, snapshot) {
-                                        if (snapshot.hasData) {
-                                          AllRequests allRequests =
-                                              snapshot.data;
-                                          return Text(
-                                            allRequests.request.length
-                                                .toString(),
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          );
-                                        } else {
-                                          return Text('...');
-                                        }
-                                      },
+                                    Text(
+                                      myRequests.toString(),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -312,10 +321,7 @@ class ProfilePage extends StatelessWidget {
                         ),
                         onPressed: () {
                           resetVariables();
-                          Navigator.pushReplacementNamed(
-                            context,
-                            LoginScreen.routename,
-                          );
+                          Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.routename, (route)=>false);
                         },
                       ),
                     )
