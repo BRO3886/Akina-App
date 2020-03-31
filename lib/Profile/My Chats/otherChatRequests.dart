@@ -48,7 +48,9 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
     
     final userId = await SharedPrefsCustom().getUserId();
     data_passed['user_id'] = userId;
-    //print("Body in other chats is "+data_passed.toString());
+    //
+    
+    print("Body in other chats is "+data_passed.toString());
   
     var sp = SharedPrefsCustom();
     final token = await sp.getToken();
@@ -173,37 +175,5 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
         }
       },
     );
-  }
-
-  Map<String, String> data_create_chat = {
-    'receiver': "",
-    'sender': "",
-    'title': ""
-  };
-
-  createChat(String r, String s, String t) async {
-    data_create_chat["receiver"] = r;
-    data_create_chat["sender"] = s;
-    data_create_chat["title"] = t;
-    try {
-      final token = await SharedPrefsCustom().getToken();
-      final response = await http.post(URL_CREATE_CHAT,
-          headers: {
-            HttpHeaders.authorizationHeader: token,
-          },
-          body: json.encode({'receiver': 27, 'sender': 21, 'title': "Hello"}));
-      print("response is " + response.body.toString());
-      final result = json.decode(response.body);
-      if (response.statusCode == 200) {
-        Navigator.push(
-            context,
-            new MaterialPageRoute(
-                builder: (BuildContext context) => ChatScreenPage()));
-      } else {
-        Fluttertoast.showToast(msg: result['message']);
-      }
-    } catch (e) {
-      print(e.toString());
-    }
   }
 }

@@ -224,7 +224,7 @@ class MyChatsPageState extends State<MyChatsPage> {
                         Text(
                           'Chats and Suggestions',
                           overflow: TextOverflow.ellipsis,
-                          style: screenHeadingStyle.copyWith(fontSize: 25),
+                          style: screenHeadingStyle.copyWith(fontSize: 21),
                         ),
                         SizedBox(
                           width: 10,

@@ -313,7 +313,7 @@ Future<Messages> showChats() async{
                       Expanded(
                         child : TextFormField(
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: 5.0),
+                          contentPadding: EdgeInsets.only(left: 5.0, right: 5.0),
                           fillColor: colorWhite,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
@@ -334,7 +334,10 @@ Future<Messages> showChats() async{
                         onTap: (){
                           sendMessage();
                         },
-                        child: Text('Send', style: TextStyle(color: mainColor, fontWeight: FontWeight.bold),)
+                        child: Container(
+                          margin: EdgeInsets.only(left: 5.0),
+                          child : Text('Send', style: TextStyle(color: mainColor, fontWeight: FontWeight.bold),)
+                        ),
                       )
                     ],
                   )) 
@@ -427,6 +430,11 @@ sendMessage() async{
     print("Data to create text is "+data_send_message.toString());
     
     channel.sink.add(controller.text);
+    
+    setState(() {
+      controller.text = '';
+      controller.clear();
+    });
     try {
       final token = await SharedPrefsCustom().getToken();
       final response = await http.post(
