@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
@@ -49,8 +50,9 @@ Future<AllShops> getAllShops() async {
     );
      print("Body is "+response.body.toString());
     if (response.statusCode == 200) {
+      print(jsonDecode(response.body).toString());
       allShops = allShopsFromJson(response.body);
-      print(allShops.shop.toString());
+      // print(allShops.shop.toString());
     } else if (response.statusCode == 204) {
       allShops = AllShops(message: 'No shops found', shop: []);
     } else {

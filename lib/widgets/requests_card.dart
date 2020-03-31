@@ -17,7 +17,6 @@ class RequestCard extends StatefulWidget {
 }
 
 class _RequestCardState extends State<RequestCard> {
-
   SharedPrefsCustom s = new SharedPrefsCustom();
   final Request request;
   bool shopStatus, requestStatus;
@@ -48,16 +47,24 @@ class _RequestCardState extends State<RequestCard> {
           contentPadding: EdgeInsets.only(top: 2, left: 14, right: 14),
           title: Row(
             children: <Widget>[
-              Text( 
-                (widget.request.itemName.length > 15 ) ? (widget.request.itemName).substring(0, 14)+".." : widget.request.itemName, 
-                overflow: TextOverflow.fade,),
+              Text(
+                widget.request.itemName,
+                overflow: TextOverflow.fade,
+                softWrap: false,
+              ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 10),
                 height: 15,
                 color: Colors.grey[200],
                 width: 1,
               ),
-              Text(widget.request.quantity),
+              Expanded(
+                child: Text(
+                  widget.request.quantity,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
             ],
           ),
           subtitle: Padding(
@@ -69,17 +76,19 @@ class _RequestCardState extends State<RequestCard> {
             children: <Widget>[
               GestureDetector(
                 onTap: () {
-                  if(shopStatus == true || shop == true){
+                  if (shopStatus == true || shop == true) {
                     //Navigator.of(context).maybePop();
                     Navigator.push(
                         context,
                         new MaterialPageRoute(
-                            builder:
-                                (BuildContext context) =>
-                                    CreateShopSuggestionScreen(userID: widget.request.id.toString(), itemName: widget.request.itemName,)));
-                  }
-                  else if(shopStatus == false || shopStatus == null){
-                    suggestShop(context, widget.request.id.toString(), widget.request.itemName.toString());
+                            builder: (BuildContext context) =>
+                                CreateShopSuggestionScreen(
+                                  userID: widget.request.id.toString(),
+                                  itemName: widget.request.itemName,
+                                )));
+                  } else if (shopStatus == false || shopStatus == null) {
+                    suggestShop(context, widget.request.id.toString(),
+                        widget.request.itemName.toString());
                   }
                 },
                 child: Tooltip(
@@ -96,12 +105,14 @@ class _RequestCardState extends State<RequestCard> {
               ),
               GestureDetector(
                 onTap: () {
-                  if(widget.requestStatus == true || (accept == true)){
-                      acceptRequest(widget.request.id.toString(), widget.request.itemName, widget.request.requestMadeBy);
-                      Navigator.of(context).maybePop();
-                  }
-                  else if(widget.requestStatus == false || widget.requestStatus == null){
-                    acceptWidget(context, widget.request.id, widget.request.itemName, widget.request.requestMadeBy);
+                  if (widget.requestStatus == true || (accept == true)) {
+                    acceptRequest(widget.request.id.toString(),
+                        widget.request.itemName, widget.request.requestMadeBy);
+                    Navigator.of(context).maybePop();
+                  } else if (widget.requestStatus == false ||
+                      widget.requestStatus == null) {
+                    acceptWidget(context, widget.request.id,
+                        widget.request.itemName, widget.request.requestMadeBy);
                   }
                 },
                 child: Tooltip(
@@ -122,208 +133,247 @@ class _RequestCardState extends State<RequestCard> {
 
   bool accept = false;
 
-  acceptWidget(BuildContext context, int itemID, String itemName, String receiverID){
+  acceptWidget(
+      BuildContext context, int itemID, String itemName, String receiverID) {
     return showDialog(
-    context: context,
-    builder: (context) {
-    return StatefulBuilder(
-      builder: (context, setState) {
-        return AlertDialog(
-      backgroundColor: Theme.of(context).canvasColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      titlePadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-      contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-      content: Container(
-        height: 250,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            CircleAvatar(
-              child: SvgPicture.asset("assets/images/check.svg", width: 23.0, height: 23.0,),
-              //maxRadius: 20,
-              backgroundColor: mainColor,
-              radius: 30.0,
-            ),
-            Text('You have this item?', style: TextStyle(fontWeight: FontWeight.bold),), 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                RaisedButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                  color: mainColor,
-                  textColor: colorWhite,
-                  onPressed: (){
-                    acceptRequest(itemID.toString(), itemName, receiverID);
-                    Navigator.of(context).maybePop();
-                  },
-                  child: Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text('Yes'),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      SvgPicture.asset("assets/images/check.svg"),
-                    ],
-                  ),
-                ),
-                RaisedButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                  color: colorWhite,
-                  textColor: colorBlack,
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text('No'),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Icon(Icons.clear, color: colorBlack, size: 16.0,)
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            GestureDetector(
-              onTap: (){
-                setState(() {
-                  accept = !accept;
-                  s.setRequestStatus(accept);
-                });
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CircleAvatar(
-                    radius: 10.0,
-                    backgroundColor: accept ? mainColor : colorWhite,
-                    child: SvgPicture.asset("assets/images/check.svg", color: accept ? colorWhite : colorBlack, height: 8.0, width: 8.0,),
-                  ),
-                  SizedBox(
-                    width: 5.0,
-                  ),
-                  Text('Do not show again', style: TextStyle(fontSize: 10.0, color: accept ? mainColor : colorBlack),)
-                ],
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              backgroundColor: Theme.of(context).canvasColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
               ),
-            )
-          ],
-        )
-      ),
-    );
-      }
-    );
-    });
+              titlePadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              content: Container(
+                  height: 250,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      CircleAvatar(
+                        child: SvgPicture.asset(
+                          "assets/images/check.svg",
+                          width: 23.0,
+                          height: 23.0,
+                        ),
+                        //maxRadius: 20,
+                        backgroundColor: mainColor,
+                        radius: 30.0,
+                      ),
+                      Text(
+                        'You have this item?',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            color: mainColor,
+                            textColor: colorWhite,
+                            onPressed: () {
+                              acceptRequest(
+                                  itemID.toString(), itemName, receiverID);
+                              Navigator.of(context).maybePop();
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text('Yes'),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                SvgPicture.asset("assets/images/check.svg"),
+                              ],
+                            ),
+                          ),
+                          RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            color: colorWhite,
+                            textColor: colorBlack,
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text('No'),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Icon(
+                                  Icons.clear,
+                                  color: colorBlack,
+                                  size: 16.0,
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            accept = !accept;
+                            s.setRequestStatus(accept);
+                          });
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            CircleAvatar(
+                              radius: 10.0,
+                              backgroundColor: accept ? mainColor : colorWhite,
+                              child: SvgPicture.asset(
+                                "assets/images/check.svg",
+                                color: accept ? colorWhite : colorBlack,
+                                height: 8.0,
+                                width: 8.0,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5.0,
+                            ),
+                            Text(
+                              'Do not show again',
+                              style: TextStyle(
+                                  fontSize: 10.0,
+                                  color: accept ? mainColor : colorBlack),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  )),
+            );
+          });
+        });
   }
 
   bool shop = false;
 
-  suggestShop(BuildContext context, String userID, String itemName){
+  suggestShop(BuildContext context, String userID, String itemName) {
     return showDialog(
-    context: context,
-    builder: (context) {
-    return StatefulBuilder(
-      builder: (context, setState) {
-        return AlertDialog(
-      backgroundColor: Theme.of(context).canvasColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      titlePadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-      contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-      content: Container(
-        height: 250,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            CircleAvatar(
-              child: SvgPicture.asset("assets/images/store.svg", width: 23.0, height: 23.0,),
-              radius: 30,
-              backgroundColor: mainColor,
-            ),
-            Text('Suggest a shop?', style: TextStyle(fontWeight: FontWeight.bold),), 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                RaisedButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                  color: mainColor,
-                  textColor: colorWhite,
-                  onPressed: (){
-                    //Navigator.of(context).maybePop();
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder:
-                                (BuildContext context) =>
-                                    CreateShopSuggestionScreen(userID: userID, itemName: itemName,)));
-                    //Navigator.of(context).pop();
-                  },
-                  child: Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text('Yes'),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      SvgPicture.asset("assets/images/check.svg"),
-                    ],
-                  ),
-                ),
-                RaisedButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                  color: colorWhite,
-                  textColor: colorBlack,
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text('No'),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Icon(Icons.clear, color: colorBlack, size: 16.0,)
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            GestureDetector(
-              onTap: (){
-                setState(() {
-                  shop = !shop;
-                  s.setShopStatus(shop);
-                });
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CircleAvatar(
-                    radius: 10.0,
-                    backgroundColor: shop ? mainColor : colorWhite,
-                    child: SvgPicture.asset("assets/images/check.svg", color: shop ? colorWhite : colorBlack, height: 8.0, width: 8.0,),
-                  ),
-                  SizedBox(
-                    width: 5.0,
-                  ),
-                  Text('Do not show again', style: TextStyle(fontSize: 10.0, color: shop ? mainColor : colorBlack),)
-                ],
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              backgroundColor: Theme.of(context).canvasColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
               ),
-            )
-          ],
-        )
-      ),
-      /*actions: <Widget>[
+              titlePadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              content: Container(
+                  height: 250,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      CircleAvatar(
+                        child: SvgPicture.asset(
+                          "assets/images/store.svg",
+                          width: 23.0,
+                          height: 23.0,
+                        ),
+                        radius: 30,
+                        backgroundColor: mainColor,
+                      ),
+                      Text(
+                        'Suggest a shop?',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            color: mainColor,
+                            textColor: colorWhite,
+                            onPressed: () {
+                              // Navigator.of(context).maybePop();
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (ctx) => CreateShopSuggestionScreen(
+                                    itemName: itemName,
+                                    userID: widget.request.requestMadeBy,
+                                  ),
+                                ),
+                              );
+                              //Navigator.of(context).pop();
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text('Yes'),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                SvgPicture.asset("assets/images/check.svg"),
+                              ],
+                            ),
+                          ),
+                          RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            color: colorWhite,
+                            textColor: colorBlack,
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text('No'),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Icon(
+                                  Icons.clear,
+                                  color: colorBlack,
+                                  size: 16.0,
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            shop = !shop;
+                            s.setShopStatus(shop);
+                          });
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            CircleAvatar(
+                              radius: 10.0,
+                              backgroundColor: shop ? mainColor : colorWhite,
+                              child: SvgPicture.asset(
+                                "assets/images/check.svg",
+                                color: shop ? colorWhite : colorBlack,
+                                height: 8.0,
+                                width: 8.0,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5.0,
+                            ),
+                            Text(
+                              'Do not show again',
+                              style: TextStyle(
+                                  fontSize: 10.0,
+                                  color: shop ? mainColor : colorBlack),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  )),
+              /*actions: <Widget>[
         RaisedButton(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5)),
@@ -343,6 +393,8 @@ class _RequestCardState extends State<RequestCard> {
           child: Text('No'),
         ),
       ],*/
-    );});
-  });}
+            );
+          });
+        });
+  }
 }

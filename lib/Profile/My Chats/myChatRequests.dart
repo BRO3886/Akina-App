@@ -125,7 +125,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                     itemBuilder: (BuildContext ctxt, int index) {
                       return Container(
                           margin: EdgeInsets.only(
-                              left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
+                              left: 25.0, right: 25.0, top: 10.0, bottom: 10.0),
                           decoration: BoxDecoration(
                               boxShadow: <BoxShadow>[
                                 BoxShadow(

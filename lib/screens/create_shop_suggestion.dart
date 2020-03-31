@@ -50,7 +50,8 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
       return;
     }
     _formKey.currentState.save();
-    suggestionInfo['recommended_for']=widget.userID;
+    // final id  = await SharedPrefsCustom().getUserId();
+    suggestionInfo['recommended_for']= widget.userID;
     suggestionInfo['item']=widget.itemName;
     setState(() {
       isLoading = true;
@@ -62,7 +63,7 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
       final response = await http.post(URL_SHOW_CREATE_SUGGESTIONS, body: jsonEncode(suggestionInfo), headers: {HttpHeaders.authorizationHeader: token,"Content-Type": "application/json"});
       print("Response is "+response.toString());
       Map<String, dynamic> responseBody = jsonDecode(response.body);
-      print(responseBody);
+      print(responseBody.toString());
       if (response.statusCode==201) {
         Fluttertoast.showToast(msg: "Successfully added");
         Navigator.pop(context);
@@ -152,7 +153,9 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                     ),
                     TextFormField(
                       controller: descController,
-                      textCapitalization: TextCapitalization.words,
+                      // textCapitalization: TextCapitalization.words,
+                      maxLines: 3,
+                      autocorrect: true,
                       decoration: InputDecoration(
                         labelText: 'Description of the shop',
                         border: OutlineInputBorder(
@@ -174,6 +177,7 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                     TextFormField(
                       controller: landmarkController,
                       textCapitalization: TextCapitalization.words,
+                      autocorrect: true,
                       decoration: InputDecoration(
                         labelText: 'Landmark',
                         border: OutlineInputBorder(
@@ -194,7 +198,8 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                     ),
                     TextFormField(
                       controller: extraController,
-                      textCapitalization: TextCapitalization.words,
+                      autocorrect: true,
+                      maxLines: 3,
                       decoration: InputDecoration(
                         labelText: 'Extra Instruction',
                         border: OutlineInputBorder(

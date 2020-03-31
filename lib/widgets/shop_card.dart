@@ -7,11 +7,11 @@ class ShopCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 14),
-      width: MediaQuery.of(context).size.width,
-      height: 125,
+      // padding: EdgeInsets.symmetric(horizontal: 25, vertical: 14),
+      // width: MediaQuery.of(context).size.width,
+      // height: 125,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+        margin: EdgeInsets.symmetric(vertical: 15, horizontal: 17),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(5),
@@ -23,28 +23,59 @@ class ShopCard extends StatelessWidget {
             ),
           ],
         ),
-        child: ListTile(
-          contentPadding: EdgeInsets.only(top: 2, left: 14, right: 14),
-          title: Row(
-            children: <Widget>[
-              Text(shop.nameOfShop),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                height: 15,
-                color: Colors.grey[200],
-                width: 1,
-              ),
-              Text(shop.nameOfShop),
-            ],
-          ),
-          subtitle: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Column(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: ExpansionTile(
+            // contentPadding: EdgeInsets.symmetric(horizontal: 14, vertical: 0),
+            title: Row(
               children: <Widget>[
-                Text(shop.descriptionOfShop),
-                Text(shop.extraInstruction)
+                SelectableText(shop.nameOfShop),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  height: 15,
+                  color: Colors.grey[200],
+                  width: 1,
+                ),
+                SelectableText(
+                  shop.phone,
+                  style: TextStyle(fontWeight: FontWeight.w500),
+                ),
               ],
-            )
+            ),
+            children: <Widget>[
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding:
+                      EdgeInsets.only(left: 18, right: 18, top: 0, bottom: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SelectableText(
+                        shop.descriptionOfShop,
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      SelectableText(
+                        shop.extraInstruction,
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+            // subtitle: Padding(
+            //   padding: EdgeInsets.zero,
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: <Widget>[
+            //       SelectableText(
+            //         shop.descriptionOfShop,
+            //       ),
+            //       SelectableText(shop.extraInstruction)
+            //     ],
+            //   ),
+            // ),
           ),
         ),
       ),

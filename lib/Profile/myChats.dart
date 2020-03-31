@@ -42,11 +42,11 @@ class MyChatsPageState extends State<MyChatsPage> {
 
   int userID;
 
-  getValues() async{
-      userID = await SharedPrefsCustom().getUserId();
-      setState(() {
-        userID;
-      });
+  getValues() async {
+    userID = await SharedPrefsCustom().getUserId();
+    setState(() {
+      userID;
+    });
   }
 
   void AllAction() {
@@ -237,11 +237,14 @@ class MyChatsPageState extends State<MyChatsPage> {
                       Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (BuildContext context) => ShopSuggestionsScreen()));
+                              builder: (BuildContext context) =>
+                                  ShopSuggestionsScreen()));
                     },
                     child: Container(
-                      margin: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 15.0, right: 15.0),
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                      margin: EdgeInsets.only(
+                          top: 10.0, bottom: 10.0, left: 25.0, right: 25.0),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 5, horizontal: 17),
                       //width: MediaQuery.of(context).size.width * 0.75,
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -255,27 +258,34 @@ class MyChatsPageState extends State<MyChatsPage> {
                         ],
                       ),
                       child: ListTile(
-                        leading: SvgPicture.asset("assets/images/suggestions.svg", color: mainColor, ),
-                      trailing : Container(
-                        padding: EdgeInsets.all(8.0),
-                        decoration: new BoxDecoration(
+                        leading: SvgPicture.asset(
+                          "assets/images/suggestions.svg",
                           color: mainColor,
-                          shape: BoxShape.circle,
                         ),
-                        child: Icon(
-                          Icons.arrow_forward_ios,
-                          color: colorWhite,
-                          size: 14.0,
-                        )),
-                        contentPadding: EdgeInsets.only(top: 2, left: 14, right: 14),
+                        trailing: Container(
+                          padding: EdgeInsets.all(8.0),
+                          decoration: new BoxDecoration(
+                            color: mainColor,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.arrow_forward_ios,
+                            color: colorWhite,
+                            size: 14.0,
+                          ),
+                        ),
+                        contentPadding:
+                            EdgeInsets.only(top: 2, left: 14, right: 14),
                         title: Text(
                           'Suggestions',
                           textAlign: TextAlign.left,
                         ),
-                      )
+                      ),
                     ),
                   ),
-
+                  SizedBox(
+                    height: 18,
+                  ),
                   Container(
                     alignment: Alignment.center,
                     width: MediaQuery.of(context).size.width * 0.68,
@@ -348,8 +358,16 @@ class MyChatsPageState extends State<MyChatsPage> {
                       ],
                     ),
                   ),
-        
-                  pressAttentionMy == true ? MyRequestsChatsPage(userID: userID,) : OtherRequestsChatsPage(userID: userID,)
+                  SizedBox(
+                    height: 18,
+                  ),
+                  pressAttentionMy == true
+                      ? MyRequestsChatsPage(
+                          userID: userID,
+                        )
+                      : OtherRequestsChatsPage(
+                          userID: userID,
+                        )
                 ])));
   }
 }

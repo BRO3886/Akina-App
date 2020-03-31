@@ -36,7 +36,17 @@ class _ShopSuggestionsScreenState extends State<ShopSuggestionsScreen> {
               return CustomScrollView(
                 controller: fabController,
                 slivers: <Widget>[
-                  MySliverAppBar(title: 'Shops',isReplaced: false,),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                    ),
+                  ),
+                  MySliverAppBar(title: 'Suggestions',isReplaced: false,),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                    ),
+                  ),
                   SliverFillRemaining(
                     hasScrollBody: false,
                     child: Center(
@@ -49,7 +59,17 @@ class _ShopSuggestionsScreenState extends State<ShopSuggestionsScreen> {
               return CustomScrollView(
                 controller: fabController,
                 slivers: <Widget>[
-                  MySliverAppBar(title: 'Shops',isReplaced: false,),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                    ),
+                  ),
+                  MySliverAppBar(title: 'Suggestions',isReplaced: false,),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                    ),
+                  ),
                   SliverList(
                     delegate: SliverChildBuilderDelegate((ctx, index) {
                       return ShopCard(allShops.shop[index]);
@@ -61,7 +81,17 @@ class _ShopSuggestionsScreenState extends State<ShopSuggestionsScreen> {
           } else {
             return CustomScrollView(
               slivers: <Widget>[
-                MySliverAppBar(title: 'Shops',isReplaced: false,),
+                SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                    ),
+                  ),
+                MySliverAppBar(title: 'Suggestions',isReplaced: false,),
+                SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                    ),
+                  ),
                 SliverFillRemaining(
                   child: Center(
                     child: CircularProgressIndicator(),
