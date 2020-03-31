@@ -74,7 +74,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
     List<Address> address;
     final sp = SharedPrefsCustom();
     String token = await sp.getToken();
-    print(token);
+    //print(token);
     if (!_newRequestFormKey.currentState.validate()) {
       return;
     }
@@ -97,8 +97,8 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
       address = await Geocoder.local.findAddressesFromCoordinates(
           Coordinates(position.latitude, position.longitude));
       //TODO change location
-      //request['location'] = address.first.locality;
-       request['location'] = 'Noida';
+      request['location'] = 'Surat';//address.first.locality;
+       //request['location'] = 'Noida';
     }
     print(request['location']);
     final body = jsonEncode(request);

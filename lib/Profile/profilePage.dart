@@ -267,7 +267,7 @@ class ProfilePage extends StatelessWidget {
                                       Container(
                                           margin: EdgeInsets.only(left: 18.0),
                                           child: Text(
-                                            '4',
+                                            '',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold),
                                           ))

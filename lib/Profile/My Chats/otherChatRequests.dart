@@ -33,6 +33,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
   @override
   void initState() {
     super.initState();
+    getOtherChats();
   }
 
   Map<String, int> data_passed = {
