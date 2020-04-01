@@ -35,7 +35,8 @@ class ChatScreenPage extends StatefulWidget {
 
 class ChatScreenPageState extends State<ChatScreenPage> {
   ScrollController _controller = ScrollController();
-  ChatScreenPageState({this.senderID, this.receiverID, this.itemName, this.itemDescription});
+  ChatScreenPageState(
+      {this.senderID, this.receiverID, this.itemName, this.itemDescription});
   final int senderID, receiverID;
   final String itemName, itemDescription;
   @override
@@ -199,7 +200,25 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                   ),
                   Container(
                     padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                    child: widget.itemDescription.length > 100 ? Text((widget.itemDescription).substring(0,100)) : Text(widget.itemDescription),
+                    alignment: Alignment.centerLeft,
+                    width: MediaQuery.of(context).size.width,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      // color: colorWhite,
+                      gradient: LinearGradient(
+                          colors: [
+                            Theme.of(context).canvasColor,
+                            colorWhite,
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter),
+                    ),
+                    child: Text(
+                      widget.itemDescription,
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(color: Colors.grey),
+                    ),
                   ),
                   new Expanded(
                     child: bodyMessages(),
@@ -232,12 +251,13 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                                       // fillColor: colorWhite,
                                       suffix: GestureDetector(
                                         onTap: () {
-                                          sendMessage();
-                                          Timer(
-                                              Duration(milliseconds: 0),
-                                              () => _controller.jumpTo(
-                                                  _controller.position
-                                                      .maxScrollExtent));
+                                          sendMessage().whenComplete(() {
+                                            Timer(
+                                                Duration(milliseconds: 100),
+                                                () => _controller.jumpTo(
+                                                    _controller.position
+                                                        .maxScrollExtent));
+                                          });
                                         },
                                         child: Container(
                                             // margin: EdgeInsets.all(5),
@@ -392,7 +412,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
 
   var data_send_message = {'receiver': 27, 'sender': 1, 'text': "fv"};
 
-  sendMessage() async {
+  Future sendMessage() async {
     if (_key.currentState.validate()) {
       _key.currentState.save();
 
