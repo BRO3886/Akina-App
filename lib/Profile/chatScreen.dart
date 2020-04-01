@@ -35,7 +35,8 @@ class ChatScreenPage extends StatefulWidget {
 
 class ChatScreenPageState extends State<ChatScreenPage> {
   ScrollController _controller = ScrollController();
-  ChatScreenPageState({this.senderID, this.receiverID, this.itemName, this.itemDescription});
+  ChatScreenPageState(
+      {this.senderID, this.receiverID, this.itemName, this.itemDescription});
   final int senderID, receiverID;
   final String itemName, itemDescription;
   @override
@@ -70,11 +71,15 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     setState(() {
       userID;
     });
+
+    token = await SharedPrefsCustom().getToken();
   }
+
+  String token = '';
 
   doSomething() {
     //channel.sink.add("Hey, Satkriti here");
-    print("Message sent to server");
+    //print("Message sent to server");
   }
 
   String snapshot = '';
@@ -109,8 +114,8 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     } catch (e) {
       print("Error in getting messages is " + e.toString());
     }
-    Timer(Duration(milliseconds: 0),
-        () => _controller.jumpTo(_controller.position.maxScrollExtent));
+    Timer(Duration(milliseconds: 100),
+        () => _controller.jumpTo(_controller.position.maxScrollExtent * 1.05));
     return messages;
   }
 
@@ -200,7 +205,25 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                   ),
                   Container(
                     padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                    child: widget.itemDescription.length > 100 ? Text((widget.itemDescription).substring(0,100)) : Text(widget.itemDescription),
+                    alignment: Alignment.centerLeft,
+                    width: MediaQuery.of(context).size.width,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      // color: colorWhite,
+                      gradient: LinearGradient(
+                          colors: [
+                            Theme.of(context).canvasColor,
+                            colorWhite,
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter),
+                    ),
+                    child: Text(
+                      widget.itemDescription,
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(color: Colors.grey),
+                    ),
                   ),
                   new Expanded(
                     child: bodyMessages(),
@@ -233,12 +256,13 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                                       // fillColor: colorWhite,
                                       suffix: GestureDetector(
                                         onTap: () {
-                                          sendMessage();
-                                          Timer(
-                                              Duration(milliseconds: 0),
-                                              () => _controller.jumpTo(
-                                                  _controller.position
-                                                      .maxScrollExtent));
+                                          sendMessage().whenComplete(() {
+                                            Timer(
+                                                Duration(milliseconds: 100),
+                                                () => _controller.jumpTo(
+                                                    _controller.position
+                                                        .maxScrollExtent));
+                                          });
                                         },
                                         child: Container(
                                             // margin: EdgeInsets.all(5),
@@ -402,7 +426,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
       data_send_message["receiver"] =
           userID == widget.senderID ? widget.receiverID : widget.senderID;
       data_send_message["sender"] = userID;
-      data_send_message["text"] = text;
+      data_send_message["text"] = controller.text;
 
       print("Data to create text is " + data_send_message.toString());
 
@@ -411,27 +435,21 @@ class ChatScreenPageState extends State<ChatScreenPage> {
       Timer(Duration(milliseconds: 500),
           () => _controller.jumpTo(_controller.position.maxScrollExtent));
       
-      setState(() {
-        controller.clear();
-      });
-
-      try {
-        final token = await SharedPrefsCustom().getToken();
-        final response = await http.post(URL_CREATE_MESSAGE,
-            headers: {
-              HttpHeaders.authorizationHeader: token,
-            },
-            body: json.encode(data_send_message));
-        print("response is " + response.body.toString());
-        final result = json.decode(response.body);
-        if (response.statusCode == 200) {
-          Fluttertoast.showToast(msg: "Message sent");
-          showChats();
-        } else {
-          Fluttertoast.showToast(msg: result['message']);
-        }
-      } catch (e) {
-        print(e.toString());
+      controller.clear();
+      print("I am here");
+      final response = await http.post(
+        URL_CREATE_MESSAGE,
+          headers: {
+            HttpHeaders.authorizationHeader: token,
+          },
+          body: json.encode(data_send_message));
+      print("response of sending data is " + response.body.toString());
+      final result = json.decode(response.body);
+      if (response.statusCode == 200) {
+        Fluttertoast.showToast(msg: "Message sent");
+        showChats();
+      } else {
+        Fluttertoast.showToast(msg: result['message']);
       }
     } else {
       setState(() {
