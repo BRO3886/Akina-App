@@ -90,10 +90,10 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child : bodyOtherChats()
-    );
-    /*return FutureBuilder(
+    // return Expanded(
+    //   child : bodyOtherChats()
+    // );
+    return FutureBuilder(
       future: getOtherChats(),
       builder: (ctx, snapshot) {
         listOtherChats = snapshot.data;
@@ -208,7 +208,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
           return CircularProgressIndicator();
         }
       },
-    );*/
+    );
   }
 
   bodyOtherChats(){

@@ -81,9 +81,9 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: 
-        //Column(children: <Widget>[
+    // return Expanded(
+        // child: 
+        // Column(children: <Widget>[
       /*GestureDetector(
         onTap: () {
           Navigator.push(
@@ -113,8 +113,8 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
         ),
       ),*/
       
-      //TODO Change
-      /*FutureBuilder(
+      //TODO: Change
+      return FutureBuilder(
         future: getMyChats(),
         builder: (ctx, snapshot) {
           listMyChats = snapshot.data;
@@ -229,11 +229,11 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
             return CircularProgressIndicator();
           }
         },
-      )*/
+      );
 
-      bodyMyChats()
-    //])
-    );
+    //   bodyMyChats()
+    // ])
+    // );
   }
 
   bodyMyChats(){
