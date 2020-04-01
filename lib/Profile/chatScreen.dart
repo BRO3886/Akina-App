@@ -52,12 +52,13 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     channel.stream.listen((message) {
       print("I listened and the message is "+message.toString());
       setState(() {
-        messages.msgs.add((message));
+        messages.msgs.add(json.decode(message));
       });
     });
     print("Description is "+widget.itemDescription);
     
     new Timer.periodic(new Duration(seconds: 30), (Timer t) => doSomething());
+    //new Timer.periodic(new Duration(seconds: 60), (Timer t) => showChats());
   }
 
   Map<String, int> data_create_chat = {'receiver': 27, 'sender': 21};
@@ -411,7 +412,6 @@ class ChatScreenPageState extends State<ChatScreenPage> {
           () => _controller.jumpTo(_controller.position.maxScrollExtent));
       
       setState(() {
-        controller.text = '';
         controller.clear();
       });
 
