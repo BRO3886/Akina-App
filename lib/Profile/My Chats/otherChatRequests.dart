@@ -322,9 +322,14 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                     }
               );
     }
-    else{
+    else if(snapshot != null){
       return Container(
         child: Text(snapshot),
+      );
+    }
+    else{
+      return Container(
+        child : Text('Error is from our side')
       );
     }
   }
