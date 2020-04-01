@@ -53,12 +53,13 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     channel.stream.listen((message) {
       print("I listened and the message is "+message.toString());
       setState(() {
-        messages.msgs.add((message));
+        messages.msgs.add(json.decode(message));
       });
     });
     print("Description is "+widget.itemDescription);
     
     new Timer.periodic(new Duration(seconds: 30), (Timer t) => doSomething());
+    //new Timer.periodic(new Duration(seconds: 60), (Timer t) => showChats());
   }
 
   Map<String, int> data_create_chat = {'receiver': 27, 'sender': 21};
@@ -70,11 +71,15 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     setState(() {
       userID;
     });
+
+    token = await SharedPrefsCustom().getToken();
   }
+
+  String token = '';
 
   doSomething() {
     //channel.sink.add("Hey, Satkriti here");
-    print("Message sent to server");
+    //print("Message sent to server");
   }
 
   String snapshot = '';
@@ -412,7 +417,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
 
   var data_send_message = {'receiver': 27, 'sender': 1, 'text': "fv"};
 
-  Future sendMessage() async {
+  sendMessage() async {
     if (_key.currentState.validate()) {
       _key.currentState.save();
 
@@ -421,7 +426,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
       data_send_message["receiver"] =
           userID == widget.senderID ? widget.receiverID : widget.senderID;
       data_send_message["sender"] = userID;
-      data_send_message["text"] = text;
+      data_send_message["text"] = controller.text;
 
       print("Data to create text is " + data_send_message.toString());
 
@@ -430,28 +435,21 @@ class ChatScreenPageState extends State<ChatScreenPage> {
       Timer(Duration(milliseconds: 500),
           () => _controller.jumpTo(_controller.position.maxScrollExtent));
       
-      setState(() {
-        controller.text = '';
-        controller.clear();
-      });
-
-      try {
-        final token = await SharedPrefsCustom().getToken();
-        final response = await http.post(URL_CREATE_MESSAGE,
-            headers: {
-              HttpHeaders.authorizationHeader: token,
-            },
-            body: json.encode(data_send_message));
-        print("response is " + response.body.toString());
-        final result = json.decode(response.body);
-        if (response.statusCode == 200) {
-          Fluttertoast.showToast(msg: "Message sent");
-          showChats();
-        } else {
-          Fluttertoast.showToast(msg: result['message']);
-        }
-      } catch (e) {
-        print(e.toString());
+      controller.clear();
+      print("I am here");
+      final response = await http.post(
+        URL_CREATE_MESSAGE,
+          headers: {
+            HttpHeaders.authorizationHeader: token,
+          },
+          body: json.encode(data_send_message));
+      print("response of sending data is " + response.body.toString());
+      final result = json.decode(response.body);
+      if (response.statusCode == 200) {
+        Fluttertoast.showToast(msg: "Message sent");
+        showChats();
+      } else {
+        Fluttertoast.showToast(msg: result['message']);
       }
     } else {
       setState(() {
