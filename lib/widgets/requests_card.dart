@@ -16,6 +16,9 @@ class RequestCard extends StatefulWidget {
   _RequestCardState createState() => new _RequestCardState();
 }
 
+Color _color = Colors.grey;
+Color _headingColor = Colors.black;
+
 class _RequestCardState extends State<RequestCard> {
   SharedPrefsCustom s = new SharedPrefsCustom();
   final Request request;
@@ -24,11 +27,12 @@ class _RequestCardState extends State<RequestCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 14),
+      // padding: EdgeInsets.symmetric(horizontal: 25, vertical: 14),
       width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.symmetric(horizontal: 20),
       // height: 125,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(5),
@@ -43,48 +47,73 @@ class _RequestCardState extends State<RequestCard> {
         ),
         // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         // elevation: 0,
-        child: ListTile(
-          contentPadding: EdgeInsets.only(top: 2, left: 14, right: 14),
-          title: Row(
-            children: <Widget>[
-              Text(
-                widget.request.itemName,
-                overflow: TextOverflow.fade,
-                softWrap: false,
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                height: 15,
-                color: Colors.grey[200],
-                width: 1,
-              ),
-              Expanded(
+        child: ExpansionTile(
+          // isThreeLine: true,
+          // contentPadding: EdgeInsets.only(top: 2, left: 14, right: 14),
+          // onExpansionChanged: (didChange){
+          //   if(didChange){
+          //     setState(() {
+          //       _color = mainColor;
+          //       _headingColor = mainColor;
+          //     });
+          //   }else{
+          //     setState(() {
+          //       _color = Colors.grey;
+          //       _headingColor = Colors.black;
+          //     });
+          //   }
+          // },
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Align(
+                alignment: Alignment.centerLeft,
                 child: Text(
-                  widget.request.quantity,
-                  softWrap: false,
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  widget.request.description ?? 'No description provided',
+                  style: TextStyle(color: Colors.grey),
+                  softWrap: true,
+                  textAlign: TextAlign.justify,
                   overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
                 ),
               ),
-            ],
-          ),
-          subtitle: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            ),
+          ],
+          title: Container(
+            margin: EdgeInsets.only(top: 10),
+            child: Row(
               children: <Widget>[
-                Text(dateFormatter(widget.request.dateTimeCreated)),
                 Text(
-                  widget.request.description ??
-                      'This is a small description since the backend is not taking the description into account',
+                  widget.request.itemName,
+                  overflow: TextOverflow.fade,
                   softWrap: false,
-                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: _headingColor),
                 ),
               ],
             ),
           ),
-          trailing: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+          subtitle: Container(
+            margin: EdgeInsets.only(bottom: 10),
+            child: Column(
+              // mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  widget.request.quantity,
+                  softWrap: false,
+                  style: TextStyle(color: _color),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  dateFormatter(widget.request.dateTimeCreated),
+                  style: TextStyle(color: _color),
+                ),
+              ],
+            ),
+          ),
+          trailing: Container(
+            margin: const EdgeInsets.only(top: 18.0),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -114,30 +143,36 @@ class _RequestCardState extends State<RequestCard> {
                     ),
                   ),
                 ),
-              SizedBox(
-                width: 10,
-              ),
-              GestureDetector(
-                onTap: () {
-                  if (widget.requestStatus == true || (accept == true)) {
-                    acceptRequest(context,widget.request.id.toString(),
-                        widget.request.itemName, widget.request.requestMadeBy);
-                    Navigator.of(context).maybePop();
-                  } else if (widget.requestStatus == false ||
-                      widget.requestStatus == null) {
-                    acceptWidget(context, widget.request.id,
-                        widget.request.itemName, widget.request.requestMadeBy);
-                  }
-                },
-                child: Tooltip(
-                  message: 'Accept this request',
-                  child: CircleAvatar(
-                    child: SvgPicture.asset("assets/images/check.svg"),
-                    maxRadius: 15,
-                    backgroundColor: mainColor,
+                SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    if (widget.requestStatus == true || (accept == true)) {
+                      acceptRequest(
+                          context,
+                          widget.request.id.toString(),
+                          widget.request.itemName,
+                          widget.request.requestMadeBy);
+                      Navigator.of(context).maybePop();
+                    } else if (widget.requestStatus == false ||
+                        widget.requestStatus == null) {
+                      acceptWidget(
+                          context,
+                          widget.request.id,
+                          widget.request.itemName,
+                          widget.request.requestMadeBy);
+                    }
+                  },
+                  child: Tooltip(
+                    message: 'Accept this request',
+                    child: CircleAvatar(
+                      child: SvgPicture.asset("assets/images/check.svg"),
+                      maxRadius: 15,
+                      backgroundColor: mainColor,
+                    ),
                   ),
                 ),
-              ),
               ],
             ),
           ),
@@ -190,8 +225,8 @@ class _RequestCardState extends State<RequestCard> {
                             color: mainColor,
                             textColor: colorWhite,
                             onPressed: () {
-                              acceptRequest(
-                                  context, itemID.toString(), itemName, receiverID);
+                              acceptRequest(context, itemID.toString(),
+                                  itemName, receiverID);
                               Navigator.of(context).maybePop();
                             },
                             child: Row(

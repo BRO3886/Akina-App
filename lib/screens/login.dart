@@ -420,7 +420,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 30,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         (isLoading)
                             ? Center(child: CircularProgressIndicator())

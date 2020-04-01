@@ -17,8 +17,8 @@ class _RequestDeleteCardState extends State<RequestDeleteCard> {
   bool cardDeleted = false;
   @override
   Widget build(BuildContext context) {
-    widget.request.description =
-        'This is the full description since the backend is not taking the description into account';
+    // widget.request.description =
+    //     'This is the full description since the backend is not taking the description into account';
     return (cardDeleted)
         ? Container()
         : Container(
@@ -26,7 +26,7 @@ class _RequestDeleteCardState extends State<RequestDeleteCard> {
             width: MediaQuery.of(context).size.width,
             // height: 125,
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+              // padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(5),
@@ -41,36 +41,60 @@ class _RequestDeleteCardState extends State<RequestDeleteCard> {
               ),
               // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
               // elevation: 0,
-              child: ListTile(
-                contentPadding: EdgeInsets.only(top: 2, left: 14, right: 14),
+              child: ExpansionTile(
+                // isThreeLine: true,
+                // contentPadding: EdgeInsets.only(top: 2, left: 14, right: 14),
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 5),
+                      child: Text(
+                        widget.request.description ?? '',
+                        textAlign: TextAlign.justify,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
+                  ),
+                ],
                 title: Row(
                   children: <Widget>[
                     Text(widget.request.itemName),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      height: 15,
-                      color: Colors.grey[200],
-                      width: 1,
-                    ),
-                    Text(
-                      widget.request.quantity,
-                      style: TextStyle(fontWeight: FontWeight.w500),
-                    ),
+                    // Container(
+                    //   margin: EdgeInsets.symmetric(horizontal: 10),
+                    //   height: 15,
+                    //   color: Colors.grey[200],
+                    //   width: 1,
+                    // ),
+                    // Expanded(
+                    //   child: Text(
+                    //     widget.request.quantity,
+                    //     overflow: TextOverflow.fade,
+                    //     softWrap: false,
+                    //     style: TextStyle(fontWeight: FontWeight.w500),
+                    //   ),
+                    // ),
                   ],
                 ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child:
-                          Text(dateFormatter(widget.request.dateTimeCreated)),
-                    ),
-                    Text(
-                      widget.request.description ?? '',
-                      textAlign: TextAlign.justify,
-                    ),
-                  ],
+                subtitle: Container(
+                  margin: EdgeInsets.only(bottom: 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        widget.request.quantity,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                      ),
+                      Text(
+                        dateFormatter(widget.request.dateTimeCreated),
+                      ),
+                    ],
+                  ),
                 ),
                 trailing: GestureDetector(
                   onTap: () async {

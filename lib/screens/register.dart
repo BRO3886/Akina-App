@@ -245,7 +245,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                       height: 30,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         (isLoading)
                             ? CircularProgressIndicator()
