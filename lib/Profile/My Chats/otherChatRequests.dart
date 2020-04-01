@@ -49,7 +49,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
     data_passed['user_id'] = userId;
     //
 
-    print("Body in other chats is " + data_passed.toString());
+    //print("Body in other chats is " + data_passed.toString());
 
     var sp = SharedPrefsCustom();
     final token = await sp.getToken();
@@ -63,9 +63,9 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
         body: json.encode(data_passed),
       );
 
-      print("Response of other chats is " + response.statusCode.toString());
+      //print("Response of other chats is " + response.statusCode.toString());
       final data = json.decode(response.body);
-      print('Data in other chats is '+data.toString());
+      //print('Data in other chats is '+data.toString());
       if (response.statusCode == 200) {
         setState(() {
           listOtherChats = Chats.fromJson(data).chats;

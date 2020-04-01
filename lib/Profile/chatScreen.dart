@@ -44,18 +44,20 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     getValues();
     showChats();
 
-    var URL = 'ws://hestia-chat.herokuapp.com/api/v1/ws?chat=' +
-        widget.receiverID.toString();
+   var URL = 'ws://hestia-chat.herokuapp.com/api/v1/ws?chat=' + widget.receiverID.toString();
     print("URL is " + URL);
     channel = WebSocketChannel.connect(
       Uri.parse(URL),
     );
     channel.stream.listen((message) {
+      print("I listened and the message is "+message.toString());
       setState(() {
-        messages.msgs.add(jsonDecode(message));
+        messages.msgs.add((message));
       });
     });
     print("Description is "+widget.itemDescription);
+    
+    new Timer.periodic(new Duration(seconds: 30), (Timer t) => doSomething());
   }
 
   Map<String, int> data_create_chat = {'receiver': 27, 'sender': 21};
@@ -67,11 +69,10 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     setState(() {
       userID;
     });
-    new Timer.periodic(new Duration(seconds: 30), (Timer t) => doSomething());
   }
 
   doSomething() {
-    channel.sink.add("Hey, Satkriti here");
+    //channel.sink.add("Hey, Satkriti here");
     print("Message sent to server");
   }
 
@@ -92,7 +93,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
           body: json.encode(data_create_chat));
       //print("Response in getting messages is "+response.body.toString());
       final result = json.decode(response.body);
-      print("Messgaes are " + result.toString());
+      //print("Messgaes are " + result.toString());
       if (response.statusCode == 200) {
         setState(() {
           messages = Messages.fromJson(result);
@@ -115,6 +116,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
   @override
   void dispose() {
     super.dispose();
+    controller.dispose();
     channel.sink.close();
   }
 
