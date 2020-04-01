@@ -153,7 +153,8 @@ class _RequestCardState extends State<RequestCard> {
                           context,
                           widget.request.id.toString(),
                           widget.request.itemName,
-                          widget.request.requestMadeBy);
+                          widget.request.requestMadeBy,
+                          widget.request.description);
                       Navigator.of(context).maybePop();
                     } else if (widget.requestStatus == false ||
                         widget.requestStatus == null) {
@@ -161,7 +162,8 @@ class _RequestCardState extends State<RequestCard> {
                           context,
                           widget.request.id,
                           widget.request.itemName,
-                          widget.request.requestMadeBy);
+                          widget.request.requestMadeBy,
+                          widget.request.description);
                     }
                   },
                   child: Tooltip(
@@ -184,7 +186,7 @@ class _RequestCardState extends State<RequestCard> {
   bool accept = false;
 
   acceptWidget(
-      BuildContext context, int itemID, String itemName, String receiverID) {
+      BuildContext context, int itemID, String itemName, String receiverID, String description) {
     return showDialog(
         context: context,
         builder: (context) {
@@ -226,7 +228,7 @@ class _RequestCardState extends State<RequestCard> {
                             textColor: colorWhite,
                             onPressed: () {
                               acceptRequest(context, itemID.toString(),
-                                  itemName, receiverID);
+                                  itemName, receiverID, description);
                               Navigator.of(context).maybePop();
                             },
                             child: Row(

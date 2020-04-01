@@ -22,11 +22,12 @@ class ChatScreenPage extends StatefulWidget {
       this.senderID,
       this.receiverID,
       @required this.itemName,
-      this.personName})
+      this.personName,
+      @required this.itemDescription})
       : super(key: key);
 
   final int senderID, receiverID;
-  final String itemName, personName;
+  final String itemName, personName, itemDescription;
 
   @override
   ChatScreenPageState createState() => ChatScreenPageState();
@@ -34,9 +35,9 @@ class ChatScreenPage extends StatefulWidget {
 
 class ChatScreenPageState extends State<ChatScreenPage> {
   ScrollController _controller = ScrollController();
-  ChatScreenPageState({this.senderID, this.receiverID, this.itemName});
+  ChatScreenPageState({this.senderID, this.receiverID, this.itemName, this.itemDescription});
   final int senderID, receiverID;
-  final String itemName;
+  final String itemName, itemDescription;
   @override
   void initState() {
     super.initState();
@@ -54,6 +55,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
         messages.msgs.add(jsonDecode(message));
       });
     });
+    print("Description is "+widget.itemDescription);
   }
 
   Map<String, int> data_create_chat = {'receiver': 27, 'sender': 21};
@@ -167,7 +169,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                                       fontSize: 20.0,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Text(widget.itemName)
+                                Text(widget.itemName),
                               ],
                             ),
                           ],
@@ -192,6 +194,10 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                         ),
                       ],
                     ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                    child: widget.itemDescription.length > 100 ? Text((widget.itemDescription).substring(0,100)) : Text(widget.itemDescription),
                   ),
                   new Expanded(
                     child: bodyMessages(),
