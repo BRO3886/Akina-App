@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -34,6 +35,8 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
   void initState() {
     super.initState();
     getOtherChats();
+    
+    new Timer.periodic(new Duration(seconds: 60), (Timer t) => getOtherChats());
   }
 
   Map<String, int> data_passed = {
@@ -43,6 +46,8 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
   List<Chat> listOtherChats = [];
 
   List<Accept> listViewAccept = [];
+
+  String snapshot = '' ;
 
   Future<List<Chat>> getOtherChats() async {
     final userId = await SharedPrefsCustom().getUserId();
@@ -69,9 +74,11 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
       if (response.statusCode == 200) {
         setState(() {
           listOtherChats = Chats.fromJson(data).chats;
+          snapshot = 'hasData';
         });
       } else {
         setState(() {
+          snapshot = data['message'];
           listOtherChats = [];
         });
       }
@@ -83,7 +90,10 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    return Expanded(
+      child : bodyOtherChats()
+    );
+    /*return FutureBuilder(
       future: getOtherChats(),
       builder: (ctx, snapshot) {
         listOtherChats = snapshot.data;
@@ -198,6 +208,121 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
           return CircularProgressIndicator();
         }
       },
-    );
+    );*/
   }
+
+  bodyOtherChats(){
+    
+    if (snapshot == '') {
+      return Center(child: CircularProgressIndicator());
+    }
+    if (snapshot == 'hasData' && listOtherChats.length == 0) {
+      return Center(
+        child: Text("No messages found"),
+      );
+    } else if (snapshot == 'Got Data' && listOtherChats.length > 0) {
+      return new Expanded(
+                child: ListView.builder(
+                    itemCount: listOtherChats.length,
+                    itemBuilder: (BuildContext ctxt, int index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                              builder: (BuildContext context) => ChatScreenPage(
+                                senderID: listOtherChats[index].sender,
+                                receiverID: listOtherChats[index].receiver,
+                                itemName: listOtherChats[index].title,
+                                personName: listOtherChats[index].senderName,
+                                itemDescription: listOtherChats[index].description,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Container(
+                            margin: EdgeInsets.only(
+                                left: 25.0,
+                                right: 25.0,
+                                top: 10.0,
+                                bottom: 10.0),
+                            decoration: BoxDecoration(
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                    blurRadius: 5,
+                                    spreadRadius: 0,
+                                    color: Color(0x23000000),
+                                  ),
+                                ],
+                                shape: BoxShape.rectangle,
+                                color: colorWhite,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5))),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Container(
+                                    margin: EdgeInsets.only(
+                                        top: 20.0, left: 15.0, bottom: 20.0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              top: 0.0, bottom: 10.0),
+                                          child: Text(
+                                            listOtherChats[index].senderName,
+                                            style: TextStyle(fontSize: 17.0),
+                                          ),
+                                        ),
+                                        Text(listOtherChats[index].title,
+                                            style: TextStyle(
+                                                color: colorGrey,
+                                                fontSize: 13.0))
+                                      ],
+                                    )),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                ChatScreenPage(
+                                                  senderID:
+                                                      listOtherChats[index].sender,
+                                                  receiverID: listOtherChats[index]
+                                                      .receiver,
+                                                  itemName:
+                                                      listOtherChats[index].title,
+                                                  personName: listOtherChats[index]
+                                                      .senderName,
+                                                      itemDescription: listOtherChats[index].description,
+                                                )));
+                                  },
+                                  child: Container(
+                                      margin: EdgeInsets.only(
+                                          top: 20.0, right: 15.0, bottom: 20.0),
+                                      padding: EdgeInsets.all(8.0),
+                                      decoration: new BoxDecoration(
+                                        color: mainColor,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: colorWhite,
+                                        size: 14.0,
+                                      )),
+                                )
+                              ],
+                            )),
+                      );
+                    }),
+              );
+    }
+  }
+
 }

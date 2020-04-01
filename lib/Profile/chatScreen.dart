@@ -59,7 +59,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     print("Description is "+widget.itemDescription);
     
     new Timer.periodic(new Duration(seconds: 30), (Timer t) => doSomething());
-    //new Timer.periodic(new Duration(seconds: 60), (Timer t) => showChats());
+    new Timer.periodic(new Duration(seconds: 60), (Timer t) => showChats());
   }
 
   Map<String, int> data_create_chat = {'receiver': 27, 'sender': 21};

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -26,6 +27,8 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
   void initState() {
     super.initState();
     getMyChats();
+    
+    new Timer.periodic(new Duration(seconds: 60), (Timer t) => getMyChats());
   }
 
   Map<String, int> data_passed = {
@@ -35,6 +38,8 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
   SocketIO socketIO;
 
   List<Chat> listMyChats = [];
+
+  String snapshot = '';
 
   Future<List<Chat>> getMyChats() async {
     final userId = await SharedPrefsCustom().getUserId();
@@ -59,9 +64,11 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
         //print("Output of my chat is "+response.body.toString());
         setState(() {
           listMyChats = Chats.fromJson(data).chats;
+          snapshot = 'hasData';
         });
       } else {
         setState(() {
+          snapshot = data['message'];
           listMyChats = [];
         });
       }
@@ -74,7 +81,8 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: Column(children: <Widget>[
+        child: 
+        //Column(children: <Widget>[
       /*GestureDetector(
         onTap: () {
           Navigator.push(
@@ -103,11 +111,14 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
           ),
         ),
       ),*/
-      FutureBuilder(
+      
+      //TODO Change
+      /*FutureBuilder(
         future: getMyChats(),
         builder: (ctx, snapshot) {
           listMyChats = snapshot.data;
           if (snapshot.hasData) {
+            
             if (listMyChats.length > 0) {
               return new Expanded(
                 child: ListView.builder(
@@ -217,7 +228,124 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
             return CircularProgressIndicator();
           }
         },
-      )
-    ]));
+      )*/
+
+      bodyMyChats()
+    //])
+    );
+  }
+
+  bodyMyChats(){
+    
+    if (snapshot == '') {
+      return Center(child: CircularProgressIndicator());
+    }
+    if (snapshot == 'hasData' && listMyChats.length == 0) {
+      return Center(
+        child: Text("No messages found"),
+      );
+    } else if (snapshot == 'Got Data' && listMyChats.length > 0) {
+      return new Expanded(
+                child: ListView.builder(
+                    itemCount: listMyChats.length,
+                    itemBuilder: (BuildContext ctxt, int index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                              builder: (BuildContext context) => ChatScreenPage(
+                                senderID: listMyChats[index].sender,
+                                receiverID: listMyChats[index].receiver,
+                                itemName: listMyChats[index].title,
+                                personName: listMyChats[index].senderName,
+                                itemDescription: listMyChats[index].description,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Container(
+                            margin: EdgeInsets.only(
+                                left: 25.0,
+                                right: 25.0,
+                                top: 10.0,
+                                bottom: 10.0),
+                            decoration: BoxDecoration(
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                    blurRadius: 5,
+                                    spreadRadius: 0,
+                                    color: Color(0x23000000),
+                                  ),
+                                ],
+                                shape: BoxShape.rectangle,
+                                color: colorWhite,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5))),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Container(
+                                    margin: EdgeInsets.only(
+                                        top: 20.0, left: 15.0, bottom: 20.0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              top: 0.0, bottom: 10.0),
+                                          child: Text(
+                                            listMyChats[index].senderName,
+                                            style: TextStyle(fontSize: 17.0),
+                                          ),
+                                        ),
+                                        Text(listMyChats[index].title,
+                                            style: TextStyle(
+                                                color: colorGrey,
+                                                fontSize: 13.0))
+                                      ],
+                                    )),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                ChatScreenPage(
+                                                  senderID:
+                                                      listMyChats[index].sender,
+                                                  receiverID: listMyChats[index]
+                                                      .receiver,
+                                                  itemName:
+                                                      listMyChats[index].title,
+                                                  personName: listMyChats[index]
+                                                      .senderName,
+                                                      itemDescription: listMyChats[index].description,
+                                                )));
+                                  },
+                                  child: Container(
+                                      margin: EdgeInsets.only(
+                                          top: 20.0, right: 15.0, bottom: 20.0),
+                                      padding: EdgeInsets.all(8.0),
+                                      decoration: new BoxDecoration(
+                                        color: mainColor,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: colorWhite,
+                                        size: 14.0,
+                                      )),
+                                )
+                              ],
+                            )),
+                      );
+                    }),
+              );
+    }
   }
 }
