@@ -1,10 +1,13 @@
 const BASE_URL = 'https://hestia-auth.herokuapp.com/api/user';
 
+//const BASE_URL = 'https://akina.ayushpriya.tech/api/user';
+
 const URL_USER_LOGIN  = '$BASE_URL/login';
 const URL_USER_REGISTER = '$BASE_URL/registerapp';
-const URL_USER_UPDATE = 'https://hestia-auth.herokuapp.com/api/user/updateUser';
+const URL_USER_UPDATE = '$BASE_URL/updateUser';
 
-const REQUEST_BASE_URL = 'hestia-requests.herokuapp.com';
+//const REQUEST_BASE_URL = 'hestia-requests.herokuapp.com';
+const REQUEST_BASE_URL = 'akina.ayushpriya.tech';
 const URL_NEW_ITEM_REQUEST = 'api/requests/item_requests/';
 const URL_VIEW_ALL_ITEM_REQUESTS = 'api/requests/view_all_item_requests/';
 
@@ -23,11 +26,14 @@ const URL_VIEW_MY_REQUESTS = 'api/requests/my_requests/';
 
 const URL_GET_ID = 'https://hestia-auth.herokuapp.com/api/user/getuserdetail';
 
-const REPORT_BASE_URL = 'https://hestia-report.herokuapp.com';
+//const REPORT_BASE_URL = 'https://hestia-report.herokuapp.com';
+const REPORT_BASE_URL = 'https://akina.ayushpriya.tech';
+
 
 const URL_SHOW_CREATE_SUGGESTIONS = '$REPORT_BASE_URL/api/recommend/';
 const URL_REPORT_A_PERSON = '$REPORT_BASE_URL/api/report/';
-const SHOP_BASE_URL = 'https://hestia-report.herokuapp.com';
+//const SHOP_BASE_URL = 'https://hestia-report.herokuapp.com';
+const SHOP_BASE_URL = 'akina.ayushpriya.tech';
 
 const NEWS_BASE_URL = 'http://hestia-info.herokuapp.com';
 const URL_NEWS = "http://hestia-info.herokuapp.com/node";

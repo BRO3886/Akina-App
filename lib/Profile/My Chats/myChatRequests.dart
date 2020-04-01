@@ -132,6 +132,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                 receiverID: listMyChats[index].receiver,
                                 itemName: listMyChats[index].title,
                                 personName: listMyChats[index].senderName,
+                                itemDescription: listMyChats[index].description,
                               ),
                             ),
                           );
@@ -196,6 +197,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                                       listMyChats[index].title,
                                                   personName: listMyChats[index]
                                                       .senderName,
+                                                      itemDescription: listMyChats[index].description,
                                                 )));
                                   },
                                   child: Container(

@@ -65,12 +65,11 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
 
       print("Response of other chats is " + response.statusCode.toString());
       final data = json.decode(response.body);
-      //print('Data in other chats is '+data.toString());
+      print('Data in other chats is '+data.toString());
       if (response.statusCode == 200) {
         setState(() {
           listOtherChats = Chats.fromJson(data).chats;
         });
-        print("List is " + listOtherChats[0].toString());
       } else {
         setState(() {
           listOtherChats = [];
@@ -92,8 +91,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
           if (listOtherChats.length > 0) {
             return new Expanded(
                 child: ListView.builder(
-                    itemCount: 5,
-                    //listOtherChats.length,
+                    itemCount: listOtherChats.length,
                     itemBuilder: (BuildContext ctxt, int index) {
                       return GestureDetector(
                         onTap: () {
@@ -101,10 +99,11 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                             context,
                             new MaterialPageRoute(
                               builder: (BuildContext context) => ChatScreenPage(
-                                senderID: listOtherChats[0].sender,
-                                receiverID: listOtherChats[0].receiver,
-                                itemName: listOtherChats[0].title,
-                                personName: listOtherChats[0].receiverName,
+                                senderID: listOtherChats[index].sender,
+                                receiverID: listOtherChats[index].receiver,
+                                itemName: listOtherChats[index].title,
+                                personName: listOtherChats[index].receiverName,
+                                itemDescription: listOtherChats[index].description,
                               ),
                             ),
                           );
@@ -142,11 +141,11 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                           margin: EdgeInsets.only(
                                               top: 0.0, bottom: 10.0),
                                           child: Text(
-                                            listOtherChats[0].receiverName,
+                                            listOtherChats[index].receiverName,
                                             style: TextStyle(fontSize: 17.0),
                                           ),
                                         ),
-                                        Text(listOtherChats[0].title,
+                                        Text(listOtherChats[index].title,
                                             style: TextStyle(
                                                 color: colorGrey,
                                                 fontSize: 13.0))
@@ -160,17 +159,18 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                             builder: (BuildContext context) =>
                                                 ChatScreenPage(
                                                   senderID:
-                                                      listOtherChats[0]
+                                                      listOtherChats[index]
                                                           .sender,
                                                   receiverID:
-                                                      listOtherChats[0]
+                                                      listOtherChats[index]
                                                           .receiver,
                                                   itemName:
-                                                      listOtherChats[0]
+                                                      listOtherChats[index]
                                                           .title,
                                                   personName:
-                                                      listOtherChats[0]
+                                                      listOtherChats[index]
                                                           .receiverName,
+                                                  itemDescription: listOtherChats[index].description,
                                                 )));
                                   },
                                   child: Container(

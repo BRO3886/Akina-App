@@ -222,6 +222,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                       controller: _descriptionController,
                       // textCapitalization: TextCapitalization.words,
                       maxLines: 3,
+                      maxLength: 250,
                       autocorrect: true,
                       decoration: InputDecoration(
                         labelText: 'Description',

@@ -12,7 +12,7 @@ import 'package:project_hestia/services/shared_prefs_custom.dart';
 import '../model/request.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-acceptRequest(BuildContext context ,String itemID, String itemName, String receiverID) async {
+acceptRequest(BuildContext context ,String itemID, String itemName, String receiverID, String description) async {
   Position position;
   PermissionStatus permissionStatus =
       await PermissionHandler().checkPermissionStatus(PermissionGroup.location);
@@ -54,7 +54,7 @@ acceptRequest(BuildContext context ,String itemID, String itemName, String recei
     print("response is "+response.body.toString());
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      createChat(context, senderID, receiverID, itemName);
+      createChat(context, senderID, receiverID, itemName, description);
       //Fluttertoast.showToast(msg: 'Request accepted!');
     } else {
         Fluttertoast.showToast(msg: result['message']);
@@ -72,7 +72,7 @@ var bodyCreateChatRoom = {
     "title": "Sample chat"
   };
 
-createChat(BuildContext context, int sender, String receiver, String itemName) async{  
+createChat(BuildContext context, int sender, String receiver, String itemName, String description) async{  
   print("I am in create chat");
   try {
     final token = await SharedPrefsCustom().getToken();
@@ -87,6 +87,7 @@ createChat(BuildContext context, int sender, String receiver, String itemName) a
         'title': itemName,
         "request_sender": int.parse(receiver),
 	      "request_receiver": sender,
+        'req_desc' : description
       })
     );
     print("response is "+response.body.toString());
@@ -95,6 +96,7 @@ createChat(BuildContext context, int sender, String receiver, String itemName) a
     if (result["code"] == 200) {
       Fluttertoast.showToast(msg: 'Request accepted!');
       print("Result from create chat room is "+result.toString());
+      print("Description is "+description);
       Navigator.push(
         context,
         new MaterialPageRoute(
@@ -104,6 +106,7 @@ createChat(BuildContext context, int sender, String receiver, String itemName) a
                   receiverID: int.parse(receiver),
                   itemName: itemName,
                   personName: result['chat_room']['receiver_name'],
+                  itemDescription: description,
         )));
     } else {
         Fluttertoast.showToast(msg: result['message']);
