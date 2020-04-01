@@ -407,13 +407,14 @@ class ChatScreenPageState extends State<ChatScreenPage> {
 
       channel.sink.add(controller.text);
 
+      Timer(Duration(milliseconds: 500),
+          () => _controller.jumpTo(_controller.position.maxScrollExtent));
+      
       setState(() {
         controller.text = '';
         controller.clear();
       });
 
-      Timer(Duration(milliseconds: 500),
-          () => _controller.jumpTo(_controller.position.maxScrollExtent));
       try {
         final token = await SharedPrefsCustom().getToken();
         final response = await http.post(URL_CREATE_MESSAGE,

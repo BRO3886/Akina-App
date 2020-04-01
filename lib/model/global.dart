@@ -38,7 +38,9 @@ const SHOP_BASE_URL = 'akina.ayushpriya.tech';
 const NEWS_BASE_URL = 'http://hestia-info.herokuapp.com';
 const URL_NEWS = "http://hestia-info.herokuapp.com/node";
 
-const CHAT_BASE_URL = 'https://hestia-chat.herokuapp.com';
+//const CHAT_BASE_URL = 'https://hestia-chat.herokuapp.com';
+
+const CHAT_BASE_URL = 'https://akina.ayushpriya.tech';
 
 const URL_GET_MY_CHATS = '$CHAT_BASE_URL/api/v1/getMyChats';
 const URL_GET_OTHER_CHATS = '$CHAT_BASE_URL/api/v1/getOtherChats';
