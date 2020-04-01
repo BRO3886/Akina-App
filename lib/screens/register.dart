@@ -245,7 +245,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                       height: 30,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         (isLoading)
                             ? CircularProgressIndicator()
@@ -276,7 +276,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                                 ),
                                 onPressed: _register,
                               ),
-                        SizedBox(
+                        /*SizedBox(
                           width: MediaQuery.of(context).size.width * 0.05,
                         ),
                         RaisedButton(
@@ -307,7 +307,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                             borderRadius: BorderRadius.circular(5),
                           ),
                           onPressed: () {},
-                        )
+                        )*/
                       ],
                     ),
                   ],

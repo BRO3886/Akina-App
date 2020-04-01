@@ -1,15 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:project_hestia/Profile/chatScreen.dart';
 import 'package:project_hestia/model/global.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 import '../model/request.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-acceptRequest(String itemID, String itemName, String receiverID) async {
+acceptRequest(BuildContext context ,String itemID, String itemName, String receiverID) async {
   Position position;
   PermissionStatus permissionStatus =
       await PermissionHandler().checkPermissionStatus(PermissionGroup.location);
@@ -52,7 +55,7 @@ acceptRequest(String itemID, String itemName, String receiverID) async {
     print("response is "+response.body.toString());
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      createChat(senderID, receiverID, itemName);
+      createChat(context, senderID, receiverID, itemName);
       //Fluttertoast.showToast(msg: 'Request accepted!');
     } else {
         Fluttertoast.showToast(msg: result['message']);
@@ -70,7 +73,7 @@ var bodyCreateChatRoom = {
     "title": "Sample chat"
   };
 
-createChat(int sender, String receiver, String text) async{  
+createChat(BuildContext context, int sender, String receiver, String itemName) async{  
   print("I am in create chat");
   try {
     final token = await SharedPrefsCustom().getToken();
@@ -82,7 +85,7 @@ createChat(int sender, String receiver, String text) async{
       body: json.encode({
         'receiver': int.parse(receiver),
         'sender': sender ,
-        'title': text,
+        'title': itemName,
         "request_sender": int.parse(receiver),
 	      "request_receiver": sender,
       })
@@ -92,6 +95,17 @@ createChat(int sender, String receiver, String text) async{
     print("Result of create chat room is "+result.toString());
     if (result["code"] == 200) {
       Fluttertoast.showToast(msg: 'Request accepted!');
+      print("Result from create chat room is "+result.toString());
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) =>
+                ChatScreenPage(
+                  senderID: sender,
+                  receiverID: int.parse(receiver),
+                  itemName: itemName,
+                  personName: result['chat_room']['receiver_name'],
+        )));
     } else {
         Fluttertoast.showToast(msg: result['message']);
     }

@@ -192,6 +192,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         children: <Widget>[
                           TextFormField(
                             initialValue: userDetails['name'],
+                            maxLength: 100,
                             // controller: nameController,
                             textCapitalization: TextCapitalization.words,
                             decoration: InputDecoration(
@@ -213,6 +214,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             height: 30,
                           ),
                           TextFormField(
+                            maxLength: 100,
                             initialValue: userDetails['email'],
                             // controller: emailController,
                             keyboardType: TextInputType.emailAddress,
@@ -241,6 +243,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             height: 30,
                           ),
                           TextFormField(
+                            maxLength: 100,
                             initialValue: userDetails['phone'],
                             // controller: phoneController,
                             keyboardType: TextInputType.phone,

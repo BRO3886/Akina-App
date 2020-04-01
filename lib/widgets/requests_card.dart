@@ -114,35 +114,30 @@ class _RequestCardState extends State<RequestCard> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    if (widget.requestStatus == true || (accept == true)) {
-                      acceptRequest(
-                          widget.request.id.toString(),
-                          widget.request.itemName,
-                          widget.request.requestMadeBy);
-                      Navigator.of(context).maybePop();
-                    } else if (widget.requestStatus == false ||
-                        widget.requestStatus == null) {
-                      acceptWidget(
-                          context,
-                          widget.request.id,
-                          widget.request.itemName,
-                          widget.request.requestMadeBy);
-                    }
-                  },
-                  child: Tooltip(
-                    message: 'Accept this request',
-                    child: CircleAvatar(
-                      child: SvgPicture.asset("assets/images/check.svg"),
-                      maxRadius: 15,
-                      backgroundColor: mainColor,
-                    ),
+              SizedBox(
+                width: 10,
+              ),
+              GestureDetector(
+                onTap: () {
+                  if (widget.requestStatus == true || (accept == true)) {
+                    acceptRequest(context,widget.request.id.toString(),
+                        widget.request.itemName, widget.request.requestMadeBy);
+                    Navigator.of(context).maybePop();
+                  } else if (widget.requestStatus == false ||
+                      widget.requestStatus == null) {
+                    acceptWidget(context, widget.request.id,
+                        widget.request.itemName, widget.request.requestMadeBy);
+                  }
+                },
+                child: Tooltip(
+                  message: 'Accept this request',
+                  child: CircleAvatar(
+                    child: SvgPicture.asset("assets/images/check.svg"),
+                    maxRadius: 15,
+                    backgroundColor: mainColor,
                   ),
                 ),
+              ),
               ],
             ),
           ),
@@ -196,7 +191,7 @@ class _RequestCardState extends State<RequestCard> {
                             textColor: colorWhite,
                             onPressed: () {
                               acceptRequest(
-                                  itemID.toString(), itemName, receiverID);
+                                  context, itemID.toString(), itemName, receiverID);
                               Navigator.of(context).maybePop();
                             },
                             child: Row(

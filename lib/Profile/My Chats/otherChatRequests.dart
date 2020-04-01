@@ -92,7 +92,8 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
           if (listOtherChats.length > 0) {
             return new Expanded(
                 child: ListView.builder(
-                    itemCount: listOtherChats.length,
+                    itemCount: 5,
+                    //listOtherChats.length,
                     itemBuilder: (BuildContext ctxt, int index) {
                       return GestureDetector(
                         onTap: () {
@@ -100,10 +101,10 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                             context,
                             new MaterialPageRoute(
                               builder: (BuildContext context) => ChatScreenPage(
-                                senderID: listOtherChats[index].sender,
-                                receiverID: listOtherChats[index].receiver,
-                                itemName: listOtherChats[index].title,
-                                personName: listOtherChats[index].receiverName,
+                                senderID: listOtherChats[0].sender,
+                                receiverID: listOtherChats[0].receiver,
+                                itemName: listOtherChats[0].title,
+                                personName: listOtherChats[0].receiverName,
                               ),
                             ),
                           );
@@ -141,11 +142,11 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                           margin: EdgeInsets.only(
                                               top: 0.0, bottom: 10.0),
                                           child: Text(
-                                            listOtherChats[index].receiverName,
+                                            listOtherChats[0].receiverName,
                                             style: TextStyle(fontSize: 17.0),
                                           ),
                                         ),
-                                        Text(listOtherChats[index].title,
+                                        Text(listOtherChats[0].title,
                                             style: TextStyle(
                                                 color: colorGrey,
                                                 fontSize: 13.0))
@@ -159,16 +160,16 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                             builder: (BuildContext context) =>
                                                 ChatScreenPage(
                                                   senderID:
-                                                      listOtherChats[index]
+                                                      listOtherChats[0]
                                                           .sender,
                                                   receiverID:
-                                                      listOtherChats[index]
+                                                      listOtherChats[0]
                                                           .receiver,
                                                   itemName:
-                                                      listOtherChats[index]
+                                                      listOtherChats[0]
                                                           .title,
                                                   personName:
-                                                      listOtherChats[index]
+                                                      listOtherChats[0]
                                                           .receiverName,
                                                 )));
                                   },

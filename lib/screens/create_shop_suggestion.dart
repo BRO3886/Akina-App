@@ -114,6 +114,7 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                 child: Column(
                   children: <Widget>[
                     TextFormField(
+                      maxLength: 100,
                       controller: nameController,
                       textCapitalization: TextCapitalization.words,
                       decoration: InputDecoration(
@@ -135,6 +136,7 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                       height: 20,
                     ),
                     TextFormField(
+                      maxLength: 100,
                       controller: phoneController,
                       keyboardType: TextInputType.number,
                       // textCapitalization: TextCapitalization.words,
@@ -160,6 +162,7 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                       height: 20,
                     ),
                     TextFormField(
+                      maxLength: 250,
                       controller: descController,
                       // textCapitalization: TextCapitalization.words,
                       maxLines: 3,
@@ -184,6 +187,7 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                       height: 20,
                     ),
                     TextFormField(
+                      maxLength: 100,
                       controller: landmarkController,
                       textCapitalization: TextCapitalization.words,
                       autocorrect: true,
@@ -206,6 +210,7 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                       height: 20,
                     ),
                     TextFormField(
+                      maxLength: 250,
                       controller: extraController,
                       autocorrect: true,
                       maxLines: 3,
