@@ -299,7 +299,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                           margin: EdgeInsets.only(
                                               top: 0.0, bottom: 10.0),
                                           child: Text(
-                                            listMyChats[index].senderName,
+                                            listMyChats[index].receiverName,
                                             style: TextStyle(fontSize: 17.0),
                                           ),
                                         ),
@@ -347,9 +347,14 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                     }
               );
     }
-    else{
+    else if(snapshot != null){
       return Container(
         child: Text(snapshot),
+      );
+    }
+    else{
+      return Container(
+        child : Text('Error is from our side')
       );
     }
   }
