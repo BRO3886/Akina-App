@@ -52,7 +52,7 @@ class _RequestDeleteCardState extends State<RequestDeleteCard> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16.0, vertical: 5),
                       child: Text(
-                        widget.request.description ?? '',
+                        widget.request.description ?? 'No description provided',
                         textAlign: TextAlign.justify,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 3,

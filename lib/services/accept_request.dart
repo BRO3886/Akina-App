@@ -47,9 +47,8 @@ acceptRequest(BuildContext context ,String itemID, String itemName, String recei
       },
       body: {
         'request_id':itemID.toString(),
-        'location': 'Surat'//address.first.locality
-        
-        //TODO change location address.first.locality
+        'location': address.first.locality
+        //TODO: change location address.first.locality
       }
     );
     print("response is "+response.body.toString());
