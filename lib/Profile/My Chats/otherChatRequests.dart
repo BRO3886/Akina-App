@@ -220,9 +220,8 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
       return Center(
         child: Text("No messages found"),
       );
-    } else if (snapshot == 'Got Data' && listOtherChats.length > 0) {
-      return new Expanded(
-                child: ListView.builder(
+    } else if (snapshot == 'hasData' && listOtherChats.length > 0) {
+      return new ListView.builder(
                     itemCount: listOtherChats.length,
                     itemBuilder: (BuildContext ctxt, int index) {
                       return GestureDetector(
@@ -320,8 +319,13 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                               ],
                             )),
                       );
-                    }),
+                    }
               );
+    }
+    else{
+      return Container(
+        child: Text(snapshot),
+      );
     }
   }
 

@@ -42,6 +42,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
   String snapshot = '';
 
   Future<List<Chat>> getMyChats() async {
+
     final userId = await SharedPrefsCustom().getUserId();
     data_passed['user_id'] = userId;
     //print("Body in my chats is "+data_passed.toString());
@@ -244,9 +245,8 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
       return Center(
         child: Text("No messages found"),
       );
-    } else if (snapshot == 'Got Data' && listMyChats.length > 0) {
-      return new Expanded(
-                child: ListView.builder(
+    } else if (snapshot == 'hasData' && listMyChats.length > 0) {
+      return new ListView.builder(
                     itemCount: listMyChats.length,
                     itemBuilder: (BuildContext ctxt, int index) {
                       return GestureDetector(
@@ -344,8 +344,13 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                               ],
                             )),
                       );
-                    }),
+                    }
               );
+    }
+    else{
+      return Container(
+        child: Text(snapshot),
+      );
     }
   }
 }
