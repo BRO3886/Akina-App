@@ -43,7 +43,8 @@ Future<AllRequests> getMyRequests() async {
       URL_VIEW_MY_REQUESTS,
       {
         //TODO change location
-        'location': address.first.locality},
+        'location': 'Noida'// address.first.locality
+        },
     );
     print("URI in my request is "+uri.toString());
     final token = await SharedPrefsCustom().getToken();
