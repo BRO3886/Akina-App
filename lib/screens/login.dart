@@ -240,10 +240,10 @@ class _LoginScreenState extends State<LoginScreen> {
         });
         return;
       } else {
-        String baseUrl = 'https://hestia-auth.herokuapp.com/api/user/login';
+        // String baseUrl = 'https://hestia-auth.herokuapp.com/api/user/login';
         String content = "";
         try {
-          final response = await http.post(baseUrl, body: userInfo);
+          final response = await http.post(URL_USER_LOGIN, body: userInfo);
           Map<String, dynamic> responseBody = jsonDecode(response.body);
           print(responseBody);
           if (responseBody.containsKey("Error")) {

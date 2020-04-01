@@ -39,11 +39,11 @@ Future<bool> deleteRequest(String id) async {
 
     print(address.first.locality);
     final uri = Uri.https(
-      ITEM_REQUEST_BASE_URL,
-      URL_NEW_REQUEST + id + "/",
+      REQUEST_BASE_URL,
+      URL_NEW_ITEM_REQUEST + id + "/",
     );
     print(uri);
-    print(ITEM_REQUEST_BASE_URL + URL_NEW_REQUEST + id + "/");
+    print(REQUEST_BASE_URL + URL_NEW_ITEM_REQUEST + id + "/");
     final token = await SharedPrefsCustom().getToken();
     final response = await http.delete(
       uri,
