@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_hestia/model/global.dart';
 import 'package:ant_icons/ant_icons.dart';
@@ -16,10 +17,12 @@ class CreateShopSuggestionScreen extends StatefulWidget {
   CreateShopSuggestionScreen({@required this.userID, @required this.itemName});
   final userID, itemName;
   @override
-  _CreateShopSuggestionScreenState createState() => _CreateShopSuggestionScreenState();
+  _CreateShopSuggestionScreenState createState() =>
+      _CreateShopSuggestionScreenState();
 }
 
-class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen> {
+class _CreateShopSuggestionScreenState
+    extends State<CreateShopSuggestionScreen> {
   _CreateShopSuggestionScreenState({this.userID, this.itemName});
 
   final String userID, itemName;
@@ -35,15 +38,15 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
   bool isLoading = false;
 
   Map<String, String> suggestionInfo = {
-    "recommended_for":"1",
+    "recommended_for": "1",
     "name_of_shop": "Shanti Medical",
     "phone_number": "68794039245",
     "landmark": "Chettinad Hospital",
-    "extra_instruction": "Go towards the right bifurcation at the end of the avenue, shop should be at the right",
+    "extra_instruction":
+        "Go towards the right bifurcation at the end of the avenue, shop should be at the right",
     "description_of_shop": "Sanitizers, medicines, and masks available",
-    "item":"hn"
+    "item": "hn"
   };
-
 
   Future _createSuggestion() async {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
@@ -52,20 +55,25 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
     }
     _formKey.currentState.save();
     // final id  = await SharedPrefsCustom().getUserId();
-    suggestionInfo['recommended_for']= widget.userID;
-    suggestionInfo['item']=widget.itemName;
+    suggestionInfo['recommended_for'] = widget.userID;
+    suggestionInfo['item'] = widget.itemName;
     setState(() {
       isLoading = true;
     });
     String content = "";
     try {
-      print("Body sent to add shop suggestion is "+suggestionInfo.toString());
+      print("Body sent to add shop suggestion is " + suggestionInfo.toString());
       final token = await SharedPrefsCustom().getToken();
-      final response = await http.post(URL_SHOW_CREATE_SUGGESTIONS, body: jsonEncode(suggestionInfo), headers: {HttpHeaders.authorizationHeader: token,"Content-Type": "application/json"});
-      print("Response is "+response.toString());
+      final response = await http.post(URL_SHOW_CREATE_SUGGESTIONS,
+          body: jsonEncode(suggestionInfo),
+          headers: {
+            HttpHeaders.authorizationHeader: token,
+            "Content-Type": "application/json"
+          });
+      print("Response is " + response.toString());
       Map<String, dynamic> responseBody = jsonDecode(response.body);
       print(responseBody.toString());
-      if (response.statusCode==201) {
+      if (response.statusCode == 201) {
         Fluttertoast.showToast(msg: "Successfully added");
         Navigator.pop(context);
         Navigator.of(context).canPop();
@@ -82,7 +90,7 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
 
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).canvasColor,
         centerTitle: true,
@@ -99,7 +107,9 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
               Row(
                 children: <Widget>[
                   MyBackButton(),
-                  SizedBox(width: 25,),
+                  SizedBox(
+                    width: 25,
+                  ),
                   Text(
                     'Suggest a Shop',
                     style: screenHeadingStyle,
@@ -125,7 +135,8 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                         ),
                       ),
                       // onChanged: (value) => _itemNameController.text = value,
-                      onSaved: (value) => suggestionInfo['name_of_shop'] = value,
+                      onSaved: (value) =>
+                          suggestionInfo['name_of_shop'] = value,
                       validator: (value) {
                         if (value == "") {
                           return "This field is required";
@@ -136,7 +147,7 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                       height: 20,
                     ),
                     TextFormField(
-                      maxLength: 100,
+                      maxLength: 10,
                       controller: phoneController,
                       keyboardType: TextInputType.number,
                       // textCapitalization: TextCapitalization.words,
@@ -148,12 +159,12 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                         ),
                       ),
                       // onChanged: (value) => _quantityController.text = value,
-                      onSaved: (value) => suggestionInfo['phone_number'] = value,
+                      onSaved: (value) =>
+                          suggestionInfo['phone_number'] = value,
                       validator: (value) {
                         if (value == "") {
                           return "This field is required";
-                        }
-                        else if(value.length!=10){
+                        } else if (value.length != 10) {
                           return "Enter correct phone number";
                         }
                       },
@@ -164,7 +175,8 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                     TextFormField(
                       maxLength: 250,
                       controller: descController,
-                      // textCapitalization: TextCapitalization.words,
+
+                      textCapitalization: TextCapitalization.sentences,
                       maxLines: 3,
                       autocorrect: true,
                       decoration: InputDecoration(
@@ -176,7 +188,8 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                         ),
                       ),
                       // onChanged: (value) => _itemNameController.text = value,
-                      onSaved: (value) => suggestionInfo['description_of_shop'] = value,
+                      onSaved: (value) =>
+                          suggestionInfo['description_of_shop'] = value,
                       validator: (value) {
                         if (value == "") {
                           return "This field is required";
@@ -189,8 +202,10 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                     TextFormField(
                       maxLength: 100,
                       controller: landmarkController,
-                      textCapitalization: TextCapitalization.words,
+                      textCapitalization: TextCapitalization.sentences,
                       autocorrect: true,
+                      minLines: 1,
+                      maxLines: 2,
                       decoration: InputDecoration(
                         labelText: 'Landmark',
                         border: OutlineInputBorder(
@@ -223,7 +238,8 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                         ),
                       ),
                       // onChanged: (value) => _itemNameController.text = value,
-                      onSaved: (value) => suggestionInfo['extra_instruction'] = value,
+                      onSaved: (value) =>
+                          suggestionInfo['extra_instruction'] = value,
                     ),
                     SizedBox(
                       height: 20,
@@ -242,7 +258,15 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                           color: mainColor,
                           textColor: colorWhite,
                           onPressed: _createSuggestion,
-                          child: Text('Submit'),
+                          child: Row(
+                            children: <Widget>[
+                              Text('Submit'),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              SvgPicture.asset("assets/images/check.svg")
+                            ],
+                          ),
                         ),
                   SizedBox(
                     width: 10,
@@ -251,9 +275,20 @@ class _CreateShopSuggestionScreenState extends State<CreateShopSuggestionScreen>
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5)),
                     color: colorWhite,
-                    textColor: mainColor,
-                    child: Text('Cancel'),
-                    onPressed: () => Navigator.of(context).pop(),
+                    textColor: colorBlack,
+                    child: Row(
+                      children: <Widget>[
+                        Text('Cancel'),
+                        Icon(
+                          Icons.close,
+                          size: 16,
+                        ),
+                      ],
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      // Navigator.of(context).maybePop();
+                    },
                   ),
                 ],
               ),

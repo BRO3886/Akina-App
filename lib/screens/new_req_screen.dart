@@ -284,7 +284,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                             style: TextStyle(color: Colors.grey),
                           ),
                           Text(
-                            usrLocation+')git',
+                            usrLocation+')',
                             style: TextStyle(color: Colors.grey),
                           ),
                         ],
