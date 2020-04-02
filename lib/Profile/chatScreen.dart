@@ -118,8 +118,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     } catch (e) {
       print("Error in getting messages is " + e.toString());
     }
-    Timer(Duration(milliseconds: 100),
-        () => _controller.jumpTo(_controller.position.maxScrollExtent * 1.05));
+
     return messages;
   }
 
@@ -208,82 +207,95 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                       ],
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                    alignment: Alignment.centerLeft,
-                    width: MediaQuery.of(context).size.width,
-                    height: 30,
-                    decoration: BoxDecoration(
-                      // color: colorWhite,
-                      gradient: LinearGradient(
-                          colors: [
-                            Theme.of(context).canvasColor,
-                            colorWhite,
-                          ],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter),
-                    ),
-                    child: widget.itemDescription.length < 40 ? Text(widget.itemDescription) :
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          (widget.itemDescription).substring(0, 38) + "..",
-                          softWrap: false,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        GestureDetector(
-                          onTap: (){
-                            showDialog(
-                              context: context,
-                              child: AlertDialog(
-                                backgroundColor: Theme.of(context).canvasColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                titlePadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                                contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                                actions: <Widget>[
-                                  FlatButton(
-                                    textColor: mainColor,
-                                    child: Text('Close'),
-                                    onPressed: () => Navigator.of(context).maybePop(),
-                                  )
-                                ],
-                                content: Container(
-                                  height: 200,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      CircleAvatar(
-                                        child: Icon(
-                                          Icons.info_outline,
-                                          size: 30,
-                                          color: colorWhite,
-                                        ),
-                                        radius: 20,
-                                        backgroundColor: mainColor,
-                                      ),
-                                      Text(
-                                        widget.itemDescription,
-                                        textAlign: TextAlign.center,
-                                      ),
+                  Card(
+                    elevation: 0.7,
+                    child: Container(
+                      // padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                      alignment: Alignment.centerLeft,
+                      width: MediaQuery.of(context).size.width,
+                      // height: 30,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).canvasColor,
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     blurRadius: 5,
+                        //     spreadRadius: 0,
+                        //     // color: Colors.grey[600].withOpacity(0.1),
+                        //     color: Color(0x23000000),
+                        //   ),
+                        // ],
+                        // gradient: LinearGradient(
+                        //     colors: [
+                        //       Theme.of(context).canvasColor,
+                        //       colorWhite,
+                        //     ],
+                        //     begin: Alignment.topCenter,
+                        //     end: Alignment.bottomCenter),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Flexible(
+                            child: Text(
+                              (widget.itemDescription),
+                              softWrap: false,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  child: AlertDialog(
+                                    backgroundColor:
+                                        Theme.of(context).canvasColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    titlePadding: EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 15),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 15),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        textColor: mainColor,
+                                        child: Text('Close'),
+                                        onPressed: () =>
+                                            Navigator.of(context).maybePop(),
+                                      )
                                     ],
+                                    content: Text(
+                                      widget.itemDescription,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.info,
+                                          size: 30,
+                                          color: mainColor,
+                                        )
+                                      ],
+                                    ),
                                   ),
+                                );
+                              },
+                              child: Text(
+                                'See More',
+                                style: TextStyle(
+                                  color: colorGrey,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              ),
-                            );
-                          },
-                          child:Text('See More', style: TextStyle(
-                            color: colorGrey,
-                            fontWeight: FontWeight.bold
-                          ))
-                          // Icon(Icons.info, color: colorGrey,)
-                        )
-                      ],
-                    ) 
+                              )
+                              // Icon(Icons.info, color: colorGrey,)
+                              )
+                        ],
+                      ),
+                    ),
                   ),
                   new Expanded(
                     child: bodyMessages(),
@@ -451,8 +463,8 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                           Container(
                               margin: EdgeInsets.only(top: 0.0, bottom: 10.0),
                               child: Text(
-                                //dateFormatter(messages.msgs[index].createdAt.toLocal())
-                                dateFormatter(
+                                  //dateFormatter(messages.msgs[index].createdAt.toLocal())
+                                  dateFormatter(
                                           messages.msgs[index].createdAt) +
                                       ',  ${messages.msgs[index].createdAt.toLocal().hour}:${messages.msgs[index].createdAt.toLocal().minute}',
                                   style: TextStyle(
@@ -495,11 +507,10 @@ class ChatScreenPageState extends State<ChatScreenPage> {
 
       Timer(Duration(milliseconds: 500),
           () => _controller.jumpTo(_controller.position.maxScrollExtent));
-      
+
       controller.clear();
       print("I am here");
-      final response = await http.post(
-        URL_CREATE_MESSAGE,
+      final response = await http.post(URL_CREATE_MESSAGE,
           headers: {
             HttpHeaders.authorizationHeader: token,
           },
