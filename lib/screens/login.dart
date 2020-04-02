@@ -179,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
     print(userInfo['email']);
     print(userInfo['password']);
     final body = jsonEncode(userInfo);
-    print(body);
+    print("Body of login is "+body);
     setState(() {
       isLoading = true;
     });
@@ -190,7 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
           'email': userInfo['email'],
         },
       );
-      print(response.statusCode);
+      print("Response of user verify is "+response.statusCode.toString());
       print(jsonDecode(response.body)['Status']);
 
       if (response.statusCode == 401) {
@@ -245,7 +245,7 @@ class _LoginScreenState extends State<LoginScreen> {
         try {
           final response = await http.post(URL_USER_LOGIN, body: userInfo);
           Map<String, dynamic> responseBody = jsonDecode(response.body);
-          print(responseBody);
+          print("Response of login is "+responseBody.toString());
           if (responseBody.containsKey("Error")) {
             content = responseBody["Error"] +
                 ". Please check your email and try again.";

@@ -45,7 +45,7 @@ Future<AllRequests> getAllRequests() async {
       URL_VIEW_ALL_ITEM_REQUESTS,
       {
         //TODO change location
-        'location': 'Noida'
+        'location': 'Surat'
         //address.first.locality
       },
     );
