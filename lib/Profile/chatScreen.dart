@@ -46,7 +46,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     getValues();
     showChats();
 
-   var URL = 'wss://akina.ayushpriya.tech/api/v1/ws?sender=' + widget.receiverID.toString() +'&receiver='+ (userID == widget.senderID ? widget.receiverID : widget.senderID).toString();
+    /*var URL = 'wss://akina.ayushpriya.tech/api/v1/ws?sender=' + widget.receiverID.toString() +'&receiver='+ (userID == widget.senderID ? widget.receiverID : widget.senderID).toString();
     print("URL is " + URL);
     channel = WebSocketChannel.connect(
       Uri.parse(URL),
@@ -59,8 +59,8 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     });
     print("Description is "+widget.itemDescription);
     
-    new Timer.periodic(new Duration(seconds: 30), (Timer t) => doSomething());
-    new Timer.periodic(new Duration(seconds: 60), (Timer t) => showChats());
+    new Timer.periodic(new Duration(seconds: 30), (Timer t) => doSomething());*/
+    new Timer.periodic(new Duration(seconds: 10), (Timer t) => showChats());
   }
 
   Map<String, int> data_create_chat = {'receiver': 27, 'sender': 21};
@@ -124,7 +124,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
   void dispose() {
     super.dispose();
     controller.dispose();
-    channel.sink.close();
+    //channel.sink.close();
   }
 
   String text = '';
@@ -135,7 +135,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
 
   Messages messages;
 
-  WebSocketChannel channel;
+  //WebSocketChannel channel;
   final TextEditingController controller = TextEditingController();
 
   @override
@@ -156,7 +156,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(
-                        top: 10.0, left: 20.0, right: 20.0, bottom: 18.0),
+                        top: 10.0, left: 10.0, right: 10.0, bottom: 18.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -219,12 +219,67 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter),
                     ),
-                    child: Text(
-                      widget.itemDescription,
-                      softWrap: false,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: Colors.grey),
-                    ),
+                    child: widget.itemDescription.length < 40 ? Text(widget.itemDescription) :
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          (widget.itemDescription).substring(0, 38) + "..",
+                          softWrap: false,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            showDialog(
+                              context: context,
+                              child: AlertDialog(
+                                backgroundColor: Theme.of(context).canvasColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                titlePadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                                contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    textColor: mainColor,
+                                    child: Text('Close'),
+                                    onPressed: () => Navigator.of(context).maybePop(),
+                                  )
+                                ],
+                                content: Container(
+                                  height: 200,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      CircleAvatar(
+                                        child: Icon(
+                                          Icons.info_outline,
+                                          size: 30,
+                                          color: colorWhite,
+                                        ),
+                                        radius: 20,
+                                        backgroundColor: mainColor,
+                                      ),
+                                      Text(
+                                        widget.itemDescription,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          child:Text('See More', style: TextStyle(
+                            color: colorGrey,
+                            fontWeight: FontWeight.bold
+                          ))
+                          // Icon(Icons.info, color: colorGrey,)
+                        )
+                      ],
+                    ) 
                   ),
                   new Expanded(
                     child: bodyMessages(),
@@ -392,9 +447,10 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                           Container(
                               margin: EdgeInsets.only(top: 0.0, bottom: 10.0),
                               child: Text(
-                                  dateFormatter(
+                                //dateFormatter(messages.msgs[index].createdAt.toLocal())
+                                dateFormatter(
                                           messages.msgs[index].createdAt) +
-                                      ',  ${messages.msgs[index].createdAt.hour}:${messages.msgs[index].createdAt.minute}',
+                                      ',  ${messages.msgs[index].createdAt.toLocal().hour}:${messages.msgs[index].createdAt.toLocal().minute}',
                                   style: TextStyle(
                                     color: (messages.msgs[index].sender
                                                 .toString() !=
@@ -431,7 +487,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
 
       print("Data to create text is " + data_send_message.toString());
 
-      channel.sink.add(controller.text);
+      //channel.sink.add(controller.text);
 
       Timer(Duration(milliseconds: 500),
           () => _controller.jumpTo(_controller.position.maxScrollExtent));

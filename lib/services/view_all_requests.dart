@@ -46,8 +46,7 @@ Future<AllRequests> getAllRequests() async {
       URL_VIEW_ALL_ITEM_REQUESTS,
       {
         //TODO change location
-        'location': 'Surat'
-        //address.first.locality
+        'location': address.first.locality
       },
     );
     //print("URI in all requests is "+uri.toString());
