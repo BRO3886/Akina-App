@@ -112,7 +112,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                 senderID: listOtherChats[index].sender,
                                 receiverID: listOtherChats[index].receiver,
                                 itemName: listOtherChats[index].title,
-                                personName: listOtherChats[index].receiverName,
+                                personName: listOtherChats[index].senderName,
                                 itemDescription: listOtherChats[index].description,
                               ),
                             ),
@@ -151,7 +151,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                           margin: EdgeInsets.only(
                                               top: 0.0, bottom: 10.0),
                                           child: Text(
-                                            listOtherChats[index].receiverName,
+                                            listOtherChats[index].senderName,
                                             style: TextStyle(fontSize: 17.0),
                                           ),
                                         ),
@@ -179,7 +179,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                                           .title,
                                                   personName:
                                                       listOtherChats[index]
-                                                          .receiverName,
+                                                          .senderName,
                                                   itemDescription: listOtherChats[index].description,
                                                 )));
                                   },
