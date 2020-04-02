@@ -40,6 +40,7 @@ Future<AllRequests> getAllRequests() async {
     final address = await Geocoder.local.findAddressesFromCoordinates(
         Coordinates(position.latitude, position.longitude));
     print(address.first.locality);
+    SharedPrefsCustom().setUserLocation(address.first.locality);
     final uri = Uri.https(
       REQUEST_BASE_URL,
       URL_VIEW_ALL_ITEM_REQUESTS,

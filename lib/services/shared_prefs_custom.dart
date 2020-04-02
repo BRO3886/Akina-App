@@ -118,5 +118,18 @@ class SharedPrefsCustom {
     print("id stored as "+value.toString());
   }
 
+  Future<String> getUserLocation() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final key = 'my-location';
+    return prefs.getString(key);
+  }
+
+  void setUserLocation(String value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final key = 'my-location';
+    prefs.setString(key, value);
+    print("location stored as $value");
+  }
+
 
 }

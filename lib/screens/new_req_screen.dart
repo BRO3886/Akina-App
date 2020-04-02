@@ -33,7 +33,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
     "item_name": "",
     "quantity": "",
     "location": "",
-    "description":"",
+    "description": "",
   };
 
   _showSnackBar(int code, String msg) {
@@ -99,9 +99,9 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
       address = await Geocoder.local.findAddressesFromCoordinates(
           Coordinates(position.latitude, position.longitude));
       //TODO: change location
-       request['location'] = 'Surat';
+      request['location'] = 'Surat';
       //request['location'] = address.first.locality;
-       //request['location'] = 'Noida';
+      //request['location'] = 'Noida';
     }
     print(request['location']);
     final body = jsonEncode(request);
@@ -119,7 +119,8 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
       _showSnackBar(response.statusCode, resBody['message']);
       if (response.statusCode == 201) {
         print(resBody['message']);
-        Future.delayed(Duration(milliseconds: 1000), () => Navigator.of(context).maybePop());
+        Future.delayed(Duration(milliseconds: 1000),
+            () => Navigator.of(context).maybePop());
       } else if (response.statusCode == 400) {
         print(resBody['message']);
         print("400");
@@ -132,6 +133,23 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  String usrLocation = '';
+
+  getLocation() {
+    final sp = SharedPrefsCustom();
+    sp.getUserLocation().then((value) {
+      setState(() {
+        usrLocation = value;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    getLocation();
+    super.initState();
   }
 
   @override
@@ -255,6 +273,22 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                               });
                             }),
                       ],
+                    ),
+                    Visibility(
+                      visible: !customLocation,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            '(Your current location is ',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                          Text(
+                            usrLocation+')',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: 20,
