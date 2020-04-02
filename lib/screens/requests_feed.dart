@@ -115,6 +115,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
         ),
       ),
       body: RefreshIndicator(
+        displacement: MediaQuery.of(context).size.height * 0.13,
         key: _refreshIndicatorKey,
         onRefresh: (){
           setState(() {
@@ -147,7 +148,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
                       ),
                     ),
                     SliverFillRemaining(
-                      hasScrollBody: false,
+                      hasScrollBody: true,
                       child: Center(
                         child: Text(allRequests.message),
                       ),

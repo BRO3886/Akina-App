@@ -115,8 +115,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     } catch (e) {
       print("Error in getting messages is " + e.toString());
     }
-    Timer(Duration(milliseconds: 100),
-        () => _controller.jumpTo(_controller.position.maxScrollExtent * 1.05));
+    
     return messages;
   }
 
