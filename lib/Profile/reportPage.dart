@@ -12,18 +12,20 @@ import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 import 'package:project_hestia/widgets/my_back_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ReportScreen extends StatefulWidget {
-  ReportScreen({this.id});
+  ReportScreen({this.id, this.pop});
   final id;
+  bool pop;
   @override
   _ReportScreenState createState() => _ReportScreenState();
 }
 
 class _ReportScreenState extends State<ReportScreen> {
-  _ReportScreenState({this.id});
+  _ReportScreenState({this.id, this.pop});
 
-  final String id;
+  final String id;bool pop;
 
   TextEditingController dataController = TextEditingController();
 
@@ -33,6 +35,8 @@ class _ReportScreenState extends State<ReportScreen> {
   String data;
 
   var reportData = {"user_id": 1, "reason": "Excessive charging of sanitizers"};
+
+  SharedPrefsCustom s = new SharedPrefsCustom();
 
   Future _createReport() async {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
@@ -44,7 +48,14 @@ class _ReportScreenState extends State<ReportScreen> {
     setState(() {
       isLoading = true;
     });
-    String content = "";
+
+    print("Data being sent is "+reportData.toString());
+    /*setReportedList();
+    Navigator.pop(context);
+    Navigator.pop(context);
+    widget.pop ? Navigator.pop(context) : null;
+*/
+
     try {
       final token = await SharedPrefsCustom().getToken();
       final response = await http.post(URL_REPORT_A_PERSON,
@@ -57,8 +68,12 @@ class _ReportScreenState extends State<ReportScreen> {
       Map<String, dynamic> responseBody = jsonDecode(response.body);
       print(responseBody);
       if (response.statusCode == 201) {
+        setReportedList();
         Fluttertoast.showToast(msg: "Successfully reported");
         Navigator.pop(context);
+        Navigator.pop(context);
+        widget.pop ? Navigator.pop(context) : Fluttertoast.showToast(msg: "");
+
       } else {
         Fluttertoast.showToast(msg: responseBody['message']);
       }
@@ -68,6 +83,51 @@ class _ReportScreenState extends State<ReportScreen> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  setReportedList(){
+    if(reportedList == null){
+      setState(() {
+        reportedList = [];
+        reportedList.add(widget.id.toString());
+        s.setReportedList(reportedList);
+      });
+    }
+    else if ((reportedList.length == 0)){
+      setState(() {
+        reportedList = [];
+        reportedList.add(widget.id.toString());
+        s.setReportedList(reportedList);
+      });
+    }
+    else if(reportedList.contains(widget.id.toString())){
+      print("ID already present in reported list");
+    } 
+    else{
+      setState(() {
+        reportedList.add(widget.id.toString());
+        s.setReportedList(reportedList);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getValues();
+  }
+
+  Future<List<String>> checkReportedList;
+  List<String> reportedList;
+  
+  getValues() {
+      checkReportedList = s.getReportedList();
+      checkReportedList.then((resultStringLogin) {
+        setState(() {
+          reportedList = resultStringLogin;
+        });
+        print("Value of reported list is "+ reportedList.toString() );
+      });
   }
 
   @override

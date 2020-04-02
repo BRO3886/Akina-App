@@ -105,8 +105,9 @@ createChat(BuildContext context, int sender, String receiver, String itemName, S
                   senderID: sender,
                   receiverID: int.parse(receiver),
                   itemName: itemName,
-                  personName: result['chat_room']['receiver_name'],
+                  personName: result['chat_room']['sender_name'],
                   itemDescription: description,
+                  pop: false
         )));
     } else {
         Fluttertoast.showToast(msg: result['message']);

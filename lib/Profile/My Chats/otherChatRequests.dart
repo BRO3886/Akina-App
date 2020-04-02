@@ -37,6 +37,26 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
     getOtherChats();
     
     new Timer.periodic(new Duration(seconds: 60), (Timer t) => getOtherChats());
+    getValues();
+  }
+
+  Future<List<String>> checkReportedList;
+  List<String> reportedList;
+  SharedPrefsCustom s=new SharedPrefsCustom();
+  
+  getValues() {
+    checkReportedList = s.getReportedList();
+    checkReportedList.then((resultStringLogin) {
+      setState(() {
+        reportedList = resultStringLogin;
+      });
+      if(reportedList==null){
+        setState(() {
+          reportedList = [];
+        });
+      }
+      print("Value of reported list is "+ reportedList.toString() );
+    });
   }
 
   Map<String, int> data_passed = {
@@ -98,12 +118,12 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
       builder: (ctx, snapshot) {
         listOtherChats = snapshot.data;
         if (snapshot.hasData) {
-          if (listOtherChats.length > 0) {
+          if (listOtherChats.length > 0 ) {
             return new Expanded(
                 child: ListView.builder(
                     itemCount: listOtherChats.length,
                     itemBuilder: (BuildContext ctxt, int index) {
-                      return GestureDetector(
+                      return (reportedList.contains(listOtherChats[index].sender.toString()) || reportedList.contains(listOtherChats[index].receiver.toString()))  ? Container() : GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
@@ -114,6 +134,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                 itemName: listOtherChats[index].title,
                                 personName: listOtherChats[index].senderName,
                                 itemDescription: listOtherChats[index].description,
+                                pop: true,
                               ),
                             ),
                           );
@@ -181,6 +202,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                                       listOtherChats[index]
                                                           .senderName,
                                                   itemDescription: listOtherChats[index].description,
+                                                  pop: true,
                                                 )));
                                   },
                                   child: Container(
@@ -235,6 +257,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                 itemName: listOtherChats[index].title,
                                 personName: listOtherChats[index].senderName,
                                 itemDescription: listOtherChats[index].description,
+                                pop: true,
                               ),
                             ),
                           );
@@ -300,6 +323,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                                   personName: listOtherChats[index]
                                                       .senderName,
                                                       itemDescription: listOtherChats[index].description,
+                                                      pop: true,
                                                 )));
                                   },
                                   child: Container(

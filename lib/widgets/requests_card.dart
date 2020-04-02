@@ -11,7 +11,7 @@ import '../model/request.dart';
 class RequestCard extends StatefulWidget {
   final Request request;
   bool shopStatus, requestStatus;
-  RequestCard(this.request, this.requestStatus, this.shopStatus);
+  RequestCard(this.request,this.requestStatus, this.shopStatus);
   @override
   _RequestCardState createState() => new _RequestCardState();
 }
@@ -21,9 +21,40 @@ Color _headingColor = Colors.black;
 
 class _RequestCardState extends State<RequestCard> {
   SharedPrefsCustom s = new SharedPrefsCustom();
+
+  @override
+  void initState() {
+    super.initState();
+    //getValues();
+  }
+
+  
+  /*Future<bool> checkShopStatus;
+  Future<bool> checkRequestStatus;
+  bool shopStatus, requestStatus;
+
+  getValues() {
+    checkShopStatus = s.getShopStatus();
+    checkShopStatus.then((resultString) {
+      setState(() {
+        shopStatus = resultString;
+      });
+
+      checkRequestStatus = s.getRequestStatus();
+      checkRequestStatus.then((resultStringLogin) {
+        setState(() {
+          requestStatus = resultStringLogin;
+        });
+        print("Value of check and shop check is "+ requestStatus.toString() +" "+shopStatus.toString() );
+      });
+    });
+  }*/
+
   final Request request;
   bool shopStatus, requestStatus;
-  _RequestCardState({this.request, this.requestStatus, this.shopStatus});
+  _RequestCardState({this.request, 
+  this.requestStatus, this.shopStatus
+    });
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -119,8 +150,8 @@ class _RequestCardState extends State<RequestCard> {
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
-                    if (shopStatus == true || shop == true) {
-                      //Navigator.of(context).maybePop();
+                    print("Value of shop in shop is "+ shopStatus.toString());
+                    if (widget.shopStatus == true) {
                       Navigator.push(
                           context,
                           new MaterialPageRoute(
@@ -129,7 +160,7 @@ class _RequestCardState extends State<RequestCard> {
                                     userID: widget.request.id.toString(),
                                     itemName: widget.request.itemName,
                                   )));
-                    } else if (shopStatus == false || shopStatus == null) {
+                    } else if (widget.shopStatus == false || widget.shopStatus == null) {
                       suggestShop(context, widget.request.id.toString(),
                           widget.request.itemName.toString());
                     }
@@ -148,16 +179,11 @@ class _RequestCardState extends State<RequestCard> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    if (widget.requestStatus == true || (accept == true)) {
-                      acceptRequest(
-                          context,
-                          widget.request.id.toString(),
-                          widget.request.itemName,
-                          widget.request.requestMadeBy,
-                          widget.request.description);
+                    print("Value of accept in check is "+widget.requestStatus.toString());
+                    if (widget.requestStatus == true) {
+                      acceptRequest(context, widget.request.id.toString(),widget.request.itemName, widget.request.requestMadeBy, widget.request.description);
                       Navigator.of(context).maybePop();
-                    } else if (widget.requestStatus == false ||
-                        widget.requestStatus == null) {
+                    } else if (widget.requestStatus == false || widget.requestStatus == null ) {
                       acceptWidget(
                           context,
                           widget.request.id,
@@ -183,7 +209,7 @@ class _RequestCardState extends State<RequestCard> {
     );
   }
 
-  bool accept = false;
+  //bool accept = false;
 
   acceptWidget(
       BuildContext context, int itemID, String itemName, String receiverID, String description) {
@@ -268,8 +294,9 @@ class _RequestCardState extends State<RequestCard> {
                       GestureDetector(
                         onTap: () {
                           setState(() {
-                            accept = !accept;
-                            s.setRequestStatus(accept);
+                            widget.requestStatus = !widget.requestStatus;
+                            s.setRequestStatus(widget.requestStatus);
+                            print("Value of accept is "+widget.requestStatus.toString());
                           });
                         },
                         child: Row(
@@ -277,12 +304,20 @@ class _RequestCardState extends State<RequestCard> {
                           children: <Widget>[
                             CircleAvatar(
                               radius: 10.0,
-                              backgroundColor: accept ? mainColor : colorWhite,
-                              child: SvgPicture.asset(
+                              backgroundColor: mainColor,
+                              child: widget.requestStatus ? SvgPicture.asset(
                                 "assets/images/check.svg",
-                                color: accept ? colorWhite : colorBlack,
+                                color : colorWhite,
                                 height: 8.0,
                                 width: 8.0,
+                              ) : Container(
+                                decoration: BoxDecoration(
+                                  color : colorWhite,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: colorGrey
+                                  )
+                                ),
                               ),
                             ),
                             SizedBox(
@@ -292,7 +327,7 @@ class _RequestCardState extends State<RequestCard> {
                               'Do not show again',
                               style: TextStyle(
                                   fontSize: 10.0,
-                                  color: accept ? mainColor : colorBlack),
+                                  color: widget.requestStatus ? mainColor : colorBlack),
                             )
                           ],
                         ),
@@ -304,7 +339,7 @@ class _RequestCardState extends State<RequestCard> {
         });
   }
 
-  bool shop = false;
+  //bool shop = false;
 
   suggestShop(BuildContext context, String userID, String itemName) {
     return showDialog(
@@ -394,8 +429,9 @@ class _RequestCardState extends State<RequestCard> {
                       GestureDetector(
                         onTap: () {
                           setState(() {
-                            shop = !shop;
-                            s.setShopStatus(shop);
+                            widget.shopStatus =  !widget.shopStatus;
+                            s.setShopStatus(widget.shopStatus);
+                            print("Value of shop is "+ widget.shopStatus.toString());
                           });
                         },
                         child: Row(
@@ -403,12 +439,20 @@ class _RequestCardState extends State<RequestCard> {
                           children: <Widget>[
                             CircleAvatar(
                               radius: 10.0,
-                              backgroundColor: shop ? mainColor : colorWhite,
-                              child: SvgPicture.asset(
+                              backgroundColor: mainColor,
+                              child: widget.shopStatus ? SvgPicture.asset(
                                 "assets/images/check.svg",
-                                color: shop ? colorWhite : colorBlack,
+                                color : colorWhite,
                                 height: 8.0,
                                 width: 8.0,
+                              ) : Container(
+                                decoration: BoxDecoration(
+                                  color : colorWhite,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: colorGrey
+                                  )
+                                ),
                               ),
                             ),
                             SizedBox(
@@ -418,7 +462,7 @@ class _RequestCardState extends State<RequestCard> {
                               'Do not show again',
                               style: TextStyle(
                                   fontSize: 10.0,
-                                  color: shop ? mainColor : colorBlack),
+                                  color: widget.shopStatus ? mainColor : colorBlack),
                             )
                           ],
                         ),

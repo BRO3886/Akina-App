@@ -91,6 +91,7 @@ class SharedPrefsCustom {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final key = 'shop-status';
     prefs.setBool(key, value);
+    print("set shop status as "+value.toString());
   }
 
   Future<bool> getRequestStatus() async {
@@ -103,6 +104,7 @@ class SharedPrefsCustom {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final key = 'request-status';
     prefs.setBool(key, value);
+    print("set request status as "+value.toString());
   }
 
   Future<int> getUserId() async {
@@ -131,5 +133,16 @@ class SharedPrefsCustom {
     print("location stored as $value");
   }
 
+  Future<List<String>> getReportedList() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final key = 'reported-list';
+    return prefs.getStringList(key);
+  }
 
+  void setReportedList(List<String> value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final key = 'reported-list';
+    prefs.setStringList(key, value);
+    print("reported-list stored as $value");
+  }
 }
