@@ -47,7 +47,7 @@ acceptRequest(BuildContext context ,String itemID, String itemName, String recei
       },
       body: {
         'request_id':itemID.toString(),
-        'location': 'Noida'
+        'location': 'Surat'
         //address.first.locality
         //TODO: change location address.first.locality
       }

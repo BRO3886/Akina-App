@@ -39,13 +39,14 @@ class ChatScreenPageState extends State<ChatScreenPage> {
       {this.senderID, this.receiverID, this.itemName, this.itemDescription});
   final int senderID, receiverID;
   final String itemName, itemDescription;
+
   @override
   void initState() {
     super.initState();
     getValues();
     showChats();
 
-   var URL = 'ws://hestia-chat.herokuapp.com/api/v1/ws?chat=' + widget.receiverID.toString();
+   var URL = 'wss://akina.ayushpriya.tech/api/v1/ws?sender=' + widget.receiverID.toString() +'&receiver='+ (userID == widget.senderID ? widget.receiverID : widget.senderID).toString();
     print("URL is " + URL);
     channel = WebSocketChannel.connect(
       Uri.parse(URL),
@@ -79,7 +80,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
 
   doSomething() {
     //channel.sink.add("Hey, Satkriti here");
-    //print("Message sent to server");
+    print("Message sent to server");
   }
 
   String snapshot = '';
@@ -421,7 +422,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     if (_key.currentState.validate()) {
       _key.currentState.save();
 
-      final userID = await SharedPrefsCustom().getUserId();
+      //final userID = await SharedPrefsCustom().getUserId();
 
       data_send_message["receiver"] =
           userID == widget.senderID ? widget.receiverID : widget.senderID;
