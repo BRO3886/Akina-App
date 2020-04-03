@@ -161,6 +161,8 @@ class _LoginScreenState extends State<LoginScreen> {
         sp.setUserName(responseBody["name"]);
         sp.setPhone(responseBody["phone"]);
         sp.setUserId(responseBody["id"]);
+        sp.setShopStatus(false);
+        sp.setRequestStatus(false);
       } else {
         print("get detials on login");
         print(response.statusCode);
@@ -279,6 +281,8 @@ class _LoginScreenState extends State<LoginScreen> {
               sp.setUserEmail(userInfo['email']);
               sp.setToken(responseBody["Token"]);
               sp.setLoggedInStatus(true);
+              sp.setShopStatus(false);
+              sp.setRequestStatus(false);
               Navigator.of(context)
                   .pushReplacementNamed(MyHomeScreen.routename);
               // Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
@@ -300,6 +304,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    
   }
 
   @override

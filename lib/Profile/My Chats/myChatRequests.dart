@@ -29,6 +29,26 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
     getMyChats();
     
     new Timer.periodic(new Duration(seconds: 60), (Timer t) => getMyChats());
+    getValues();
+  }
+
+  Future<List<String>> checkReportedList;
+  List<String> reportedList;
+  SharedPrefsCustom s=new SharedPrefsCustom();
+  
+  getValues() {
+    checkReportedList = s.getReportedList();
+    checkReportedList.then((resultStringLogin) {
+      setState(() {
+        reportedList = resultStringLogin;
+      });
+      if(reportedList==null){
+        setState(() {
+          reportedList = [];
+        });
+      }
+      print("Value of reported list is "+ reportedList.toString() );
+    });
   }
 
   Map<String, int> data_passed = {
@@ -120,12 +140,12 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
           listMyChats = snapshot.data;
           if (snapshot.hasData) {
             
-            if (listMyChats.length > 0) {
+            if (listMyChats.length > 0 ) {
               return new Expanded(
                 child: ListView.builder(
                     itemCount: listMyChats.length,
                     itemBuilder: (BuildContext ctxt, int index) {
-                      return GestureDetector(
+                      return (reportedList.contains(listMyChats[index].sender.toString()) || reportedList.contains(listMyChats[index].receiver.toString()))  ? Container() : GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
@@ -136,6 +156,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                 itemName: listMyChats[index].title,
                                 personName: listMyChats[index].receiverName,
                                 itemDescription: listMyChats[index].description,
+                                pop: true,
                               ),
                             ),
                           );
@@ -201,6 +222,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                                   personName: listMyChats[index]
                                                       .receiverName,
                                                       itemDescription: listMyChats[index].description,
+                                                      pop: true,
                                                 )));
                                   },
                                   child: Container(
@@ -260,6 +282,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                 itemName: listMyChats[index].title,
                                 personName: listMyChats[index].senderName,
                                 itemDescription: listMyChats[index].description,
+                                pop: true,
                               ),
                             ),
                           );
@@ -325,6 +348,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                                   personName: listMyChats[index]
                                                       .senderName,
                                                       itemDescription: listMyChats[index].description,
+                                                      pop: true,
                                                 )));
                                   },
                                   child: Container(

@@ -23,10 +23,12 @@ class ChatScreenPage extends StatefulWidget {
       this.receiverID,
       @required this.itemName,
       this.personName,
-      @required this.itemDescription})
+      @required this.itemDescription,
+      this.pop})
       : super(key: key);
 
   final int senderID, receiverID;
+  final bool pop;
   final String itemName, personName, itemDescription;
 
   @override
@@ -36,8 +38,9 @@ class ChatScreenPage extends StatefulWidget {
 class ChatScreenPageState extends State<ChatScreenPage> {
   ScrollController _controller = ScrollController();
   ChatScreenPageState(
-      {this.senderID, this.receiverID, this.itemName, this.itemDescription});
+      {this.senderID, this.receiverID, this.itemName, this.itemDescription, this.pop});
   final int senderID, receiverID;
+  final bool pop;
   final String itemName, itemDescription;
 
   @override
@@ -190,6 +193,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                                     builder: (BuildContext context) =>
                                         ReportScreen(
                                           id: widget.receiverID,
+                                          pop: widget.pop,
                                         )));
                           },
                           child: Container(

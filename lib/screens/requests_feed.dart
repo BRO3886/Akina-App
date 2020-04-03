@@ -75,6 +75,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
         setState(() {
           requestStatus = resultStringLogin;
         });
+        print("Value of check and shop check is "+ requestStatus.toString() +" "+shopStatus.toString() );
       });
     });
   }
@@ -175,8 +176,8 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
                     ),
                     SliverList(
                       delegate: SliverChildBuilderDelegate((ctx, index) {
-                        return RequestCard(allRequests.request[index],
-                            requestStatus, shopStatus);
+                        getValues();
+                        return RequestCard(allRequests.request[index],requestStatus, shopStatus);
                       }, childCount: allRequests.request.length),
                     ),
                   ],
