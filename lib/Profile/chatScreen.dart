@@ -13,8 +13,6 @@ import 'package:project_hestia/services/date_formatter.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_hestia/widgets/my_back_button.dart';
-import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 
 class ChatScreenPage extends StatefulWidget {
   ChatScreenPage(
@@ -24,11 +22,11 @@ class ChatScreenPage extends StatefulWidget {
       @required this.itemName,
       this.personName,
       @required this.itemDescription,
-      this.pop})
+      this.pagePop})
       : super(key: key);
 
   final int senderID, receiverID;
-  final bool pop;
+  final bool pagePop;
   final String itemName, personName, itemDescription;
 
   @override
@@ -38,9 +36,9 @@ class ChatScreenPage extends StatefulWidget {
 class ChatScreenPageState extends State<ChatScreenPage> {
   ScrollController _controller = ScrollController();
   ChatScreenPageState(
-      {this.senderID, this.receiverID, this.itemName, this.itemDescription, this.pop});
+      {this.senderID, this.receiverID, this.itemName, this.itemDescription, this.pagePop});
   final int senderID, receiverID;
-  final bool pop;
+  final bool pagePop;
   final String itemName, itemDescription;
 
   @override
@@ -122,12 +120,12 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     return messages;
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    controller.dispose();
-    //channel.sink.close();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   controller.dispose();
+  //   //channel.sink.close();
+  // }
 
   String text = '';
   GlobalKey<FormState> _key = new GlobalKey();
@@ -193,7 +191,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                                     builder: (BuildContext context) =>
                                         ReportScreen(
                                           id: widget.receiverID,
-                                          pop: widget.pop,
+                                          pop: widget.pagePop,
                                         )));
                           },
                           child: Container(

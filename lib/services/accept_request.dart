@@ -47,7 +47,7 @@ acceptRequest(BuildContext context ,String itemID, String itemName, String recei
       },
       body: {
         'request_id':itemID.toString(),
-        'location': address.first.locality
+        'location': 'Noida'//address.first.locality
         //TODO: change location address.first.locality
       }
     );
@@ -96,7 +96,7 @@ createChat(BuildContext context, int sender, String receiver, String itemName, S
     if (result["code"] == 200) {
       Fluttertoast.showToast(msg: 'Request accepted!');
       print("Result from create chat room is "+result.toString());
-      print("Description is "+description);
+      print("Description is "+description +" "+sender.toString()+" "+int.parse(receiver).toString()+" "+itemName+" "+result['chat_room']['sender_name'].toString());
       Navigator.push(
         context,
         new MaterialPageRoute(
@@ -107,7 +107,7 @@ createChat(BuildContext context, int sender, String receiver, String itemName, S
                   itemName: itemName,
                   personName: result['chat_room']['sender_name'],
                   itemDescription: description,
-                  pop: false
+                  pagePop: false
         )));
     } else {
         Fluttertoast.showToast(msg: result['message']);

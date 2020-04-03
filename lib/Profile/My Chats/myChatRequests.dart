@@ -156,7 +156,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                 itemName: listMyChats[index].title,
                                 personName: listMyChats[index].receiverName,
                                 itemDescription: listMyChats[index].description,
-                                pop: true,
+                                pagePop: true,
                               ),
                             ),
                           );
@@ -222,7 +222,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                                   personName: listMyChats[index]
                                                       .receiverName,
                                                       itemDescription: listMyChats[index].description,
-                                                      pop: true,
+                                                      pagePop: true,
                                                 )));
                                   },
                                   child: Container(
@@ -282,7 +282,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                 itemName: listMyChats[index].title,
                                 personName: listMyChats[index].senderName,
                                 itemDescription: listMyChats[index].description,
-                                pop: true,
+                                pagePop: true,
                               ),
                             ),
                           );
@@ -348,7 +348,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                                   personName: listMyChats[index]
                                                       .senderName,
                                                       itemDescription: listMyChats[index].description,
-                                                      pop: true,
+                                                  pagePop: true,
                                                 )));
                                   },
                                   child: Container(
