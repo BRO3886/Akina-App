@@ -237,7 +237,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                         children: <Widget>[
                           Flexible(
                             child: Text(
-                              (widget.itemDescription),
+                              widget.itemDescription??'No description provided',
                               softWrap: false,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,

@@ -51,12 +51,19 @@ class ShopCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+                      SizedBox(height: 5),
                       SelectableText(
-                        shop.descriptionOfShop,
+                        shop.landmark!=null?'Landmark: ${shop.landmark}':'',
                         style: TextStyle(color: Colors.grey),
                       ),
+                      SizedBox(height: 5),
                       SelectableText(
-                        shop.extraInstruction,
+                        shop.descriptionOfShop!=null?'Description: ${shop.descriptionOfShop}':'',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      SizedBox(height: 5),
+                      SelectableText(
+                        shop.extraInstruction!=null?'More instructions: ${shop.extraInstruction}':'',
                         style: TextStyle(color: Colors.grey),
                       ),
                     ],
