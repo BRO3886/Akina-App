@@ -182,7 +182,7 @@ class _RequestCardState extends State<RequestCard> {
                     print("Value of accept in check is "+widget.requestStatus.toString());
                     if (widget.requestStatus == true) {
                       acceptRequest(context, widget.request.id.toString(),widget.request.itemName, widget.request.requestMadeBy, widget.request.description);
-                      Navigator.of(context).maybePop();
+                      //Navigator.of(context).maybePop();
                     } else if (widget.requestStatus == false || widget.requestStatus == null ) {
                       acceptWidget(
                           context,
@@ -253,9 +253,10 @@ class _RequestCardState extends State<RequestCard> {
                             color: mainColor,
                             textColor: colorWhite,
                             onPressed: () {
+                              Navigator.of(context).maybePop();
                               acceptRequest(context, itemID.toString(),
                                   itemName, receiverID, description);
-                              Navigator.of(context).maybePop();
+                              //Navigator.of(context).maybePop();
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -381,7 +382,7 @@ class _RequestCardState extends State<RequestCard> {
                             color: mainColor,
                             textColor: colorWhite,
                             onPressed: () {
-                              // Navigator.of(context).maybePop();
+                              //Navigator.of(context).maybePop();
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (ctx) => CreateShopSuggestionScreen(

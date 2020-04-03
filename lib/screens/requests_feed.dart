@@ -75,7 +75,7 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
         setState(() {
           requestStatus = resultStringLogin;
         });
-        print("Value of check and shop check is "+ requestStatus.toString() +" "+shopStatus.toString() );
+        //print("Value of check and shop check is "+ requestStatus.toString() +" "+shopStatus.toString() );
       });
     });
   }

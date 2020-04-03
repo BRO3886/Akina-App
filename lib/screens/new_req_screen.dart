@@ -100,8 +100,8 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
           Coordinates(position.latitude, position.longitude));
       //TODO: change location
       //request['location'] = 'Surat';
-      request['location'] = address.first.locality;
-      //request['location'] = 'Noida';
+      //request['location'] = address.first.locality;
+      request['location'] = 'Noida';
     }
     print(request['location']);
     final body = jsonEncode(request);
