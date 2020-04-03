@@ -233,7 +233,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                         //     end: Alignment.bottomCenter),
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Flexible(
                             child: Text(
@@ -244,7 +244,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                               style: TextStyle(color: Colors.grey),
                             ),
                           ),
-                          GestureDetector(
+                          (widget.itemDescription.length>40)?GestureDetector(
                               onTap: () {
                                 showDialog(
                                   context: context,
@@ -292,7 +292,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                                 ),
                               )
                               // Icon(Icons.info, color: colorGrey,)
-                              )
+                              ):Container(),
                         ],
                       ),
                     ),
