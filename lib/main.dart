@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:project_hestia/Profile/edit_profile.dart';
+import 'package:project_hestia/screens/email_verification.dart';
 import 'package:project_hestia/screens/home_screen.dart';
 import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/screens/new_req_screen.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
         NewsFeedScreen.routename: (_) => NewsFeedScreen(),
         NewRequestScreen.routename: (_) => NewRequestScreen(),
         EditProfileScreen.routename: (_) => EditProfileScreen(),
+        EmailVerificationPage.routename: (_) => EmailVerificationPage(),
       },
     );
   }

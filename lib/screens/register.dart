@@ -5,6 +5,7 @@ import 'package:project_hestia/model/global.dart';
 import 'package:ant_icons/ant_icons.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:project_hestia/screens/email_verification.dart';
 import 'package:project_hestia/screens/home_screen.dart';
 import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/model/util.dart';
@@ -55,9 +56,9 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
         content = responseBody["Error"];
       } else if (responseBody.containsKey("Verify")) {
         //content = responseBody["Verify"];
-        Fluttertoast.showToast(
-            msg: 'An email has been sent to your registered mail ID');
-        Navigator.of(context).pushReplacementNamed(LoginScreen.routename);
+        // Fluttertoast.showToast(
+        //     msg: 'An email has been sent to your registered mail ID');
+        Navigator.of(context).pushReplacementNamed(EmailVerificationPage.routename, arguments: userInfo);
       } else if (responseBody.containsKey("Token")) {
         print("registered succesfully");
         try {
@@ -188,6 +189,9 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                         }
                         if (value.length != 10) {
                           return "Enter a valid phone number";
+                        }
+                        if(value.contains(" ")){
+                          return "Can\'t contain spaces";
                         }
                       },
                     ),

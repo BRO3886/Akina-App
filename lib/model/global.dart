@@ -1,4 +1,4 @@
-//const BASE_URL = 'https://hestia-auth.herokuapp.com/api/user';
+const AUTH_BASE_URL = 'https://hestia-auth.herokuapp.com/api/user';
 const BASE_URL = 'https://akina.ayushpriya.tech/api/user';
 
 const URL_USER_LOGIN  = '$BASE_URL/login';
@@ -8,6 +8,7 @@ const URL_GET_DETAILS = '$BASE_URL/getuserdetail';
 const URL_USER_VERIFY = '$BASE_URL/verifyuser';
 const URL_RESET_PASSWORD = '$BASE_URL/forgotPassword';
 const URL_UPDATE_USER = '$BASE_URL/updateUser';
+const URL_RESEND_VERIFICATION = '$BASE_URL/resendverify';
 
 const REQUEST_BASE_URL = 'hestia-requests.herokuapp.com';
 //const REQUEST_BASE_URL = 'akina.ayushpriya.tech';

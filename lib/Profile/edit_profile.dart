@@ -257,6 +257,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             // onChanged: (value) => userInfo["name"] = value,
                             onSaved: (value) => newuserDetails["phone"] = value,
                             validator: (value) {
+                              if (value.contains(" ")) {
+                                return "Can\'t have spaces";
+                              }
                               if (value == "") {
                                 return "This field is required";
                               }
