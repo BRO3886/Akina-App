@@ -137,7 +137,8 @@ class EmailVerifed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 17),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -166,15 +167,18 @@ class EmailVerifed extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            RaisedButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.7,
+              child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                color: mainColor,
+                textColor: colorWhite,
+                child: Text('Continue'),
+                onPressed: () => Navigator.of(context)
+                    .pushReplacementNamed(MyHomeScreen.routename),
               ),
-              color: mainColor,
-              textColor: colorWhite,
-              child: Text('Continue'),
-              onPressed: () => Navigator.of(context)
-                  .pushReplacementNamed(MyHomeScreen.routename),
             ),
           ],
         ),
@@ -199,7 +203,7 @@ class EmailNotVerified extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.25,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            padding: const EdgeInsets.symmetric(horizontal: 17.0),
             child: Text(
               'An email has been sent to your registered mail id',
               style: screenHeadingStyle.copyWith(fontSize: 25),
@@ -211,7 +215,7 @@ class EmailNotVerified extends StatelessWidget {
             height: 40,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 12),
+            padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 17),
             child: Text(
               'You have to verify your email before you can proceed. Please check your mail to verify your account',
               softWrap: true,
@@ -225,18 +229,21 @@ class EmailNotVerified extends StatelessWidget {
             padding: EdgeInsets.symmetric(
                 vertical: 12.0,
                 horizontal: MediaQuery.of(context).size.width * 0.2),
-            child: LinearProgressIndicator(),
+            child: LinearProgressIndicator(backgroundColor: Colors.grey[350],),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.05,
           ),
-          RaisedButton(
-            color: mainColor,
-            textColor: colorWhite,
-            child: Text('Resend verification email'),
-            onPressed: () => resendVerification(email, name),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.7,
+            child: RaisedButton(
+              color: mainColor,
+              textColor: colorWhite,
+              child: Text('Resend verification email'),
+              onPressed: () => resendVerification(email, name),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
             ),
           ),
         ],
