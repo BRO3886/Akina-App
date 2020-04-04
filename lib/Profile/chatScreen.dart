@@ -36,7 +36,11 @@ class ChatScreenPage extends StatefulWidget {
 class ChatScreenPageState extends State<ChatScreenPage> {
   ScrollController _controller = ScrollController();
   ChatScreenPageState(
-      {this.senderID, this.receiverID, this.itemName, this.itemDescription, this.pagePop});
+      {this.senderID,
+      this.receiverID,
+      this.itemName,
+      this.itemDescription,
+      this.pagePop});
   final int senderID, receiverID;
   final bool pagePop;
   final String itemName, itemDescription;
@@ -230,68 +234,76 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                         //     begin: Alignment.topCenter,
                         //     end: Alignment.bottomCenter),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Flexible(
-                            child: Text(
-                              (widget.itemDescription),
-                              softWrap: false,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ),
-                          GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  child: AlertDialog(
-                                    backgroundColor:
-                                        Theme.of(context).canvasColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    titlePadding: EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 15),
-                                    contentPadding: EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 15),
-                                    actions: <Widget>[
-                                      FlatButton(
-                                        textColor: mainColor,
-                                        child: Text('Close'),
-                                        onPressed: () =>
-                                            Navigator.of(context).maybePop(),
-                                      )
-                                    ],
-                                    content: Text(
-                                      widget.itemDescription,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Icon(
-                                          Icons.info,
-                                          size: 30,
-                                          color: mainColor,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal:10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Flexible(
                               child: Text(
-                                'See More',
-                                style: TextStyle(
-                                  color: colorGrey,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )
-                              // Icon(Icons.info, color: colorGrey,)
-                              )
-                        ],
+                                widget.itemDescription ??
+                                    'No description provided',
+                                softWrap: false,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            ),
+                            (widget.itemDescription.length > 40)
+                                ? GestureDetector(
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        child: AlertDialog(
+                                          backgroundColor:
+                                              Theme.of(context).canvasColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          titlePadding: EdgeInsets.symmetric(
+                                              horizontal: 15, vertical: 15),
+                                          contentPadding: EdgeInsets.symmetric(
+                                              horizontal: 15, vertical: 15),
+                                          actions: <Widget>[
+                                            FlatButton(
+                                              textColor: mainColor,
+                                              child: Text('Close'),
+                                              onPressed: () =>
+                                                  Navigator.of(context)
+                                                      .maybePop(),
+                                            )
+                                          ],
+                                          content: Text(
+                                            widget.itemDescription,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          title: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              Icon(
+                                                Icons.info,
+                                                size: 40,
+                                                color: mainColor,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Text(
+                                      'See More',
+                                      style: TextStyle(
+                                        color: colorGrey,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                    // Icon(Icons.info, color: colorGrey,)
+                                    )
+                                : Container(),
+                          ],
+                        ),
                       ),
                     ),
                   ),

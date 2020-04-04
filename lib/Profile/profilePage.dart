@@ -13,14 +13,14 @@ import 'package:project_hestia/widgets/my_back_button.dart';
 
 resetVariables() async {
   final sp = SharedPrefsCustom();
-  bool gauthUsed = await sp.getIfUsedGauth();
-  if (gauthUsed != null) {
-    if (gauthUsed) {
-      signOutGoogle();
-    }
-  }
+  // bool gauthUsed = await sp.getIfUsedGauth();
+  // if (gauthUsed != null) {
+  //   if (gauthUsed) {
+  //     signOutGoogle();
+  //   }
+  // }
   sp.setLoggedInStatus(false);
-  sp.setIfUsedGauth(false);
+  // sp.setIfUsedGauth(false);
 }
 
 class ProfilePage extends StatelessWidget {
