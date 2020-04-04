@@ -66,17 +66,19 @@ class _RequestsFeedScreenState extends State<RequestsFeedScreen> {
   getValues() {
     checkShopStatus = s.getShopStatus();
     checkShopStatus.then((resultString) {
-      setState(() {
-        shopStatus = resultString;
-      });
-
-      checkRequestStatus = s.getRequestStatus();
-      checkRequestStatus.then((resultStringLogin) {
+      if(mounted){
         setState(() {
-          requestStatus = resultStringLogin;
+          shopStatus = resultString;
         });
-        //print("Value of check and shop check is "+ requestStatus.toString() +" "+shopStatus.toString() );
-      });
+
+        checkRequestStatus = s.getRequestStatus();
+        checkRequestStatus.then((resultStringLogin) {
+          setState(() {
+            requestStatus = resultStringLogin;
+          });
+          //print("Value of check and shop check is "+ requestStatus.toString() +" "+shopStatus.toString() );
+        });
+      }
     });
   }
 

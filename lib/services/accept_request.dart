@@ -121,10 +121,10 @@ createChat(BuildContext context, int sender, String receiver, String itemName, S
                   pagePop: false
         )));
     } else if(result["status"] == 500){
-      Fluttertoast.showToast(msg: 'Something is wrong on our end');
+      Fluttertoast.showToast(msg: 'Something went wrong. Please try again later');
     }
     else {
-        Fluttertoast.showToast(msg: result['message']);
+      Fluttertoast.showToast(msg: result['message']);
     }
   } catch (e) {
     print(e.toString());
