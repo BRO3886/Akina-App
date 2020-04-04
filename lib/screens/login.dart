@@ -139,8 +139,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   return 'Please enter correct email';
                 }
               },
-              onChanged: (email) => userInfo['email'] = email,
-              onSaved: (email) => userInfo['email'] = email,
+              onChanged: (email) => userInfo['email'] = email.trim(),
+              onSaved: (email) => userInfo['email'] = email.trim(),
             ),
           ),
         ),
@@ -373,8 +373,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           return 'Please enter correct email';
                         }
                       },
-                      onChanged: (email) => userInfo['email'] = email,
-                      onSaved: (email) => userInfo['email'] = email,
+                      onChanged: (email) => userInfo['email'] = email.trim(),
+                      onSaved: (email) => userInfo['email'] = email.trim(),
                     ),
                     SizedBox(
                       height: 30,
@@ -398,8 +398,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           return 'Password length must be atleast 8 characters long';
                         }
                       },
-                      onChanged: (password) => userInfo['password'] = password,
-                      onSaved: (password) => userInfo['password'] = password,
+                      onChanged: (password) => userInfo['password'] = password.trim(),
+                      onSaved: (password) => userInfo['password'] = password.trim(),
                     ),
                     SizedBox(
                       height: 2,

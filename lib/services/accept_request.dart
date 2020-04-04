@@ -65,31 +65,42 @@ acceptRequest(BuildContext context ,String itemID, String itemName, String recei
 }
 
 var bodyCreateChatRoom = {
-    "request_sender": 4,
-    "request_receiver": 20,
-    "receiver": 4,
-    "sender": 20,
-    "title": "Sample chat"
+    'receiver' : 1,
+    'sender': 'sender',
+    'title': 'itemName',
+    "request_sender": 1,
+    "request_receiver": 'sender',
+    'req_desc' : 'description'
   };
 
 createChat(BuildContext context, int sender, String receiver, String itemName, String description) async{  
   print("I am in create chat");
   try {
+    bodyCreateChatRoom['receiver'] = int.parse(receiver);
+    bodyCreateChatRoom['sender'] = sender ;
+    bodyCreateChatRoom['title'] = itemName;
+    bodyCreateChatRoom["request_sender"] = int.parse(receiver);
+	  bodyCreateChatRoom["request_receiver"] = sender;
+    bodyCreateChatRoom['req_desc'] = description;
     final token = await SharedPrefsCustom().getToken();
     final response = await http.post(
       URL_CREATE_CHAT,
       headers: {
         HttpHeaders.authorizationHeader: token,
       },
-      body: json.encode({
+      body: json.encode(
+        bodyCreateChatRoom
+        /*{
         'receiver': int.parse(receiver),
         'sender': sender ,
         'title': itemName,
         "request_sender": int.parse(receiver),
 	      "request_receiver": sender,
         'req_desc' : description
-      })
+      }*/)
     );
+
+    print("Body of create chat is " + bodyCreateChatRoom.toString() );
     print("response is "+response.body.toString());
     final result = json.decode(response.body);
     print("Result of create chat room is "+result.toString());
@@ -109,7 +120,10 @@ createChat(BuildContext context, int sender, String receiver, String itemName, S
                   itemDescription: description,
                   pagePop: false
         )));
-    } else {
+    } else if(result["status"] == 500){
+      Fluttertoast.showToast(msg: 'Something is wrong on our end');
+    }
+    else {
         Fluttertoast.showToast(msg: result['message']);
     }
   } catch (e) {

@@ -178,7 +178,7 @@ class _ReportScreenState extends State<ReportScreen> {
                           gapPadding: 10,
                         ),
                       ),
-                      onSaved: (value) => reportData['reason'] = value,
+                      onSaved: (value) => reportData['reason'] = value.trim(),
                       validator: (value) {
                         if (value == "") {
                           return "This field is required";

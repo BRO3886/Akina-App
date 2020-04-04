@@ -203,7 +203,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ),
                             ),
                             // onChanged: (value) => userInfo["name"] = value,
-                            onSaved: (value) => newuserDetails["name"] = value,
+                            onSaved: (value) => newuserDetails["name"] = value.trim(),
                             validator: (value) {
                               if (value == "") {
                                 return "This field is required";
@@ -227,7 +227,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ),
                             ),
                             // onChanged: (value) => userInfo["name"] = value,
-                            onSaved: (value) => newuserDetails["email"] = value,
+                            onSaved: (value) => newuserDetails["email"] = value.trim(),
                             validator: (value) {
                               if (value == "") {
                                 return "This field is required";
@@ -255,7 +255,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ),
                             ),
                             // onChanged: (value) => userInfo["name"] = value,
-                            onSaved: (value) => newuserDetails["phone"] = value,
+                            onSaved: (value) => newuserDetails["phone"] = value.trim(),
                             validator: (value) {
                               if (value == "") {
                                 return "This field is required";

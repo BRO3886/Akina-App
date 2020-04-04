@@ -204,7 +204,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                         ),
                       ),
                       // onChanged: (value) => _itemNameController.text = value,
-                      onSaved: (value) => request['item_name'] = value,
+                      onSaved: (value) => request['item_name'] = value.trim(),
                       validator: (value) {
                         if (value == "") {
                           return "This field is required";
@@ -226,7 +226,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                         ),
                       ),
                       // onChanged: (value) => _quantityController.text = value,
-                      onSaved: (value) => request['quantity'] = value,
+                      onSaved: (value) => request['quantity'] = value.trim(),
                       validator: (value) {
                         if (value == "") {
                           return "This field is required";
@@ -251,7 +251,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                         ),
                       ),
                       // onChanged: (value) => _itemNameController.text = value,
-                      onSaved: (value) => request['description'] = value,
+                      onSaved: (value) => request['description'] = value.trim(),
                     ),
                     SizedBox(
                       height: 20,
@@ -319,7 +319,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                         ),
                       ),
                       // onChanged: (value) => _locationController.text = value,
-                      onSaved: (value) => request["location"] = value,
+                      onSaved: (value) => request["location"] = value.trim(),
                     ),
                     SizedBox(
                       height: 20,
