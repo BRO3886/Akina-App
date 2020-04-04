@@ -3,7 +3,7 @@
 A project aimed at fighting the novel coronavirus. Akina is your one-stop to get the latest updates from the World Health Organisation, to request for anything that you need and let the community help you. Akina aims to aid people by bringing them a platform to elevate individuals to become a community.
 </div>
 
-To read more visit [here](akina.dscvit.com)
+To read more visit [here](https://akina.dscvit.com)
 
 Made with 💙 with [Flutter](https://flutter.dev/)
 
@@ -16,8 +16,8 @@ Made with 💙 with [Flutter](https://flutter.dev/)
 - [ ] Explore section (coming soon 😉)
 
 ## Contributors(App)
-- [Siddhartha Varma]("https://github.com/BRO3886")
-- [Satkriti Singh]("https://github.com/Satkriti-Singh/")
+- [Siddhartha Varma](https://github.com/BRO3886)
+- [Satkriti Singh](https://github.com/Satkriti-Singh/)
 
 **Note:** This project is 100% open source and we would love your contribution. To check out the consolidated hub for all the other repositories [click here](https://github.com/GDGVIT/akina)
 
