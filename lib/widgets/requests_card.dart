@@ -182,7 +182,6 @@ class _RequestCardState extends State<RequestCard> {
                     print("Value of accept in check is "+widget.requestStatus.toString());
                     if (widget.requestStatus == true) {
                       acceptRequest(context, widget.request.id.toString(),widget.request.itemName, widget.request.requestMadeBy, widget.request.description);
-                      //Navigator.of(context).maybePop();
                     } else if (widget.requestStatus == false || widget.requestStatus == null ) {
                       acceptWidget(
                           context,
@@ -209,16 +208,14 @@ class _RequestCardState extends State<RequestCard> {
     );
   }
 
-  //bool accept = false;
-
   acceptWidget(
       BuildContext context, int itemID, String itemName, String receiverID, String description) {
     return showDialog(
         context: context,
-        builder: (context) {
-          return StatefulBuilder(builder: (context, setState) {
+        builder: (dialogContext) {
+          return StatefulBuilder(builder: (dialogContext, setState) {
             return AlertDialog(
-              backgroundColor: Theme.of(context).canvasColor,
+              backgroundColor: Theme.of(dialogContext).canvasColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -253,10 +250,9 @@ class _RequestCardState extends State<RequestCard> {
                             color: mainColor,
                             textColor: colorWhite,
                             onPressed: () {
-                              Navigator.of(context).maybePop();
+                              Navigator.pop(dialogContext);
                               acceptRequest(context, itemID.toString(),
                                   itemName, receiverID, description);
-                              //Navigator.of(context).maybePop();
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -274,7 +270,7 @@ class _RequestCardState extends State<RequestCard> {
                                 borderRadius: BorderRadius.circular(5)),
                             color: colorWhite,
                             textColor: colorBlack,
-                            onPressed: () => Navigator.of(context).pop(),
+                            onPressed: () => Navigator.of(dialogContext).pop(),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
@@ -345,10 +341,10 @@ class _RequestCardState extends State<RequestCard> {
   suggestShop(BuildContext context, String userID, String itemName) {
     return showDialog(
         context: context,
-        builder: (context) {
-          return StatefulBuilder(builder: (context, setState) {
+        builder: (dialogContext) {
+          return StatefulBuilder(builder: (dialogContext, setState) {
             return AlertDialog(
-              backgroundColor: Theme.of(context).canvasColor,
+              backgroundColor: Theme.of(dialogContext).canvasColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -382,7 +378,7 @@ class _RequestCardState extends State<RequestCard> {
                             color: mainColor,
                             textColor: colorWhite,
                             onPressed: () {
-                              //Navigator.of(context).maybePop();
+                              Navigator.pop(dialogContext);
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (ctx) => CreateShopSuggestionScreen(
@@ -391,7 +387,6 @@ class _RequestCardState extends State<RequestCard> {
                                   ),
                                 ),
                               );
-                              //Navigator.of(context).pop();
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -409,7 +404,7 @@ class _RequestCardState extends State<RequestCard> {
                                 borderRadius: BorderRadius.circular(5)),
                             color: colorWhite,
                             textColor: colorBlack,
-                            onPressed: () => Navigator.of(context).pop(),
+                            onPressed: () => Navigator.of(dialogContext).pop(),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[

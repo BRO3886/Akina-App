@@ -509,7 +509,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
       data_send_message["receiver"] =
           userID == widget.senderID ? widget.receiverID : widget.senderID;
       data_send_message["sender"] = userID;
-      data_send_message["text"] = controller.text;
+      data_send_message["text"] = controller.text.trim();
 
       print("Data to create text is " + data_send_message.toString());
 

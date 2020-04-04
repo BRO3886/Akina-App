@@ -136,7 +136,7 @@ class _CreateShopSuggestionScreenState
                       ),
                       // onChanged: (value) => _itemNameController.text = value,
                       onSaved: (value) =>
-                          suggestionInfo['name_of_shop'] = value,
+                          suggestionInfo['name_of_shop'] = value.trim(),
                       validator: (value) {
                         if (value == "") {
                           return "This field is required";
@@ -160,7 +160,7 @@ class _CreateShopSuggestionScreenState
                       ),
                       // onChanged: (value) => _quantityController.text = value,
                       onSaved: (value) =>
-                          suggestionInfo['phone_number'] = value,
+                          suggestionInfo['phone_number'] = value.trim(),
                       validator: (value) {
                         if (value == "") {
                           return "This field is required";
@@ -189,7 +189,7 @@ class _CreateShopSuggestionScreenState
                       ),
                       // onChanged: (value) => _itemNameController.text = value,
                       onSaved: (value) =>
-                          suggestionInfo['description_of_shop'] = value,
+                          suggestionInfo['description_of_shop'] = value.trim(),
                       validator: (value) {
                         if (value == "") {
                           return "This field is required";
@@ -214,7 +214,7 @@ class _CreateShopSuggestionScreenState
                         ),
                       ),
                       // onChanged: (value) => _itemNameController.text = value,
-                      onSaved: (value) => suggestionInfo['landmark'] = value,
+                      onSaved: (value) => suggestionInfo['landmark'] = value.trim(),
                       validator: (value) {
                         if (value == "") {
                           return "This field is required";
@@ -239,7 +239,7 @@ class _CreateShopSuggestionScreenState
                       ),
                       // onChanged: (value) => _itemNameController.text = value,
                       onSaved: (value) =>
-                          suggestionInfo['extra_instruction'] = value,
+                          suggestionInfo['extra_instruction'] = value.trim(),
                     ),
                     SizedBox(
                       height: 20,

@@ -160,8 +160,8 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                           gapPadding: 10,
                         ),
                       ),
-                      onChanged: (value) => userInfo["name"] = value,
-                      onSaved: (value) => userInfo["name"] = value,
+                      onChanged: (value) => userInfo["name"] = value.trim(),
+                      onSaved: (value) => userInfo["name"] = value.trim(),
                       validator: (value) {
                         if (value == "") {
                           return "This field is required";
@@ -181,8 +181,8 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                           gapPadding: 10,
                         ),
                       ),
-                      onChanged: (value) => userInfo["phone"] = value,
-                      onSaved: (value) => userInfo["phone"] = value,
+                      onChanged: (value) => userInfo["phone"] = value.trim(),
+                      onSaved: (value) => userInfo["phone"] = value.trim(),
                       validator: (value) {
                         if (value == "") {
                           return "This field is required";
@@ -208,8 +208,8 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                           gapPadding: 10,
                         ),
                       ),
-                      onChanged: (value) => userInfo["email"] = value,
-                      onSaved: (value) => userInfo["email"] = value,
+                      onChanged: (value) => userInfo["email"] = value.trim(),
+                      onSaved: (value) => userInfo["email"] = value.trim(),
                       validator: (value) {
                         if (value == "") {
                           return "This field is required";
@@ -234,8 +234,8 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
                           gapPadding: 10,
                         ),
                       ),
-                      onChanged: (value) => userInfo["password"] = value,
-                      onSaved: (value) => userInfo["password"] = value,
+                      onChanged: (value) => userInfo["password"] = value.trim(),
+                      onSaved: (value) => userInfo["password"] = value.trim(),
                       validator: (value) {
                         if (value == "") {
                           return "This field is required";
