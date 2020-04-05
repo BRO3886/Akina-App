@@ -11,18 +11,18 @@ Future<AllRequests> getMyRequests() async {
   AllRequests allRequests;
   Position position;
   PermissionStatus permissionStatus =
-      await PermissionHandler().checkPermissionStatus(PermissionGroup.location);
+      await PermissionHandler().checkPermissionStatus(PermissionGroup.locationAlways);
   if (permissionStatus != PermissionStatus.granted) {
     Map<PermissionGroup, PermissionStatus> permissions =
         await PermissionHandler()
             .requestPermissions([PermissionGroup.location]);
-    if (permissions[PermissionGroup.location] != PermissionStatus.granted) {
+    if (permissions[PermissionGroup.locationAlways] != PermissionStatus.granted) {
       return AllRequests(
           message: 'Required Permissions Not Granted', request: []);
     }
   }
   try {
-    ServiceStatus serviceStatus = await PermissionHandler().checkServiceStatus(PermissionGroup.location);
+    ServiceStatus serviceStatus = await PermissionHandler().checkServiceStatus(PermissionGroup.locationAlways);
     if(serviceStatus == ServiceStatus.disabled){
       return AllRequests(message: 'Your location is disabled', request: []);
     }
@@ -43,7 +43,7 @@ Future<AllRequests> getMyRequests() async {
       URL_VIEW_MY_REQUESTS,
       {
         //TODO change location
-        'location': 'Noida'//address.first.locality
+        'location': address.first.locality
         },
     );
     print("URI in my request is "+uri.toString());

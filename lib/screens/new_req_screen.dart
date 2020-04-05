@@ -84,13 +84,13 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
 
     if (customLocation == false) {
       ServiceStatus serviceStatus = await PermissionHandler()
-          .checkServiceStatus(PermissionGroup.location);
+          .checkServiceStatus(PermissionGroup.locationAlways);
       if (serviceStatus == ServiceStatus.disabled) {
         _showSnackBar(
             69, 'You need to enable device location before sending a request');
       }
       GeolocationStatus geolocationStatus =
-          await Geolocator().checkGeolocationPermissionStatus();
+          await Geolocator().checkGeolocationPermissionStatus(locationPermission: GeolocationPermission.locationAlways);
       if (geolocationStatus != GeolocationStatus.granted) {
         _showSnackBar(69, 'Location permission required');
       }
@@ -100,8 +100,8 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
           Coordinates(position.latitude, position.longitude));
       //TODO: change location
       //request['location'] = 'Surat';
-      //request['location'] = address.first.locality;
-      request['location'] = 'Noida';
+      request['location'] = address.first.locality;
+      // request['location'] = 'Noida';
     }
     print(request['location']);
     final body = jsonEncode(request);

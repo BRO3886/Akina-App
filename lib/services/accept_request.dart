@@ -15,7 +15,7 @@ import 'package:permission_handler/permission_handler.dart';
 acceptRequest(BuildContext context ,String itemID, String itemName, String receiverID, String description) async {
   Position position;
   PermissionStatus permissionStatus =
-      await PermissionHandler().checkPermissionStatus(PermissionGroup.location);
+      await PermissionHandler().checkPermissionStatus(PermissionGroup.locationAlways);
   if (permissionStatus != PermissionStatus.granted) {
     Map<PermissionGroup, PermissionStatus> permissions =
         await PermissionHandler()
@@ -47,7 +47,7 @@ acceptRequest(BuildContext context ,String itemID, String itemName, String recei
       },
       body: {
         'request_id':itemID.toString(),
-        'location': 'Noida'//address.first.locality
+        'location': address.first.locality
         //TODO: change location address.first.locality
       }
     );
