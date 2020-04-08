@@ -174,9 +174,7 @@ class StatisticsPageState extends State<StatisticsPage> {
                             pressAttentionMy == true
                                 ? WorldStatsPage(
                                   )
-                                : OtherRequestsChatsPage(
-                                    userID: userID,
-                                  )
+                                : Text('Country')
                             
                           ])
 
