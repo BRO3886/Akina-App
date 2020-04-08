@@ -309,15 +309,28 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                           child : Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Text(listActivecase[listActivecase.length-1].toString(), style: TextStyle(fontSize: 12.0, color: colorGrey),),
+                              Text(listActivecase[listActivecase.length-1].toString(), style: TextStyle(fontSize: 10.0, color: colorGrey),),
                               Text('Number', style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),),
-                              Text(listActivecase[0].toString(), style: TextStyle(fontSize: 12.0, color: colorGrey)),
+                              Text(listActivecase[0].toString(), style: TextStyle(fontSize: 10.0, color: colorGrey)),
                             ],
                           ),
                         ),
                         Container(
+                          margin: EdgeInsets.only(left: 10.0),
                           width: 200.0,
                           height: 200.0,
+                          decoration: BoxDecoration(
+                            border: Border(
+                              left: BorderSide(
+                                color: colorGrey,
+                                width: 1.0,
+                              ),
+                              bottom: BorderSide(
+                                color: colorGrey,
+                                width: 1.0,
+                              ),
+                            ),
+                          ),
                           child : Sparkline(
                             data : listActivecase,
                             fillMode: FillMode.below,
@@ -334,9 +347,9 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(""),
-                          Text(dateFormatter(listDateActive[listDateActive.length-1].date).toString(), style: TextStyle(fontSize: 12.0, color: colorGrey)),
+                          Text(dateFormatter(listDateActive[listDateActive.length-1].date).toString(), style: TextStyle(fontSize: 10.0, color: colorGrey)),
                           Text('Date', style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),),
-                          Text(dateFormatter(listDateActive[0].date).toString(), style: TextStyle(fontSize: 12.0, color: colorGrey)),
+                          Text(dateFormatter(listDateActive[0].date).toString(), style: TextStyle(fontSize: 10.0, color: colorGrey)),
                         ],
                       ),
                     ),
@@ -354,15 +367,28 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                           child : Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Text(listDeath[listDeath.length-1].toString(), style: TextStyle(fontSize: 12.0, color: colorGrey),),
+                              Text(listDeath[listDeath.length-1].toString(), style: TextStyle(fontSize: 10.0, color: colorGrey),),
                               Text('Number', style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),),
-                              Text(listDeath[0].toString(), style: TextStyle(fontSize: 12.0, color: colorGrey)),
+                              Text(listDeath[0].toString(), style: TextStyle(fontSize: 10.0, color: colorGrey)),
                             ],
                           ),
                         ),
                         Container(
+                          margin: EdgeInsets.only(left: 10.0),
                           width: 200.0,
                           height: 200.0,
+                          decoration: BoxDecoration(
+                            border: Border(
+                              left: BorderSide(
+                                color: colorGrey,
+                                width: 1.0,
+                              ),
+                              bottom: BorderSide(
+                                color: colorGrey,
+                                width: 1.0,
+                              ),
+                            ),
+                          ),
                           child : Sparkline(
                             data : listDeath,
                             fillMode: FillMode.below,
@@ -379,9 +405,9 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(""),
-                          Text(dateFormatter(listDateDeath[listDateDeath.length-1].date).toString(), style: TextStyle(fontSize: 12.0, color: colorGrey)),
+                          Text(dateFormatter(listDateDeath[listDateDeath.length-1].date).toString(), style: TextStyle(fontSize: 10.0, color: colorGrey)),
                           Text('Date', style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),),
-                          Text(dateFormatter(listDateDeath[0].date).toString(), style: TextStyle(fontSize: 12.0, color: colorGrey)),
+                          Text(dateFormatter(listDateDeath[0].date).toString(), style: TextStyle(fontSize: 10.0, color: colorGrey)),
                         ],
                       ),
                     ),
@@ -399,15 +425,28 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                           child : Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Text(listRecovered[listRecovered.length-1].toString(), style: TextStyle(fontSize: 12.0, color: colorGrey),),
+                              Text(listRecovered[listRecovered.length-1].toString(), style: TextStyle(fontSize: 10.0, color: colorGrey),),
                               Text('Number', style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),),
-                              Text(listRecovered[0].toString(), style: TextStyle(fontSize: 12.0, color: colorGrey)),
+                              Text(listRecovered[0].toString(), style: TextStyle(fontSize: 10.0, color: colorGrey)),
                             ],
                           ),
                         ),
                         Container(
+                          margin: EdgeInsets.only(left: 10.0),
                           width: 200.0,
                           height: 200.0,
+                          decoration: BoxDecoration(
+                            border: Border(
+                              left: BorderSide(
+                                color: colorGrey,
+                                width: 1.0,
+                              ),
+                              bottom: BorderSide(
+                                color: colorGrey,
+                                width: 1.0,
+                              ),
+                            ),
+                          ),
                           child : Sparkline(
                             data : listRecovered,
                             fillMode: FillMode.below,
