@@ -35,6 +35,10 @@ dependencies:
   flutter_socket_io:
   web_socket_channel:
   flare_flutter:
+  pie_chart:
+  charts_flutter:
+  fl_chart:
+  flutter_sparkline:
 
 dev_dependencies:
   flutter_test:
