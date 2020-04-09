@@ -91,11 +91,11 @@ class ChatScreenPageState extends State<ChatScreenPage> {
   String snapshot = '';
 
   Future<Messages> showChats() async {
-    print("I am in show chats");
+    //print("I am in show chats");
     //final receiverID = await SharedPrefsCustom().getUserID();
     data_create_chat["receiver"] = widget.receiverID;
     data_create_chat["sender"] = widget.senderID;
-    print("Body of getting messages is " + data_create_chat.toString());
+    //print("Body of getting messages is " + data_create_chat.toString());
     try {
       final token = await SharedPrefsCustom().getToken();
       final response = await http.post(URL_GET_MESSAGES,
@@ -106,12 +106,16 @@ class ChatScreenPageState extends State<ChatScreenPage> {
       //print("Response in getting messages is "+response.body.toString());
       final result = json.decode(response.body);
       //print("Messgaes are " + result.toString());
-      if (response.statusCode == 200) {
+      if (result['code'] == 200 && response.statusCode==200) {
         setState(() {
           messages = Messages.fromJson(result);
           snapshot = 'Got Data';
         });
-      } else {
+      } else if(result['code'] == 400){
+        setState(() {
+          snapshot = 'Chat blocked';
+        });
+      }  else {
         setState(() {
           snapshot = result['message'];
         });
@@ -187,25 +191,44 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                             ),
                           ],
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        ReportScreen(
-                                          id: widget.receiverID,
-                                          pop: widget.pagePop,
-                                        )));
-                          },
-                          child: Container(
-                            //margin: EdgeInsets.only(right: 10.0),
-                            child: SvgPicture.asset(
-                              'assets/images/report.svg',
-                              width: 30,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () {
+                                deleteChatDialog();
+                              },
+                              child: CircleAvatar(
+                                child: Icon(
+                                  Icons.delete,
+                                  size: 22,
+                                  color: colorWhite,
+                                ),
+                                radius: 18,
+                                backgroundColor: colorRed,
+                              ),
                             ),
-                          ),
-                        ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            ReportScreen(
+                                              id: widget.receiverID,
+                                              pop: widget.pagePop,
+                                            )));
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(left: 10.0),
+                                child: SvgPicture.asset(
+                                  'assets/images/report.svg',
+                                  width: 30,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -381,6 +404,9 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     if (snapshot == '') {
       return Center(child: CircularProgressIndicator());
     }
+    else if(snapshot == 'Chat blocked'){
+      return Center(child: Text('Chat is reported'));
+    }
     if (snapshot == 'Got Data' && messages.msgs.length == 0) {
       return Center(
         child: Text("No messages found"),
@@ -539,4 +565,128 @@ class ChatScreenPageState extends State<ChatScreenPage> {
       });
     }
   }
+
+  deleteChatDialog() {
+    return showDialog(
+        context: context,
+        builder: (dialogContext) {
+          return StatefulBuilder(builder: (dialogContext, setState) {
+            return AlertDialog(
+              backgroundColor: Theme.of(dialogContext).canvasColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              titlePadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              content: Container(
+                  height: 250,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      CircleAvatar(
+                        child: Icon(
+                          Icons.delete,
+                          size: 22,
+                          color: colorWhite,
+                        ),
+                        radius: 18,
+                        backgroundColor: colorRed,
+                      ),
+                      Text(
+                        'Delete Chat?',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            color: mainColor,
+                            textColor: colorWhite,
+                            onPressed: () { 
+                              deleteChat();
+                              Navigator.pop(dialogContext);
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text('Yes'),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                SvgPicture.asset("assets/images/check.svg"),
+                              ],
+                            ),
+                          ),
+                          RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            color: colorWhite,
+                            textColor: colorBlack,
+                            onPressed: () => Navigator.of(dialogContext).pop(),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text('No'),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Icon(
+                                  Icons.clear,
+                                  color: colorBlack,
+                                  size: 16.0,
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
+            );
+          });
+        });
+  }
+
+  var data_delete_chat = {
+    "receiver": 110,
+    "sender": 109,
+    "who_deleted": "sender"
+  };
+
+  deleteChat() async {
+
+      data_send_message["receiver"] =
+          userID == widget.senderID ? widget.receiverID : widget.senderID;
+      data_send_message["sender"] = userID;
+      data_send_message["who_deleted"] = userID == widget.senderID ? "receiver" : "sender";
+
+      print("Data to delete chat is " + data_delete_chat.toString());
+
+      final client = http.Client();
+      final response = await client.send(
+            http.Request("DELETE", Uri.parse(URL_DELETE_CHAT))
+              ..headers["Authorization"] = token
+              ..body = json.encode(data_send_message)).then((value){
+                print("Response of deleting chat is "+ value.toString());
+                print("Response code of deleting chat is "+ value.statusCode.toString());
+                if (value.statusCode == 200) {
+                    Fluttertoast.showToast(msg: "Chat deleted successfully");
+                    Navigator.of(context).pop();
+                    showChats();
+                  } else {
+                    Fluttertoast.showToast(msg: 'There is some problem. Please try again later!');
+                  }
+              }); 
+
+      /*final response = await http.delete(URL_DELETE_CHAT,
+          headers: {
+            HttpHeaders.authorizationHeader: token,
+          },
+          body: json.encode(data_send_message));*/
+      //print("response of deleting chat is " + response.body.toString());
+      //final result = json.decode(response.body);
+    }
 }

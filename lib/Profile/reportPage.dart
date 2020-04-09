@@ -16,7 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ReportScreen extends StatefulWidget {
   ReportScreen({this.id, this.pop});
-  final id;
+  final int id;
   bool pop;
   @override
   _ReportScreenState createState() => _ReportScreenState();
@@ -56,6 +56,7 @@ class _ReportScreenState extends State<ReportScreen> {
     widget.pop ? Navigator.pop(context) : null;
 */
 
+print("Report id is "+widget.id.toString());
     try {
       final token = await SharedPrefsCustom().getToken();
       final response = await http.post(URL_REPORT_A_PERSON,
@@ -68,7 +69,7 @@ class _ReportScreenState extends State<ReportScreen> {
       Map<String, dynamic> responseBody = jsonDecode(response.body);
       print(responseBody);
       if (response.statusCode == 201) {
-        setReportedList();
+        //setReportedList();
         Fluttertoast.showToast(msg: "Successfully reported");
         Navigator.pop(context);
         Navigator.pop(context);
@@ -85,19 +86,19 @@ class _ReportScreenState extends State<ReportScreen> {
     });
   }
 
-  setReportedList(){
+  /*setReportedList(){
     if(reportedList == null){
       setState(() {
         reportedList = [];
         reportedList.add(widget.id.toString());
-        s.setReportedList(reportedList);
+        //s.setReportedList(reportedList);
       });
     }
     else if ((reportedList.length == 0)){
       setState(() {
         reportedList = [];
         reportedList.add(widget.id.toString());
-        s.setReportedList(reportedList);
+        //s.setReportedList(reportedList);
       });
     }
     else if(reportedList.contains(widget.id.toString())){
@@ -106,18 +107,18 @@ class _ReportScreenState extends State<ReportScreen> {
     else{
       setState(() {
         reportedList.add(widget.id.toString());
-        s.setReportedList(reportedList);
+        //s.setReportedList(reportedList);
       });
     }
-  }
+  }*/
 
   @override
   void initState() {
     super.initState();
-    getValues();
+    //getValues();
   }
 
-  Future<List<String>> checkReportedList;
+  /*Future<List<String>> checkReportedList;
   List<String> reportedList;
   
   getValues() {
@@ -128,7 +129,7 @@ class _ReportScreenState extends State<ReportScreen> {
         });
         print("Value of reported list is "+ reportedList.toString() );
       });
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {

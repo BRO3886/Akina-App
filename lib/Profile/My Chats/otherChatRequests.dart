@@ -37,10 +37,10 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
     getOtherChats();
     
     new Timer.periodic(new Duration(seconds: 60), (Timer t) => getOtherChats());
-    getValues();
+    //getValues();
   }
 
-  Future<List<String>> checkReportedList;
+  /*Future<List<String>> checkReportedList;
   List<String> reportedList;
   SharedPrefsCustom s=new SharedPrefsCustom();
   
@@ -57,7 +57,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
       }
       print("Value of reported list is "+ reportedList.toString() );
     });
-  }
+  }*/
 
   Map<String, int> data_passed = {
     'user_id': 1,
@@ -123,7 +123,9 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                 child: ListView.builder(
                     itemCount: listOtherChats.length,
                     itemBuilder: (BuildContext ctxt, int index) {
-                      return (reportedList.contains(listOtherChats[index].sender.toString()) || reportedList.contains(listOtherChats[index].receiver.toString()))  ? Container() : GestureDetector(
+                      return 
+                        //reportedList.contains(listOtherChats[index].sender.toString()) || reportedList.contains(listOtherChats[index].receiver.toString()))  ? Container() : 
+                        GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,

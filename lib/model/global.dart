@@ -32,6 +32,7 @@ const REPORT_BASE_URL = 'https://hestia-report-do.herokuapp.com';
 
 const URL_SHOW_CREATE_SUGGESTIONS = '$REPORT_BASE_URL/api/recommend/';
 const URL_REPORT_A_PERSON = '$REPORT_BASE_URL/api/report/';
+const URL_CHECK_REPORT_STATUS = '$REPORT_BASE_URL/api/report/check/';
 //const SHOP_BASE_URL = 'https://hestia-report.herokuapp.com';
 //const SHOP_BASE_URL = 'akina.ayushpriya.tech';
 
@@ -47,4 +48,5 @@ const URL_GET_OTHER_CHATS = '$CHAT_BASE_URL/api/v1/getOtherChats';
 const URL_CREATE_MESSAGE = '$CHAT_BASE_URL/api/v1/sendMessage';
 const URL_CREATE_CHAT = '$CHAT_BASE_URL/api/v1/createChat';
 const URL_GET_MESSAGES = '$CHAT_BASE_URL/api/v1/getMessages';
+const URL_DELETE_CHAT = '$CHAT_BASE_URL/api/v1/delChat';
 
