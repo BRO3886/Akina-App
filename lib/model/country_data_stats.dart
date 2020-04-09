@@ -27,17 +27,17 @@ class CountryData {
 class CountryDataClass {
     String country;
     CountryInfo countryInfo;
-    int updated;
-    int cases;
-    int todayCases;
-    int deaths;
-    int todayDeaths;
-    int recovered;
-    int active;
-    int critical;
+    final updated;
+    final cases;
+    final todayCases;
+    final deaths;
+    final todayDeaths;
+    final recovered;
+    final active;
+    final critical;
     final casesPerOneMillion;
     final deathsPerOneMillion;
-    int tests;
+    final tests;
     final testsPerOneMillion;
 
     CountryDataClass({
@@ -93,12 +93,12 @@ class CountryDataClass {
 }
 
 class CountryInfo {
-    int id;
-    String iso2;
-    String iso3;
-    int lat;
-    int long;
-    String flag;
+    final id;
+    final iso2;
+    final iso3;
+    final lat;
+    final long;
+    final flag;
 
     CountryInfo({
         this.id,
