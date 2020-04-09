@@ -39,6 +39,32 @@ class WorldStatsPageState extends State<WorldStatsPage> {
     dataMap.putIfAbsent("Xamarin", () => 1);
   }
 
+  Widget horizontalDivider() {
+    return Container(
+      height: MediaQuery.of(context).size.width * 0.1,
+      width: 1,
+      color: Colors.grey[200],
+    );
+  }
+
+  Widget returnStats(final data, String title, Color color) {
+    return Column(
+      children: <Widget>[
+        Text(
+          formatter.format(data),
+          style: TextStyle(
+            color: color,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          title,
+          style: TextStyle(color: Colors.grey),
+        )
+      ],
+    );
+  }
+
   SharedPrefsCustom s = new SharedPrefsCustom();
 
   WorldStats listOfStats;
@@ -173,21 +199,21 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(
-                          top: 10.0, bottom: 10.0, left: 25.0, right: 25.0),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 17),
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 5,
-                            spreadRadius: 0,
-                            color: Color(0x23000000),
-                          ),
-                        ],
-                      ),
+                          color: colorWhite,
+                          borderRadius: BorderRadius.circular(5),
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 5,
+                              spreadRadius: 0,
+                              // color: Colors.grey[600].withOpacity(0.1),
+                              color: Color(0x23000000),
+                            ),
+                          ]),
+                      margin: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.1),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       child: ListTile(
                         trailing: Container(
                             padding: EdgeInsets.all(8.0),
@@ -198,103 +224,38 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16.0),
                             )),
-                        contentPadding:
-                            EdgeInsets.only(top: 2, left: 14, right: 14),
+                       
                         title: Text(
                           'Total Cases',
                           textAlign: TextAlign.left,
                         ),
                       ),
                     ),
+                    SizedBox(height: 25,),
                     Container(
-                      margin: EdgeInsets.only(
-                          top: 10.0, bottom: 10.0, left: 25.0, right: 25.0),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 17),
-                      //width: MediaQuery.of(context).size.width * 0.75,
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 5,
-                            spreadRadius: 0,
-                            color: Color(0x23000000),
-                          ),
-                        ],
-                      ),
+                          color: colorWhite,
+                          borderRadius: BorderRadius.circular(5),
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 5,
+                              spreadRadius: 0,
+                              // color: Colors.grey[600].withOpacity(0.1),
+                              color: Color(0x23000000),
+                            ),
+                          ]),
+                      margin: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.1),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.only(top: 10.0),
-                                  child: Text(
-                                    formatter.format(activeCases),
-                                    style: TextStyle(
-                                      color: colorYellow,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                    margin: EdgeInsets.only(
-                                        bottom: 10.0, top: 10.0),
-                                    child: Text(
-                                      'Active Cases',
-                                      style: TextStyle(
-                                          color: colorGrey, fontSize: 12.0),
-                                    )),
-                              ],
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.only(top: 10.0),
-                                  child: Text(
-                                    formatter.format(recovered),
-                                    style: TextStyle(
-                                      color: mainColor,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                    margin: EdgeInsets.only(
-                                        bottom: 10.0, top: 10.0),
-                                    child: Text(
-                                      'Recovered',
-                                      style: TextStyle(
-                                          color: colorGrey, fontSize: 12.0),
-                                    )),
-                              ],
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.only(top: 10.0),
-                                  child: Text(
-                                    formatter.format(deaths),
-                                    style: TextStyle(
-                                      color: colorPink,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                    margin: EdgeInsets.only(
-                                        bottom: 10.0, top: 10.0),
-                                    child: Text(
-                                      'Deceased',
-                                      style: TextStyle(
-                                          color: colorGrey, fontSize: 12.0),
-                                    ))
-                              ],
-                            ),
+                            returnStats(activeCases, 'Active', colorYellow),
+                            horizontalDivider(),
+                            returnStats(recovered, 'Recovered', mainColor),
+                            horizontalDivider(),
+                            returnStats(deaths, 'Deceased', colorPink),
                           ]),
                     ),
                     SizedBox(
@@ -302,22 +263,13 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                     ),
                     pieChart.PieChart(
                       dataMap: dataMap,
-                      animationDuration: Duration(milliseconds: 100),
-                      chartLegendSpacing: 32.0,
                       chartRadius: MediaQuery.of(context).size.width / 2.7,
-                      showChartValuesInPercentage: true,
                       showChartValues: true,
                       showChartValuesOutside: false,
-                      chartValueBackgroundColor: Colors.grey[200],
                       colorList: colorList,
-                      showLegends: true,
-                      legendPosition: pieChart.LegendPosition.right,
+                      showLegends: false,
                       decimalPlaces: 1,
-                      showChartValueLabel: true,
-                      initialAngle: 0,
-                      chartValueStyle: pieChart.defaultChartValueStyle.copyWith(
-                        color: Colors.blueGrey[900].withOpacity(0.9),
-                      ),
+                      showChartValueLabel: false,
                       chartType: pieChart.ChartType.disc,
                     ),
                     SizedBox(
@@ -338,7 +290,10 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                           fontWeight: FontWeight.bold,
                           color: colorYellow),
                     ),
-                    MyLineChart(cases: listActivecase, color: colorYellow,),
+                    MyLineChart(
+                      cases: listActivecase,
+                      color: colorYellow,
+                    ),
                     Container(
                       width: 300.0,
                       alignment: Alignment(1, 0),
@@ -375,7 +330,10 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                           fontWeight: FontWeight.bold,
                           color: colorPink),
                     ),
-                    MyLineChart(cases: listDeath,color: colorPink,),
+                    MyLineChart(
+                      cases: listDeath,
+                      color: colorPink,
+                    ),
                     Container(
                       width: 300.0,
                       alignment: Alignment(1, 0),
@@ -411,7 +369,10 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                           fontWeight: FontWeight.bold,
                           color: mainColor),
                     ),
-                    MyLineChart(cases: listRecovered,color: mainColor,),
+                    MyLineChart(
+                      cases: listRecovered,
+                      color: mainColor,
+                    ),
                     Container(
                       width: 300.0,
                       alignment: Alignment(1, 0),
