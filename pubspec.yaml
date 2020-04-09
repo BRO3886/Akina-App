@@ -39,7 +39,8 @@ dependencies:
   charts_flutter:
   fl_chart:
   flutter_sparkline:
-
+  intl: 
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

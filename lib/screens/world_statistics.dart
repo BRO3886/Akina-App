@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:project_hestia/model/global.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:flutter/foundation.dart';
@@ -12,7 +13,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:http/http.dart' as http;
 import 'package:pie_chart/pie_chart.dart' as pieChart;
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter_sparkline/flutter_sparkline.dart';
+import '../widgets/line_chart.dart';
 
 class WorldStatsPage extends StatefulWidget {
   WorldStatsPage({Key key, this.userID}) : super(key: key);
@@ -23,6 +24,7 @@ class WorldStatsPage extends StatefulWidget {
 }
 
 class WorldStatsPageState extends State<WorldStatsPage> {
+  final formatter = NumberFormat("#,###");
   final int userID;
   WorldStatsPageState({this.userID});
   @override
@@ -31,7 +33,7 @@ class WorldStatsPageState extends State<WorldStatsPage> {
     getWorldStats();
 
     seriesList = _createSampleData();
-    
+
     dataMap.putIfAbsent("Flutter", () => 1);
     dataMap.putIfAbsent("React", () => 1);
     dataMap.putIfAbsent("Xamarin", () => 1);
@@ -47,36 +49,31 @@ class WorldStatsPageState extends State<WorldStatsPage> {
   List<Recovered> listDateRecovered;
   List<Deaths> listDateDeath;
 
-
   String snapshot = '';
 
   Future<WorldStats> getWorldStats() async {
-
     try {
-      final response = await http.get(
-        URL_WORLD_STATISTICS,
-        headers: {
-          'content-type': 'application/json; charset = utf-8',
-        }
-      );
+      final response = await http.get(URL_WORLD_STATISTICS, headers: {
+        'content-type': 'application/json; charset = utf-8',
+      });
 
-      print("Response of world stats is "+response.statusCode.toString());
+      print("Response of world stats is " + response.statusCode.toString());
       final data = json.decode(response.body);
       print('Data in world stats is ' + data.toString());
       if (response.statusCode == 200) {
-        if(mounted){
+        if (mounted) {
           setState(() {
             listOfStats = WorldStats.fromJson(data['time_series']);
             snapshot = 'hasData';
-            for(int i=0;i<listOfStats.cases.length;i++){
+            for (int i = 0; i < listOfStats.cases.length; i++) {
               listActivecase.add(listOfStats.cases[i].number.toDouble());
               activeCases += listOfStats.cases[i].number;
             }
-            for(int i=0;i<listOfStats.deaths.length;i++){
+            for (int i = 0; i < listOfStats.deaths.length; i++) {
               listDeath.add(listOfStats.deaths[i].number.toDouble());
               deaths += listOfStats.deaths[i].number;
             }
-            for(int i=0;i<listOfStats.recovered.length;i++){
+            for (int i = 0; i < listOfStats.recovered.length; i++) {
               listRecovered.add(listOfStats.recovered[i].number.toDouble());
               recovered += listOfStats.recovered[i].number;
             }
@@ -86,9 +83,12 @@ class WorldStatsPageState extends State<WorldStatsPage> {
 
             total = activeCases + deaths + recovered;
             dataMap = {
-            ((activeCases*100)/total).toStringAsPrecision(3)+" %": (activeCases*100)/total,
-            ((deaths*100)/total).toStringAsPrecision(3)+" %" : (deaths*100)/total,
-            ((recovered*100)/total).toStringAsPrecision(3)+" %" : (recovered*100)/total
+              ((activeCases * 100) / total).toStringAsPrecision(3) + " %":
+                  (activeCases * 100) / total,
+              ((deaths * 100) / total).toStringAsPrecision(3) + " %":
+                  (deaths * 100) / total,
+              ((recovered * 100) / total).toStringAsPrecision(3) + " %":
+                  (recovered * 100) / total
             };
             _createSampleData();
           });
@@ -105,11 +105,7 @@ class WorldStatsPageState extends State<WorldStatsPage> {
   }
 
   Map<String, double> dataMap = Map();
-  List<Color> colorList = [
-    colorYellow,
-    mainColor,
-    colorPink
-  ];
+  List<Color> colorList = [colorYellow, mainColor, colorPink];
 
   List<charts.Series> seriesList;
   List<charts.Series<Cases, int>> _createSampleData() {
@@ -152,9 +148,9 @@ class WorldStatsPageState extends State<WorldStatsPage> {
         data: myFakeMobileData,
       ),*/
     ];
-   }
+  }
 
-   List<Color> gradientColors = [
+  List<Color> gradientColors = [
     const Color(0xff23b6e6),
     const Color(0xff02d39a),
   ];
@@ -162,18 +158,17 @@ class WorldStatsPageState extends State<WorldStatsPage> {
 
   @override
   Widget build(BuildContext context) {
-
-      /*return FutureBuilder(
+    /*return FutureBuilder(
         future: getWorldStats(),
         builder: (ctx, snapshot) {
           */
-          if (snapshot=='hasData') {
-            if (listActivecase.length > 0 ) {
-              return new SingleChildScrollView(
-                child: Container(
+    if (snapshot == 'hasData') {
+      if (listActivecase.length > 0) {
+        return new SingleChildScrollView(
+            child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: 1400,
-                child : Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
@@ -195,9 +190,14 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                       ),
                       child: ListTile(
                         trailing: Container(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(total.toString(), style: TextStyle(color: mainColor, fontWeight: FontWeight.bold, fontSize: 16.0),)
-                        ),
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              formatter.format(total),
+                              style: TextStyle(
+                                  color: mainColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0),
+                            )),
                         contentPadding:
                             EdgeInsets.only(top: 2, left: 14, right: 14),
                         title: Text(
@@ -224,49 +224,78 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                         ],
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(top: 10.0),
-                              child : Text(activeCases.toString(), style: TextStyle(color: colorYellow, fontWeight: FontWeight.bold,),),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(top: 10.0),
+                                  child: Text(
+                                    formatter.format(activeCases),
+                                    style: TextStyle(
+                                      color: colorYellow,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                    margin: EdgeInsets.only(
+                                        bottom: 10.0, top: 10.0),
+                                    child: Text(
+                                      'Active Cases',
+                                      style: TextStyle(
+                                          color: colorGrey, fontSize: 12.0),
+                                    )),
+                              ],
                             ),
-                            Container(
-                              margin: EdgeInsets.only(bottom: 10.0, top: 10.0),
-                              child : Text('Active Cases', style: TextStyle(color: colorGrey, fontSize: 12.0),)
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(top: 10.0),
+                                  child: Text(
+                                    formatter.format(recovered),
+                                    style: TextStyle(
+                                      color: mainColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                    margin: EdgeInsets.only(
+                                        bottom: 10.0, top: 10.0),
+                                    child: Text(
+                                      'Recovered',
+                                      style: TextStyle(
+                                          color: colorGrey, fontSize: 12.0),
+                                    )),
+                              ],
                             ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(top: 10.0),
-                              child : Text(recovered.toString(), style: TextStyle(color: mainColor, fontWeight: FontWeight.bold,),),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(top: 10.0),
+                                  child: Text(
+                                    formatter.format(deaths),
+                                    style: TextStyle(
+                                      color: colorPink,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                    margin: EdgeInsets.only(
+                                        bottom: 10.0, top: 10.0),
+                                    child: Text(
+                                      'Deceased',
+                                      style: TextStyle(
+                                          color: colorGrey, fontSize: 12.0),
+                                    ))
+                              ],
                             ),
-                            Container(
-                              margin: EdgeInsets.only(bottom: 10.0, top: 10.0),
-                              child : Text('Recovered', style: TextStyle(color: colorGrey, fontSize: 12.0),)
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(top: 10.0),
-                              child : Text(deaths.toString(), style: TextStyle(color: colorPink, fontWeight: FontWeight.bold,),),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(bottom: 10.0, top: 10.0),
-                              child : Text('Deceased', style: TextStyle(color: colorGrey, fontSize: 12.0),)
-                            )
-                          ],
-                        ),
-                        ]
-                      ),
+                          ]),
                     ),
                     SizedBox(
                       height: 18.0,
@@ -294,198 +323,139 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                     SizedBox(
                       height: 50.0,
                     ),
-                    Text("Trend Plots", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0),),
+                    Text(
+                      "Trend Plots",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 24.0),
+                    ),
                     SizedBox(
                       height: 18.0,
                     ),
-                    Text('Active Cases', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: colorYellow),),
-                    Container(
-                      width: 300.0,
-                      child : Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Container(
-                          height: 200.0,
-                          child : Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(listActivecase[listActivecase.length-1].toString(), style: TextStyle(fontSize: 10.0, color: colorGrey),),
-                              Text('Number', style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),),
-                              Text(listActivecase[0].toString(), style: TextStyle(fontSize: 10.0, color: colorGrey)),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 10.0),
-                          width: 200.0,
-                          height: 200.0,
-                          decoration: BoxDecoration(
-                            border: Border(
-                              left: BorderSide(
-                                color: colorGrey,
-                                width: 1.0,
-                              ),
-                              bottom: BorderSide(
-                                color: colorGrey,
-                                width: 1.0,
-                              ),
-                            ),
-                          ),
-                          child : Sparkline(
-                            data : listActivecase,
-                            fillMode: FillMode.below,
-                            fillColor: colorYellow.withOpacity(0.5),
-                            lineColor: colorYellow,
-                          )
-                        ),
-                      ],
-                    ),),
+                    Text(
+                      'Active Cases',
+                      style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: colorYellow),
+                    ),
+                    MyLineChart(cases: listActivecase, color: colorYellow,),
                     Container(
                       width: 300.0,
                       alignment: Alignment(1, 0),
-                      child : Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(""),
-                          Text(dateFormatter(listDateActive[listDateActive.length-1].date).toString(), style: TextStyle(fontSize: 10.0, color: colorGrey)),
-                          Text('Date', style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),),
-                          Text(dateFormatter(listDateActive[0].date).toString(), style: TextStyle(fontSize: 10.0, color: colorGrey)),
+                          Text(
+                            dateFormatter(listDateActive[0].date).toString(),
+                            style: TextStyle(fontSize: 10.0, color: colorGrey),
+                          ),
+                          Text(
+                            'Date',
+                            style: TextStyle(
+                                fontSize: 14.0, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            dateFormatter(
+                                    listDateActive[listDateActive.length - 1]
+                                        .date)
+                                .toString(),
+                            style: TextStyle(fontSize: 10.0, color: colorGrey),
+                          ),
                         ],
                       ),
                     ),
                     SizedBox(
                       height: 50.0,
                     ),
-                    Text('Deceased', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: colorPink),),
-                    Container(
-                      width: 300.0,
-                      child : Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Container(
-                          height: 200.0,
-                          child : Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(listDeath[listDeath.length-1].toString(), style: TextStyle(fontSize: 10.0, color: colorGrey),),
-                              Text('Number', style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),),
-                              Text(listDeath[0].toString(), style: TextStyle(fontSize: 10.0, color: colorGrey)),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 10.0),
-                          width: 200.0,
-                          height: 200.0,
-                          decoration: BoxDecoration(
-                            border: Border(
-                              left: BorderSide(
-                                color: colorGrey,
-                                width: 1.0,
-                              ),
-                              bottom: BorderSide(
-                                color: colorGrey,
-                                width: 1.0,
-                              ),
-                            ),
-                          ),
-                          child : Sparkline(
-                            data : listDeath,
-                            fillMode: FillMode.below,
-                            fillColor: colorPink.withOpacity(0.5),
-                            lineColor: colorPink,
-                          )
-                        ),
-                      ],
-                    ),),
+                    Text(
+                      'Deceased',
+                      style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: colorPink),
+                    ),
+                    MyLineChart(cases: listDeath,color: colorPink,),
                     Container(
                       width: 300.0,
                       alignment: Alignment(1, 0),
-                      child : Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(""),
-                          Text(dateFormatter(listDateDeath[listDateDeath.length-1].date).toString(), style: TextStyle(fontSize: 10.0, color: colorGrey)),
-                          Text('Date', style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),),
-                          Text(dateFormatter(listDateDeath[0].date).toString(), style: TextStyle(fontSize: 10.0, color: colorGrey)),
+                          Text(dateFormatter(listDateDeath[0].date).toString(),
+                              style:
+                                  TextStyle(fontSize: 10.0, color: colorGrey)),
+                          Text(
+                            'Date',
+                            style: TextStyle(
+                                fontSize: 14.0, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                              dateFormatter(
+                                      listDateDeath[listDateDeath.length - 1]
+                                          .date)
+                                  .toString(),
+                              style:
+                                  TextStyle(fontSize: 10.0, color: colorGrey)),
                         ],
                       ),
                     ),
                     SizedBox(
                       height: 50.0,
                     ),
-                    Text('Recovered', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: mainColor),),
-                    Container(
-                      width: 300.0,
-                      child : Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Container(
-                          height: 200.0,
-                          child : Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(listRecovered[listRecovered.length-1].toString(), style: TextStyle(fontSize: 10.0, color: colorGrey),),
-                              Text('Number', style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),),
-                              Text(listRecovered[0].toString(), style: TextStyle(fontSize: 10.0, color: colorGrey)),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 10.0),
-                          width: 200.0,
-                          height: 200.0,
-                          decoration: BoxDecoration(
-                            border: Border(
-                              left: BorderSide(
-                                color: colorGrey,
-                                width: 1.0,
-                              ),
-                              bottom: BorderSide(
-                                color: colorGrey,
-                                width: 1.0,
-                              ),
-                            ),
-                          ),
-                          child : Sparkline(
-                            data : listRecovered,
-                            fillMode: FillMode.below,
-                            fillColor: mainColor.withOpacity(0.5),
-                            lineColor: mainColor,
-                          )
-                        ),
-                      ],
-                    ),),
+                    Text(
+                      'Recovered',
+                      style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: mainColor),
+                    ),
+                    MyLineChart(cases: listRecovered,color: mainColor,),
                     Container(
                       width: 300.0,
                       alignment: Alignment(1, 0),
-                      child : Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(""),
-                          Text(dateFormatter(listDateRecovered[listDateRecovered.length-1].date).toString(), style: TextStyle(fontSize: 12.0, color: colorGrey)),
-                          Text('Date', style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),),
-                          Text(dateFormatter(listDateRecovered[0].date).toString(), style: TextStyle(fontSize: 12.0, color: colorGrey)),
+                          Text(
+                              dateFormatter(listDateRecovered[0].date)
+                                  .toString(),
+                              style:
+                                  TextStyle(fontSize: 12.0, color: colorGrey)),
+                          Text(
+                            'Date',
+                            style: TextStyle(
+                                fontSize: 14.0, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                              dateFormatter(listDateRecovered[
+                                          listDateRecovered.length - 1]
+                                      .date)
+                                  .toString(),
+                              style:
+                                  TextStyle(fontSize: 12.0, color: colorGrey)),
                         ],
                       ),
                     ),
-                ],
-              )));
-            } else {
-              return Text("No stats found");
-            }
-          } else {
-            return CircularProgressIndicator();
-          }
-        //},
-      //);
+                  ],
+                )));
+      } else {
+        return Text("No stats found");
+      }
+    } else {
+      return CircularProgressIndicator();
+    }
+    //},
+    //);
 
     //   bodyMyChats()
     // ])
     // );
   }
 
-  lineChart(){
+  lineChart() {
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -508,8 +478,10 @@ class WorldStatsPageState extends State<WorldStatsPage> {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
-          textStyle:
-              const TextStyle(color: Color(0xff68737d), fontWeight: FontWeight.bold, fontSize: 16),
+          textStyle: const TextStyle(
+              color: Color(0xff68737d),
+              fontWeight: FontWeight.bold,
+              fontSize: 16),
           getTitles: (value) {
             switch (value.toInt()) {
               case 2:
@@ -545,16 +517,17 @@ class WorldStatsPageState extends State<WorldStatsPage> {
           margin: 12,
         ),
       ),
-      borderData:
-          FlBorderData(show: true, border: Border.all(color: const Color(0xff37434d), width: 1)),
+      borderData: FlBorderData(
+          show: true,
+          border: Border.all(color: const Color(0xff37434d), width: 1)),
       minX: 0,
       maxX: 11,
       minY: 0,
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
-          spots:  [
-          /*(){        
+          spots: [
+            /*(){        
             for(int i=0;i<listOfStats.cases.length;i++){
               FlSpot(i.toDouble(), listOfStats.cases[i].number.toDouble());
             }
@@ -576,7 +549,8 @@ class WorldStatsPageState extends State<WorldStatsPage> {
           ),
           belowBarData: BarAreaData(
             show: true,
-            colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
+            colors:
+                gradientColors.map((color) => color.withOpacity(0.3)).toList(),
           ),
         ),
       ],
