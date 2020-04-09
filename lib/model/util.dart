@@ -6,6 +6,9 @@ const Color colorBlack = Colors.black;
 const Color colorRed = Color(0xFFd95071);
 const Color colorGrey = Colors.grey;
 
+const Color colorYellow = Color(0xFFffdd86);
+const Color colorPink = Color(0xFFff589c);
+
 const TextStyle smallredHeading = TextStyle(
     fontSize: 14,
     color: Colors.red,

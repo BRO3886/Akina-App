@@ -37,6 +37,7 @@ const URL_REPORT_A_PERSON = '$REPORT_BASE_URL/api/report/';
 
 const NEWS_BASE_URL = 'http://hestia-info.herokuapp.com';
 const URL_NEWS = "http://hestia-info.herokuapp.com/node";
+const URL_WORLD_STATISTICS = '$NEWS_BASE_URL/stats' ;
 
 //const CHAT_BASE_URL = 'https://hestia-chat.herokuapp.com';
 const CHAT_BASE_URL = 'https://akina.ayushpriya.tech';
