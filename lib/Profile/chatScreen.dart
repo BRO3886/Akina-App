@@ -19,13 +19,15 @@ class ChatScreenPage extends StatefulWidget {
       {Key key,
       this.senderID,
       this.receiverID,
+      @required this.requestReceiver,
+      @required this.requestSender,
       @required this.itemName,
       this.personName,
       @required this.itemDescription,
       this.pagePop})
       : super(key: key);
 
-  final int senderID, receiverID;
+  final int senderID, receiverID, requestSender, requestReceiver;
   final bool pagePop;
   final String itemName, personName, itemDescription;
 
@@ -38,10 +40,12 @@ class ChatScreenPageState extends State<ChatScreenPage> {
   ChatScreenPageState(
       {this.senderID,
       this.receiverID,
+      this.requestReceiver,
+      this.requestSender,
       this.itemName,
       this.itemDescription,
       this.pagePop});
-  final int senderID, receiverID;
+  final int senderID, receiverID, requestSender, requestReceiver;
   final bool pagePop;
   final String itemName, itemDescription;
 
@@ -79,6 +83,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     });
 
     token = await SharedPrefsCustom().getToken();
+    print("Token is "+token.toString());
   }
 
   String token = '';
@@ -656,12 +661,16 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     "who_deleted": "sender"
   };
 
+  //I/flutter (26741): Data to delete chat is {receiver: 127, sender: 128, who_deleted: sender}
+  //I/flutter (26741): Data to delete chat is {receiver: 127, sender: 128, who_deleted: receiver}
+
+
+
   deleteChat() async {
 
-      data_send_message["receiver"] =
-          userID == widget.senderID ? widget.receiverID : widget.senderID;
-      data_send_message["sender"] = userID;
-      data_send_message["who_deleted"] = userID == widget.senderID ? "receiver" : "sender";
+      data_delete_chat["receiver"] = widget.requestReceiver;
+      data_delete_chat["sender"] = widget.requestSender;
+      data_delete_chat["who_deleted"] = userID == widget.senderID ? "receiver" : "sender";
 
       print("Data to delete chat is " + data_delete_chat.toString());
 
@@ -669,17 +678,21 @@ class ChatScreenPageState extends State<ChatScreenPage> {
       final response = await client.send(
             http.Request("DELETE", Uri.parse(URL_DELETE_CHAT))
               ..headers["Authorization"] = token
-              ..body = json.encode(data_send_message)).then((value){
-                print("Response of deleting chat is "+ value.toString());
+              ..body = json.encode(data_delete_chat)).then((value) async {
+                final respStr = await value.stream.bytesToString();
+                final res = json.decode(respStr); 
+                print("Response of delete chat is "+ respStr.toString());
                 print("Response code of deleting chat is "+ value.statusCode.toString());
-                if (value.statusCode == 200) {
+                if (res['status'] == 200 || res['code']==200) {
+                  
                     Fluttertoast.showToast(msg: "Chat deleted successfully");
                     Navigator.of(context).pop();
                     showChats();
                   } else {
                     Fluttertoast.showToast(msg: 'There is some problem. Please try again later!');
                   }
-              }); 
+              });
+      print("Body is is "+json.encode(data_delete_chat).toString());
 
       /*final response = await http.delete(URL_DELETE_CHAT,
           headers: {

@@ -137,6 +137,8 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                 personName: listOtherChats[index].senderName,
                                 itemDescription: listOtherChats[index].description,
                                 pagePop: true,
+                                requestReceiver: listOtherChats[index].requestReceiver,
+                                requestSender: listOtherChats[index].requestSender,
                               ),
                             ),
                           );
@@ -205,6 +207,8 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                                           .senderName,
                                                   itemDescription: listOtherChats[index].description,
                                                   pagePop: true,
+                                                  requestReceiver: listOtherChats[index].requestReceiver,
+                                                  requestSender: listOtherChats[index].requestSender,
                                                 )));
                                   },
                                   child: Container(
@@ -260,6 +264,8 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                 personName: listOtherChats[index].senderName,
                                 itemDescription: listOtherChats[index].description,
                                 pagePop: true,
+                                requestReceiver: listOtherChats[index].requestReceiver,
+                                requestSender: listOtherChats[index].requestSender,
                               ),
                             ),
                           );
@@ -326,6 +332,8 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                                       .senderName,
                                                       itemDescription: listOtherChats[index].description,
                                                   pagePop: true,
+                                                  requestReceiver: listOtherChats[index].requestReceiver,
+                                                  requestSender: listOtherChats[index].requestSender,
                                                 )));
                                   },
                                   child: Container(

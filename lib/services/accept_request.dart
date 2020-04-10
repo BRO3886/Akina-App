@@ -56,6 +56,11 @@ acceptRequest(BuildContext context ,String itemID, String itemName, String recei
     if (response.statusCode == 200) {
       createChat(context, senderID, receiverID, itemName, description);
       //Fluttertoast.showToast(msg: 'Request accepted!');
+
+      //I/flutter ( 6821): response is {"message":"Item Already Accepted"}
+
+    } else if(result['message'].toString().contains('blocked')){
+      Fluttertoast.showToast(msg: 'You cannot accept this request');
     } else {
         Fluttertoast.showToast(msg: result['message']);
     }
@@ -118,7 +123,9 @@ createChat(BuildContext context, int sender, String receiver, String itemName, S
                   itemName: itemName,
                   personName: result['chat_room']['sender_name'],
                   itemDescription: description,
-                  pagePop: false
+                  pagePop: false,
+                  requestReceiver: result['chat_room']['request_receiver'],
+                  requestSender: result['chat_room']['request_sender'],
         )));
     } else if(result["status"] == 500){
       Fluttertoast.showToast(msg: 'Something went wrong. Please try again later');
