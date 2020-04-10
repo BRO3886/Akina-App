@@ -218,7 +218,8 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                         ),
                       ]),
                   margin: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.1),
+                      horizontal: MediaQuery.of(context).size.width * 0.1,
+                      vertical: 5.0),
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: ListTile(
                     trailing: Container(
