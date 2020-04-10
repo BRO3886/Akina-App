@@ -4,10 +4,7 @@ import '../model/news.dart';
 Future<News> getNews() async {
   try {
     final url = 'http://hestia-info.herokuapp.com/node';
-    final response = await http.get(Uri.encodeFull(url), 
-    headers: {
-      'content-type': 'application/json; charset = utf-8',
-    });
+    final response = await http.get(url);
     if (response.statusCode == 200) {
       News news = newsFromJson(response.body);
       //Remove later

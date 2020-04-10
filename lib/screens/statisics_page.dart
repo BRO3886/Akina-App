@@ -6,8 +6,10 @@ import 'package:project_hestia/Profile/My%20Chats/otherChatRequests.dart';
 import 'package:project_hestia/Profile/chatScreen.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:flutter/foundation.dart';
+import 'package:project_hestia/screens/country_stats.dart';
 import 'package:project_hestia/screens/show_shop_suggestios.dart';
 import 'package:project_hestia/screens/world_statistics.dart';
+import 'package:project_hestia/services/get_countries.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 import 'package:project_hestia/widgets/cust_sliver_app_bar.dart';
 import 'package:project_hestia/widgets/my_back_button.dart';
@@ -174,7 +176,7 @@ class StatisticsPageState extends State<StatisticsPage> {
                             pressAttentionMy == true
                                 ? WorldStatsPage(
                                   )
-                                : Text('Country')
+                                : CountryStatisticsScreen(getCountries()),
                             
                           ])
 
