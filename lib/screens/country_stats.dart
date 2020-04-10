@@ -1,13 +1,15 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:pie_chart/pie_chart.dart' as piechart;
 import 'package:project_hestia/model/country_data_stats.dart';
 import 'package:project_hestia/model/util.dart';
+import 'package:project_hestia/services/get_countries.dart';
+import 'package:project_hestia/services/get_stats_country.dart';
+import 'package:searchable_dropdown/searchable_dropdown.dart';
 
 class CountryStatisticsScreen extends StatefulWidget {
+  final Future<List<String>> countryList;
+  CountryStatisticsScreen(this.countryList);
   @override
   _CountryStatisticsScreenState createState() =>
       _CountryStatisticsScreenState();
@@ -15,11 +17,10 @@ class CountryStatisticsScreen extends StatefulWidget {
 
 class _CountryStatisticsScreenState extends State<CountryStatisticsScreen> {
   String selectedRegion = "Afghanistan";
-  Future<List<String>> countryList;
+  
   final formatter = NumberFormat("#,###");
   @override
   void initState() {
-    countryList = getCountries();
 
     super.initState();
   }
@@ -53,7 +54,7 @@ class _CountryStatisticsScreenState extends State<CountryStatisticsScreen> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: Stream.fromFuture(countryList),
+      stream: Stream.fromFuture(widget.countryList),
       builder: (ctx, snapshot) {
         if (!snapshot.hasData) {
           return Center(
@@ -65,32 +66,43 @@ class _CountryStatisticsScreenState extends State<CountryStatisticsScreen> {
             child: Column(
               children: <Widget>[
                 Container(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.1),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     border: Border.all(
                       color: Colors.grey[400],
                     ),
                   ),
-                  height: 50,
-                  padding: EdgeInsets.symmetric(horizontal: 18),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton(
-                      hint: Text('Select Country'),
-                      value: selectedRegion,
-                      isDense: true,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedRegion = value;
-                        });
-                        print(selectedRegion);
-                      },
-                      items: countries.map((String country) {
-                        return DropdownMenuItem(
-                          value: country,
-                          child: Text(country),
-                        );
-                      }).toList(),
-                    ),
+                  // height: 70,
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: SearchableDropdown.single(
+                    underline: Container(),
+                    displayClearIcon: false,
+                    hint: Text('Select Country'),
+                    value: selectedRegion,
+                    displayItem: (DropdownMenuItem<String> item, bool selected){
+                      if(selected){
+                        // setState(() {
+                          selectedRegion = item.value;
+                        // });
+                      }
+                      return item;
+                    },
+                    searchHint: Text('Select Country'),
+                    isExpanded: true,
+                    onChanged: (String value) {
+                      setState(() {
+                        selectedRegion = value;
+                      });
+                      print(selectedRegion);
+                    },
+                    items: countries.map((String country) {
+                      return DropdownMenuItem(
+                        value: country,
+                        child: Text(country),
+                      );
+                    }).toList(),
                   ),
                 ),
                 StreamBuilder(
@@ -102,7 +114,6 @@ class _CountryStatisticsScreenState extends State<CountryStatisticsScreen> {
                       );
                     } else {
                       CountryData countryData = snapshot.data;
-                      print(countryData.countryData.deaths);
                       return Column(
                         children: <Widget>[
                           SizedBox(
@@ -186,14 +197,14 @@ class _CountryStatisticsScreenState extends State<CountryStatisticsScreen> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8.0, vertical: 10),
                             child: piechart.PieChart(
-                              chartValueBackgroundColor: Colors.grey[200],
-                              showLegends: false,
+                              showLegends: true,
+                              showChartValues: false,
                               decimalPlaces: 1,
                               dataMap: {
-                                "active": countryData.countryData.active + .0,
-                                "recovered":
+                                "${double.parse(((countryData.countryData.active/countryData.countryData.cases)*100).toStringAsFixed(1))}%": countryData.countryData.active + .0,
+                                "${double.parse(((countryData.countryData.recovered/countryData.countryData.cases)*100).toStringAsFixed(1))}%":
                                     countryData.countryData.recovered + .0,
-                                "deaths": countryData.countryData.deaths + .0,
+                                "${double.parse(((countryData.countryData.deaths/countryData.countryData.cases)*100).toStringAsFixed(1))}%": countryData.countryData.deaths + .0,
                               },
                               colorList: [colorYellow, mainColor, colorPink],
                               chartRadius:
@@ -214,35 +225,4 @@ class _CountryStatisticsScreenState extends State<CountryStatisticsScreen> {
   }
 }
 
-Future<List<String>> getCountries() async {
-  List<String> countries = [];
-  final String url = "http://hestia-info.herokuapp.com/allCountries";
-  try {
-    final response = await http.get(url);
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      Map<String, dynamic> resBody = json.decode(response.body);
-      // print(resBody);
-      countries = resBody["allCountries"].cast<String>();
-      countries = countries.map((country) => country).toList();
-      countries.sort((a, b) => a.compareTo(b));
-      // print(countries);
-    }
-    return countries;
-  } catch (e) {
-    print(e.toString());
-  }
-}
 
-Future<CountryData> getStatsforcountry(String country) async {
-  final url = "http://hestia-info.herokuapp.com/allCountriesData/$country";
-  try {
-    final response = await http.get(url);
-    if (response.statusCode == 200) {
-      CountryData countryData = countryDataFromJson(response.body);
-      return countryData;
-    }
-  } catch (e) {
-    print(e.toString());
-  }
-}

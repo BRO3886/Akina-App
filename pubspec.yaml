@@ -40,7 +40,7 @@ dependencies:
   fl_chart:
   flutter_sparkline:
   intl: 
-  
+  searchable_dropdown:
 dev_dependencies:
   flutter_test:
     sdk: flutter
