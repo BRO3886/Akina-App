@@ -41,6 +41,7 @@ dependencies:
   flutter_sparkline:
   intl: 
   searchable_dropdown:
+  url_launcher:
 dev_dependencies:
   flutter_test:
     sdk: flutter

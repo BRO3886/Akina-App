@@ -55,7 +55,7 @@ Future<Orgs> getOrgsByCountry() async {
       return orgs;
     } else if (response.statusCode == 204) {
       return Orgs(
-          message: 'No organisations found in your area.', organization: []);
+          message: 'No organisations found in your area. To register an organisation visit https://orgregister.netlify.com', organization: []);
     } else {
       return Orgs(
           message: 'Uh oh! Seems like something is wrong on our end',

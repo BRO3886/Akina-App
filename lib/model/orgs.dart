@@ -36,6 +36,7 @@ class Organization {
     String country;
     String description;
     String email;
+    String webLinks;
     String phoneNo;
     bool isVerified;
 
@@ -47,6 +48,7 @@ class Organization {
         this.country,
         this.description,
         this.email,
+        this.webLinks,
         this.phoneNo,
         this.isVerified,
     });
@@ -59,6 +61,7 @@ class Organization {
         country: json["country"],
         description: json["description"],
         email: json["email"],
+        webLinks: json["web_links"],
         phoneNo: json["phone_no"],
         isVerified: json["is_verified"],
     );
@@ -71,6 +74,7 @@ class Organization {
         "country": country,
         "description": description,
         "email": email,
+        "web_links": webLinks,
         "phone_no": phoneNo,
         "is_verified": isVerified,
     };
