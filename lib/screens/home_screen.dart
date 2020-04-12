@@ -142,7 +142,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
           textToBeShown = 'News Page';
         });
       }
-      else if(item.url.contains('https://akina.dscvit.com/suggestashop')){
+      else if(item.url.contains('akina.dscvit.com/suggestashop')){
         setState(() {
           textToBeShown = 'Shop Suggestions Page';
         });
