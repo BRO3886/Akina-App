@@ -133,7 +133,7 @@ class SharedPrefsCustom {
     print("location stored as $value");
   }
 
-  Future<List<String>> getReportedList() async {
+  /*Future<List<String>> getReportedList() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final key = 'reported-list';
     return prefs.getStringList(key);
@@ -144,5 +144,5 @@ class SharedPrefsCustom {
     final key = 'reported-list';
     prefs.setStringList(key, value);
     print("reported-list stored as $value");
-  }
+  }*/
 }

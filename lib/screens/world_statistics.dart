@@ -12,7 +12,6 @@ import 'package:project_hestia/services/shared_prefs_custom.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:http/http.dart' as http;
 import 'package:pie_chart/pie_chart.dart' as pieChart;
-import 'package:fl_chart/fl_chart.dart';
 import '../widgets/line_chart.dart';
 
 class WorldStatsPage extends StatefulWidget {
@@ -31,8 +30,6 @@ class WorldStatsPageState extends State<WorldStatsPage> {
   void initState() {
     super.initState();
     getWorldStats();
-
-    seriesList = _createSampleData();
 
     dataMap.putIfAbsent("Flutter", () => 1);
     dataMap.putIfAbsent("React", () => 1);
@@ -69,11 +66,12 @@ class WorldStatsPageState extends State<WorldStatsPage> {
 
   WorldStats listOfStats;
   int total = 0;
-  int activeCases = 0, recovered = 0, deaths = 0;
-  List<double> listActivecase = [], listRecovered = [], listDeath = [];
-  List<Cases> listDateActive;
+  int activeCases = 0, recovered = 0, deaths = 0, totalCases = 0;
+  List<double> listActivecase = [], listRecovered = [], listDeath = [], listTotalCase = [];
+  List<ActiveCases> listDateActive;
   List<Recovered> listDateRecovered;
   List<Deaths> listDateDeath;
+  List<TotalCases> listDateTotal;
 
   String snapshot = '';
 
@@ -103,20 +101,24 @@ class WorldStatsPageState extends State<WorldStatsPage> {
               listRecovered.add(listOfStats.recovered[i].number.toDouble());
               recovered += listOfStats.recovered[i].number;
             }
+            for (int i = 0; i < listOfStats.totalCases.length; i++) {
+              listTotalCase.add(listOfStats.totalCases[i].number.toDouble());
+              totalCases += listOfStats.totalCases[i].number;
+            }
             listDateActive = listOfStats.cases;
             listDateRecovered = listOfStats.recovered;
             listDateDeath = listOfStats.deaths;
+            listDateTotal = listOfStats.totalCases;
 
             total = activeCases + deaths + recovered;
             dataMap = {
-              ((activeCases * 100) / total).toStringAsPrecision(3) + " %":
-                  (activeCases * 100) / total,
-              ((deaths * 100) / total).toStringAsPrecision(3) + " %":
-                  (deaths * 100) / total,
-              ((recovered * 100) / total).toStringAsPrecision(3) + " %":
-                  (recovered * 100) / total
+              ((listOfStats.globalData.recentCase * 100) / listOfStats.globalData.recentTotalCases).toStringAsPrecision(3) + " %":
+                  (listOfStats.globalData.recentCase * 100) / listOfStats.globalData.recentTotalCases,
+              ((listOfStats.globalData.recentDeath * 100) / listOfStats.globalData.recentTotalCases).toStringAsPrecision(3) + " %":
+                  (listOfStats.globalData.recentDeath * 100) / listOfStats.globalData.recentTotalCases,
+              ((listOfStats.globalData.recentRecovered * 100) / listOfStats.globalData.recentTotalCases).toStringAsPrecision(3) + " %":
+                  (listOfStats.globalData.recentRecovered * 100) / listOfStats.globalData.recentTotalCases
             };
-            _createSampleData();
           });
         }
       } else {
@@ -132,35 +134,6 @@ class WorldStatsPageState extends State<WorldStatsPage> {
 
   Map<String, double> dataMap = Map();
   List<Color> colorList = [colorYellow, mainColor, colorPink];
-
-  List<charts.Series> seriesList;
-  List<charts.Series<Cases, int>> _createSampleData() {
-    final myFakeDesktopData = listDateActive;
-
-    /*var myFakeTabletData = [
-      new LinearSales(0, 10),
-      new LinearSales(1, 50),
-      new LinearSales(2, 200),
-      new LinearSales(3, 150),
-    ];
-
-    var myFakeMobileData = [
-      new LinearSales(0, 15),
-      new LinearSales(1, 75),
-      new LinearSales(2, 300),
-      new LinearSales(3, 225),
-    ];*/
-
-    return [
-      new charts.Series<Cases, int>(
-        id: 'Desktop',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (Cases cases, _) => 1,
-        measureFn: (Cases cases, _) => cases.number,
-        data: myFakeDesktopData,
-      ),
-    ];
-  }
 
   List<Color> gradientColors = [
     const Color(0xff23b6e6),
@@ -200,7 +173,7 @@ class WorldStatsPageState extends State<WorldStatsPage> {
         return new SingleChildScrollView(
           child: Container(
             width: MediaQuery.of(context).size.width,
-            height: 1400,
+            height: 1700,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -213,18 +186,18 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                         BoxShadow(
                           blurRadius: 5,
                           spreadRadius: 0,
-                          // color: Colors.grey[600].withOpacity(0.1),
                           color: Color(0x23000000),
                         ),
                       ]),
                   margin: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.1),
+                      horizontal: MediaQuery.of(context).size.width * 0.1,
+                      vertical: 5.0),
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: ListTile(
                     trailing: Container(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
-                          formatter.format(total),
+                          formatter.format(listOfStats.globalData.recentTotalCases),
                           style: TextStyle(
                               color: mainColor,
                               fontWeight: FontWeight.bold,
@@ -257,11 +230,11 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        returnStats(activeCases, 'Active', colorYellow),
+                        returnStats(listOfStats.globalData.recentCase, 'Active', colorYellow),
                         horizontalDivider(),
-                        returnStats(recovered, 'Recovered', mainColor),
+                        returnStats(listOfStats.globalData.recentRecovered, 'Recovered', mainColor),
                         horizontalDivider(),
-                        returnStats(deaths, 'Deceased', colorPink),
+                        returnStats(listOfStats.globalData.recentDeath, 'Deceased', colorPink),
                       ]),
                 ),
                 SizedBox(
@@ -286,6 +259,21 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                 ),
                 SizedBox(
                   height: 18.0,
+                ),
+                Text(
+                  'Total Cases',
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      color: mainColor),
+                ),
+                MyLineChart(
+                  cases: listTotalCase,
+                  color: mainColor,
+                ),
+                bottomDataRow(listDateTotal),
+                SizedBox(
+                  height: 50.0,
                 ),
                 Text(
                   'Active Cases',

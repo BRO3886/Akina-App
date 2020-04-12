@@ -51,7 +51,7 @@ Future<bool> deleteRequest(String id) async {
         HttpHeaders.authorizationHeader: token,
       },
     );
-    print(response.statusCode);
+    //print(response.statusCode);
     Map<String, dynamic> responseBody = jsonDecode(response.body);
     print(responseBody);
     print("Response for delete is ");

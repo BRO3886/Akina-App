@@ -174,8 +174,7 @@ class StatisticsPageState extends State<StatisticsPage> {
                               height: 18,
                             ),
                             pressAttentionMy == true
-                                ? WorldStatsPage(
-                                  )
+                                ? WorldStatsPage()
                                 : CountryStatisticsScreen(getCountries()),
                             
                           ])

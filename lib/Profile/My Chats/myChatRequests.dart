@@ -29,10 +29,10 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
     getMyChats();
     
     new Timer.periodic(new Duration(seconds: 60), (Timer t) => getMyChats());
-    getValues();
+    //getValues();
   }
 
-  Future<List<String>> checkReportedList;
+  /*Future<List<String>> checkReportedList;
   List<String> reportedList;
   SharedPrefsCustom s=new SharedPrefsCustom();
   
@@ -49,7 +49,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
       }
       print("Value of reported list is "+ reportedList.toString() );
     });
-  }
+  }*/
 
   Map<String, int> data_passed = {
     'user_id': 1,
@@ -80,7 +80,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
 
       //print("Response of my chats is "+response.statusCode.toString());
       final data = json.decode(response.body);
-      print('Data in my chats is ' + data.toString());
+      //print('Data in my chats is ' + data.toString());
       if (response.statusCode == 200) {
         //print("Output of my chat is "+response.body.toString());
         setState(() {
@@ -145,7 +145,9 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                 child: ListView.builder(
                     itemCount: listMyChats.length,
                     itemBuilder: (BuildContext ctxt, int index) {
-                      return (reportedList.contains(listMyChats[index].sender.toString()) || reportedList.contains(listMyChats[index].receiver.toString()))  ? Container() : GestureDetector(
+                      return 
+                      //(reportedList.contains(listMyChats[index].sender.toString()) || reportedList.contains(listMyChats[index].receiver.toString()))  ? Container() : 
+                      GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
@@ -157,6 +159,8 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                 personName: listMyChats[index].receiverName,
                                 itemDescription: listMyChats[index].description,
                                 pagePop: true,
+                                requestReceiver: listMyChats[index].requestReceiver,
+                                requestSender: listMyChats[index].requestSender,
                               ),
                             ),
                           );
@@ -223,6 +227,8 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                                       .receiverName,
                                                       itemDescription: listMyChats[index].description,
                                                       pagePop: true,
+                                                      requestReceiver: listMyChats[index].requestReceiver,
+                                                      requestSender: listMyChats[index].requestSender,
                                                 )));
                                   },
                                   child: Container(
@@ -283,6 +289,8 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                 personName: listMyChats[index].senderName,
                                 itemDescription: listMyChats[index].description,
                                 pagePop: true,
+                                requestReceiver: listMyChats[index].requestReceiver,
+                                requestSender: listMyChats[index].requestSender,
                               ),
                             ),
                           );
@@ -349,6 +357,8 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                                       .senderName,
                                                       itemDescription: listMyChats[index].description,
                                                   pagePop: true,
+                                                  requestReceiver: listMyChats[index].requestReceiver,
+                                                  requestSender: listMyChats[index].requestSender,
                                                 )));
                                   },
                                   child: Container(

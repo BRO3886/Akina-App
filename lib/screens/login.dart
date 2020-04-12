@@ -155,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final response = await http.post(uri, body: {'email': email});
       print("get details on login");
-      print(response.statusCode);
+      //print(response.statusCode);
       if (response.statusCode == 200) {
         Map<String, dynamic> responseBody = jsonDecode(response.body);
         sp.setUserName(responseBody["name"]);
@@ -165,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
         sp.setRequestStatus(false);
       } else {
         print("get detials on login");
-        print(response.statusCode);
+        //print(response.statusCode);
       }
     } catch (e) {
       print(e.toString());

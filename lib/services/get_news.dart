@@ -11,7 +11,7 @@ Future<News> getNews() async {
       print(news.source??'no title');
       return news;
     } else {
-      print(response.statusCode);
+      //print(response.statusCode);
     }
   } catch (e) {
     print(e);
