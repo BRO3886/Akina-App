@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_hestia/model/global.dart';
@@ -23,6 +24,60 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+
+  FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
+
+  @override
+  void initState() {
+    super.initState();
+
+    firebaseMessaging.getToken().then((token) {
+      update(token);
+    });
+  }
+
+  String deviceID;
+
+  update(String token) {
+    print("FCM token is "+token);
+    setState(() {
+      deviceID = token;
+    });
+  }
+
+  Map<String, String> body_register_device = {
+    "user_token":"1",
+    "registration_id":"123458"
+  };
+
+  registerDevice(String tokenID) async {
+    print("Token id is "+tokenID);
+    body_register_device['user_token'] = tokenID;
+    body_register_device['registration_id'] = deviceID;
+
+    print("Body sent to register device is "+body_register_device.toString());
+
+    try {
+      final response = await http.post(
+        URL_REGISTER_DEVICE,
+        // headers: {
+        //   HttpHeaders.contentTypeHeader: 'application/json',
+        // },
+        body: body_register_device,
+      );
+      Map<String, dynamic> responseBody = jsonDecode(response.body);
+      print("Response of register device is"+responseBody.toString());
+      print("Response code is "+response.statusCode.toString());
+      if (response.statusCode == 200) {
+        Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   final GlobalKey<FormState> _formKey = GlobalKey();
 
@@ -74,7 +129,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
           sp.setPhone(userInfo["phone"]);
           sp.setToken(responseBody["Token"]);
           Navigator.of(context).maybePop();
-          Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
+          registerDevice(responseBody["Token"]);
         } catch (e) {
           print(e);
         }

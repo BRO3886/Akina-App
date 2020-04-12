@@ -1,6 +1,11 @@
+import 'dart:async';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:project_hestia/Profile/myChats.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/explore_screen.dart';
+import 'package:project_hestia/screens/show_shop_suggestios.dart';
 import './requests_feed.dart';
 import './news_feed.dart';
 
@@ -20,11 +25,108 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
     NewsFeedScreen(),
   ];
 
+  
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  
   @override
   void initState() {
     super.initState();
     _pageIndex = 0;
     _pageController = PageController(initialPage: _pageIndex);
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        _showItemDialog(message);
+      },
+      onBackgroundMessage: myBackgroundMessageHandler,
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+        _navigateToItemDetail(message);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+        _navigateToItemDetail(message);
+      },
+    );
+  }
+  
+  void _navigateToItemDetail(Map<String, dynamic> message) {
+    final Item item = _itemForMessage(message);
+    print("The url of notification is "+item.url);
+    if(item.url.contains('requests')){
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) => MyChatsPage()));
+    }
+    else if(item.url.contains('main')){
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) => MyHomeScreen()));
+    }
+    else if(item.url.contains('suggestashop')){
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) => ShopSuggestionsScreen()));
+    }
+    else{
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) => MyHomeScreen()));
+    }
+
+    /*Navigator.push(context, item.route);
+    //TODO changed
+    //Navigator.popUntil(context, (Route<dynamic> route) => route is PageRoute);
+    if (!item.route.isCurrent) {
+      Navigator.push(context, item.route);
+    }*/
+  }
+
+    Widget _buildDialog(BuildContext context, Item item) {
+    return AlertDialog(
+      content: Text("Item ${item.itemId} has been updated"),
+      actions: <Widget>[
+        FlatButton(
+          child: const Text('CLOSE'),
+          onPressed: () {
+            Navigator.pop(context, false);
+          },
+        ),
+        FlatButton(
+          child: const Text('SHOW'),
+          onPressed: () {
+            Navigator.pop(context, true);
+          },
+        ),
+      ],
+    );
+  }
+
+  void _showItemDialog(Map<String, dynamic> message) {
+    showDialog<bool>(
+      context: context,
+      builder: (_) => _buildDialog(context, _itemForMessage(message)),
+    ).then((bool shouldNavigate) {
+      if (shouldNavigate == true) {
+        _navigateToItemDetail(message);
+      }
+    });
+  }
+
+  final Map<String, Item> _items = <String, Item>{};
+  Item _itemForMessage(Map<String, dynamic> message) {
+    final dynamic data = message['data'] ?? message;
+    final String itemId = data['id'];
+    final String url = data['url'];
+    final String screen = data['screen'];
+    final Item item = _items.putIfAbsent(itemId, () => Item(itemId: itemId, screen: screen, url: url))
+      ..status = data['status'];
+    return item;
   }
 
   @override
@@ -87,4 +189,50 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
       ),
     );
   }
+}
+
+
+  //Model class to represent the message return by FCM
+class Item {
+  Item({this.itemId, this.screen, this.url});
+  final String itemId, url, screen;
+
+  StreamController<Item> _controller = StreamController<Item>.broadcast();
+  Stream<Item> get onChanged => _controller.stream;
+
+  String _status;
+  String get status => _status;
+  set status(String value) {
+    _status = value;
+    _controller.add(this);
+  }
+
+  static final Map<String, Route<void>> routes = <String, Route<void>>{
+
+  };
+  Route<void> get route {
+    final String routeName = '/detail/$itemId';
+    return routes.putIfAbsent(
+      routeName,
+      () => MaterialPageRoute<void>(
+        settings: RouteSettings(name: routeName),
+        builder: (context){}
+      //  builder: (BuildContext context) => DetailPage(itemId),
+      ),
+    );
+  }
+}
+
+Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
+  if (message.containsKey('data')) {
+    // Handle data message
+    final dynamic data = message['data'];
+  }
+
+  if (message.containsKey('notification')) {
+    // Handle notification message
+    final dynamic notification = message['notification'];
+  }
+
+  // Or do other work.
 }

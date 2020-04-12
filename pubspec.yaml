@@ -42,6 +42,9 @@ dependencies:
   intl: 
   searchable_dropdown:
   url_launcher:
+  firebase_messaging:
+  firebase_core:
+  firebase_auth:
 dev_dependencies:
   flutter_test:
     sdk: flutter

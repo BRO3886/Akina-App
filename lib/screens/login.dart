@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:ant_icons/ant_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +8,7 @@ import 'package:project_hestia/model/global.dart';
 import 'package:project_hestia/screens/home_screen.dart';
 import 'package:project_hestia/screens/register.dart';
 import 'package:project_hestia/model/util.dart';
-import 'package:project_hestia/services/google_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -283,9 +284,7 @@ class _LoginScreenState extends State<LoginScreen> {
               sp.setLoggedInStatus(true);
               sp.setShopStatus(false);
               sp.setRequestStatus(false);
-              Navigator.of(context)
-                  .pushReplacementNamed(MyHomeScreen.routename);
-              // Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
+              registerDevice(responseBody["Token"]);
             }
           }
         } catch (e) {
@@ -301,10 +300,58 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
+
   @override
   void initState() {
     super.initState();
-    
+
+    firebaseMessaging.getToken().then((token) {
+      update(token);
+    });
+  }
+
+  String deviceID;
+
+  update(String token) {
+    print("FCM token is "+token);
+    setState(() {
+      deviceID = token;
+    });
+  }
+
+  Map<String, String> body_register_device = {
+    "user_token":"1",
+    "registration_id":"123458"
+  };
+
+  registerDevice(String tokenID) async {
+    print("Token id is "+tokenID);
+    body_register_device['user_token'] = tokenID;
+    body_register_device['registration_id'] = deviceID;
+
+    print("Body sent to register device is "+body_register_device.toString());
+
+    try {
+      final response = await http.post(
+        URL_REGISTER_DEVICE,
+        // headers: {
+        //   HttpHeaders.contentTypeHeader: 'application/json',
+        // },
+        body: body_register_device,
+      );
+      Map<String, dynamic> responseBody = jsonDecode(response.body);
+      print("Response of register device is"+responseBody.toString());
+      print("Response code is "+response.statusCode.toString());
+      if (response.statusCode == 200) {
+        Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
