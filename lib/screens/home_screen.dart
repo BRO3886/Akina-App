@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_hestia/Profile/myChats.dart';
 import 'package:project_hestia/model/util.dart';
+import 'package:project_hestia/screens/explore_screen.dart';
 import 'package:project_hestia/screens/show_shop_suggestios.dart';
 import './requests_feed.dart';
 import './news_feed.dart';
@@ -21,6 +22,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
 
   final pageList = [
     RequestsFeedScreen(),
+    ExploreScreen(),
     NewsFeedScreen(),
   ];
 
@@ -212,14 +214,16 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 12,
-        type: BottomNavigationBarType.shifting,
+        type: BottomNavigationBarType.fixed,
         onTap: (index) => _pageController.animateToPage(index,
             duration: const Duration(milliseconds: 500),
             curve: Curves.fastOutSlowIn),
         currentIndex: _pageIndex,
-        // backgroundColor: Colors.white,
         unselectedItemColor: Colors.grey,
         selectedItemColor: mainColor,
+        iconSize: 25,
+        unselectedFontSize: 0,
+        backgroundColor: colorWhite,
         showSelectedLabels: true,
         items: [
           BottomNavigationBarItem(
@@ -229,6 +233,14 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
             ),
             title: Text('Feed'),
             backgroundColor: Colors.white,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.explore,
+              // color: Colors.black,
+            ),
+            backgroundColor: Colors.white,
+            title: Text('Explore'),
           ),
           BottomNavigationBarItem(
             icon: Icon(
@@ -269,7 +281,8 @@ class Item {
       routeName,
       () => MaterialPageRoute<void>(
         settings: RouteSettings(name: routeName),
-       // builder: (BuildContext context) => DetailPage(itemId),
+        builder: (context){}
+      //  builder: (BuildContext context) => DetailPage(itemId),
       ),
     );
   }

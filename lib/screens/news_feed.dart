@@ -7,7 +7,6 @@ import 'package:project_hestia/services/get_news.dart';
 import 'package:project_hestia/widgets/cust_sliver_app_bar.dart';
 import 'package:project_hestia/widgets/news_card.dart';
 
-
 class NewsFeedScreen extends StatelessWidget {
   static const routename = "/newsfeed";
   @override
@@ -60,9 +59,10 @@ class NewsFeedScreen extends StatelessWidget {
                             ],
                           ),
                           child: ListTile(
-                            leading: SvgPicture.asset(
-                              "assets/images/suggestions.svg",
+                            leading: Icon(
+                              Icons.pie_chart,
                               color: mainColor,
+                              size: 25,
                             ),
                             trailing: Container(
                               padding: EdgeInsets.all(8.0),
@@ -124,70 +124,74 @@ class NewsFeedScreen extends StatelessWidget {
                 isReplaced: true,
               ),
               SliverToBoxAdapter(
-                child: Container(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      StatisticsPage()));
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(
-                              top: 10.0, bottom: 10.0, left: 25.0, right: 25.0),
-                          padding:
-                              EdgeInsets.symmetric(vertical: 5, horizontal: 17),
-                          //width: MediaQuery.of(context).size.width * 0.75,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 5,
-                                spreadRadius: 0,
-                                color: Color(0x23000000),
+                  child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            StatisticsPage()));
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    top: 10.0,
+                                    bottom: 10.0,
+                                    left: 25.0,
+                                    right: 25.0),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 17),
+                                //width: MediaQuery.of(context).size.width * 0.75,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(5),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 5,
+                                      spreadRadius: 0,
+                                      color: Color(0x23000000),
+                                    ),
+                                  ],
+                                ),
+                                child: ListTile(
+                                  leading: Icon(
+                                    Icons.pie_chart,
+                                    color: mainColor,
+                                    size: 25,
+                                  ),
+                                  trailing: Container(
+                                    padding: EdgeInsets.all(8.0),
+                                    decoration: new BoxDecoration(
+                                      color: mainColor,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: colorWhite,
+                                      size: 14.0,
+                                    ),
+                                  ),
+                                  contentPadding: EdgeInsets.only(
+                                      top: 2, left: 14, right: 14),
+                                  title: Text(
+                                    'Statistics',
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
                               ),
-                            ],
-                          ),
-                          child: ListTile(
-                            leading: SvgPicture.asset(
-                              "assets/images/suggestions.svg",
-                              color: mainColor,
                             ),
-                            trailing: Container(
-                              padding: EdgeInsets.all(8.0),
-                              decoration: new BoxDecoration(
-                                color: mainColor,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                Icons.arrow_forward_ios,
-                                color: colorWhite,
-                                size: 14.0,
-                              ),
+                            SizedBox(
+                              height: 18,
                             ),
-                            contentPadding:
-                                EdgeInsets.only(top: 2, left: 14, right: 14),
-                            title: Text(
-                              'Statistics',
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 18,
-                      ),
-                    ])) /*SizedBox(
+                          ])) /*SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),*/
-              ),
+                  ),
               SliverFillRemaining(
                 child: Center(
                   child: CircularProgressIndicator(),

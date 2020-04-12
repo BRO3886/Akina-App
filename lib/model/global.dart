@@ -1,7 +1,7 @@
 const AUTH_BASE_URL = 'https://hestia-auth.herokuapp.com/api/user';
 const BASE_URL = 'https://akina.ayushpriya.tech/api/user';
 
-const URL_USER_LOGIN  = '$BASE_URL/login';
+const URL_USER_LOGIN = '$BASE_URL/login';
 const URL_USER_REGISTER = '$BASE_URL/registerapp';
 const URL_USER_UPDATE = '$BASE_URL/updateUser';
 const URL_GET_DETAILS = '$BASE_URL/getuserdetail';
@@ -17,6 +17,7 @@ const URL_NEW_ITEM_REQUEST = 'api/requests/item_requests/';
 const URL_VIEW_ALL_ITEM_REQUESTS = 'api/requests/view_all_item_requests/';
 const URL_ACCEPT_REQUEST = 'https://$REQUEST_BASE_URL/api/requests/accept/';
 const URL_VIEW_MY_REQUESTS = 'api/requests/my_requests/';
+const URL_VIEW_ORGS = 'api/requests/user_organization_view/';
 
 const URL_REGISTER_DEVICE = 'https://$REQUEST_BASE_URL/api/notification/register_device/';
 
@@ -25,12 +26,10 @@ const URL_REGISTER_DEVICE = 'https://$REQUEST_BASE_URL/api/notification/register
 // const URL_NEW_REQUEST = 'api/requests/item_requests/';
 // const URL_VIEW_ALL_REQUESTS = 'api/requests/view_all_item_requests/';
 
-
 const URL_GET_ID = 'https://$REQUEST_BASE_URL/api/user/getuserdetail';
 
 const REPORT_BASE_URL = 'https://hestia-report-do.herokuapp.com';
 //const REPORT_BASE_URL = 'https://akina.ayushpriya.tech';
-
 
 const URL_SHOW_CREATE_SUGGESTIONS = '$REPORT_BASE_URL/api/recommend/';
 const URL_REPORT_A_PERSON = '$REPORT_BASE_URL/api/report/';
@@ -40,7 +39,7 @@ const URL_CHECK_REPORT_STATUS = '$REPORT_BASE_URL/api/report/check/';
 
 const NEWS_BASE_URL = 'http://hestia-info.herokuapp.com';
 const URL_NEWS = "http://hestia-info.herokuapp.com/node";
-const URL_WORLD_STATISTICS = '$NEWS_BASE_URL/stats' ;
+const URL_WORLD_STATISTICS = '$NEWS_BASE_URL/stats';
 
 //const CHAT_BASE_URL = 'https://hestia-chat.herokuapp.com';
 const CHAT_BASE_URL = 'https://akina.ayushpriya.tech';
@@ -51,4 +50,3 @@ const URL_CREATE_MESSAGE = '$CHAT_BASE_URL/api/v1/sendMessage';
 const URL_CREATE_CHAT = '$CHAT_BASE_URL/api/v1/createChat';
 const URL_GET_MESSAGES = '$CHAT_BASE_URL/api/v1/getMessages';
 const URL_DELETE_CHAT = '$CHAT_BASE_URL/api/v1/delChat';
-
