@@ -18,6 +18,8 @@ const URL_VIEW_ALL_ITEM_REQUESTS = 'api/requests/view_all_item_requests/';
 const URL_ACCEPT_REQUEST = 'https://$REQUEST_BASE_URL/api/requests/accept/';
 const URL_VIEW_MY_REQUESTS = 'api/requests/my_requests/';
 
+const URL_REGISTER_DEVICE = 'https://$REQUEST_BASE_URL/api/notification/register_device/';
+
 
 // const ITEM_REQUEST_BASE_URL = 'hestia-requests.herokuapp.com';
 // const URL_NEW_REQUEST = 'api/requests/item_requests/';

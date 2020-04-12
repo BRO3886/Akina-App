@@ -41,6 +41,9 @@ dependencies:
   flutter_sparkline:
   intl: 
   searchable_dropdown:
+  firebase_messaging:
+  firebase_core:
+  firebase_auth:
 dev_dependencies:
   flutter_test:
     sdk: flutter

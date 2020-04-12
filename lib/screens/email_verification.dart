@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -62,6 +63,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
           sp.setLoggedInStatus(true);
           sp.setShopStatus(false);
           sp.setRequestStatus(false);
+          registerDevice(responseBody['Token']);
           // Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
           // Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
           print("logged in successfully");
@@ -95,9 +97,52 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
     }
   }
 
+  FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
+
   @override
   void initState() {
     super.initState();
+
+    firebaseMessaging.getToken().then((token) {
+      update(token);
+    });
+  }
+
+  String deviceID;
+
+  update(String token) {
+    print("FCM token is "+token);
+    setState(() {
+      deviceID = token;
+    });
+  }
+
+  Map<String, String> body_register_device = {
+    "user_token":"1",
+    "registration_id":"123458"
+  };
+
+  registerDevice(String tokenID) async {
+    print("Token id is "+tokenID);
+    body_register_device['user_token'] = tokenID;
+    body_register_device['registration_id'] = deviceID;
+
+    print("Body sent to register device is "+body_register_device.toString());
+
+    try {
+      final response = await http.post(
+        URL_REGISTER_DEVICE,
+        // headers: {
+        //   HttpHeaders.contentTypeHeader: 'application/json',
+        // },
+        body: body_register_device,
+      );
+      Map<String, dynamic> responseBody = jsonDecode(response.body);
+      print("Response of register device is"+responseBody.toString());
+      print("Response code is "+response.statusCode.toString());
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
