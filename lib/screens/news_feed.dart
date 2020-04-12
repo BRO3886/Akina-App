@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:project_hestia/model/news.dart';
 import 'package:project_hestia/model/util.dart';
-import 'package:project_hestia/screens/show_shop_suggestios.dart';
 import 'package:project_hestia/screens/statisics_page.dart';
 import 'package:project_hestia/services/get_news.dart';
 import 'package:project_hestia/widgets/cust_sliver_app_bar.dart';

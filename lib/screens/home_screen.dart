@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_hestia/Profile/myChats.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/show_shop_suggestios.dart';
@@ -48,6 +49,48 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
       },
     );
   }
+
+  static Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
+    if (message.containsKey('data')) {
+     // Handle data message
+     final dynamic data = message['data'];
+     //Fluttertoast.showToast(msg: "Data in background is "+data.toString());
+     
+    /*final Item item = _itemForMessage(message);
+    print("The url of notification is "+item.url);
+    if(item.url.contains('requests')){
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) => MyChatsPage()));
+    }
+    else if(item.url.contains('main')){
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) => MyHomeScreen()));
+    }
+    else if(item.url.contains('https://akina.dscvit.com/suggestashop')){
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) => ShopSuggestionsScreen()));
+    }
+    else{
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) => MyHomeScreen()));
+    }*/
+   }
+
+   if (message.containsKey('notification')) {
+     // Handle notification message
+     final dynamic notification = message['notification'];
+   }
+
+   // Or do other work.
+  }
   
   void _navigateToItemDetail(Map<String, dynamic> message) {
     final Item item = _itemForMessage(message);
@@ -64,7 +107,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
         new MaterialPageRoute(
             builder: (BuildContext context) => MyHomeScreen()));
     }
-    else if(item.url.contains('suggestashop')){
+    else if(item.url.contains('akina.dscvit.com/suggestashop')){
       Navigator.push(
         context,
         new MaterialPageRoute(
@@ -86,8 +129,30 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
   }
 
     Widget _buildDialog(BuildContext context, Item item) {
+      String textToBeShown= '';
+      if(item.url.contains('requests')){
+        setState(() {
+          textToBeShown = 'Chats page';
+        });
+      }
+      else if(item.url.contains('main')){
+        setState(() {
+          textToBeShown = 'News Page';
+        });
+      }
+      else if(item.url.contains('https://akina.dscvit.com/suggestashop')){
+        setState(() {
+          textToBeShown = 'Shop Suggestions Page';
+        });
+      }
+      else{
+        setState(() {
+          textToBeShown = 'The app';
+        });
+      }
+
     return AlertDialog(
-      content: Text("Item ${item.itemId} has been updated"),
+      content: Text("${textToBeShown} has something new"),
       actions: <Widget>[
         FlatButton(
           child: const Text('CLOSE'),
@@ -210,7 +275,7 @@ class Item {
   }
 }
 
-Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
+/*Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
   if (message.containsKey('data')) {
     // Handle data message
     final dynamic data = message['data'];
@@ -222,4 +287,5 @@ Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
   }
 
   // Or do other work.
-}
+}*/
+
