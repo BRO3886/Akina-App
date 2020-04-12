@@ -92,11 +92,7 @@ dependencies {
 
     
     implementation 'com.google.firebase:firebase-core:16.0.9'
-    implementation 'com.google.firebase:firebase-database:16.0.1'
-    implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
-    implementation 'com.google.firebase:firebase-auth:17.0.0'
-    implementation 'com.google.firebase:firebase-storage:17.0.0' ;
-    implementation 'com.google.firebase:firebase-messaging:18.0.0';
+    implementation 'com.google.firebase:firebase-messaging:20.1.0';
 }
 apply plugin: 'com.google.gms.google-services'
-com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
+// com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
