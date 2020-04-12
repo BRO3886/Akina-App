@@ -17,11 +17,10 @@ class CountryStatisticsScreen extends StatefulWidget {
 
 class _CountryStatisticsScreenState extends State<CountryStatisticsScreen> {
   String selectedRegion = "Afghanistan";
-  
+
   final formatter = NumberFormat("#,###");
   @override
   void initState() {
-
     super.initState();
   }
 
@@ -57,8 +56,15 @@ class _CountryStatisticsScreenState extends State<CountryStatisticsScreen> {
       stream: Stream.fromFuture(widget.countryList),
       builder: (ctx, snapshot) {
         if (!snapshot.hasData) {
-          return Center(
-            child: CircularProgressIndicator(),
+          return Column(
+            children: <Widget>[
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.2,
+              ),
+              Center(
+                child: CircularProgressIndicator(),
+              ),
+            ],
           );
         } else {
           List<String> countries = snapshot.data;
@@ -81,10 +87,11 @@ class _CountryStatisticsScreenState extends State<CountryStatisticsScreen> {
                     displayClearIcon: false,
                     hint: Text('Select Country'),
                     value: selectedRegion,
-                    displayItem: (DropdownMenuItem<String> item, bool selected){
-                      if(selected){
+                    displayItem:
+                        (DropdownMenuItem<String> item, bool selected) {
+                      if (selected) {
                         // setState(() {
-                          selectedRegion = item.value;
+                        selectedRegion = item.value;
                         // });
                       }
                       return item;
@@ -109,13 +116,16 @@ class _CountryStatisticsScreenState extends State<CountryStatisticsScreen> {
                   stream: Stream.fromFuture(getStatsforcountry(selectedRegion)),
                   builder: (ctx, snapshot) {
                     if (!snapshot.hasData) {
-                      return Container(
-                        alignment: Alignment(0, 0),
-                        margin: EdgeInsets.only(
-                          top: 10.0,
-                          bottom: 10.0
-                        ),
-                        child: CircularProgressIndicator(),
+                      return Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.1,
+                          ),
+                          CircularProgressIndicator(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                        ],
                       );
                     } else {
                       CountryData countryData = snapshot.data;
@@ -206,10 +216,12 @@ class _CountryStatisticsScreenState extends State<CountryStatisticsScreen> {
                               showChartValues: false,
                               decimalPlaces: 1,
                               dataMap: {
-                                "${double.parse(((countryData.countryData.active/countryData.countryData.cases)*100).toStringAsFixed(1))}%": countryData.countryData.active + .0,
-                                "${double.parse(((countryData.countryData.recovered/countryData.countryData.cases)*100).toStringAsFixed(1))}%":
+                                "${double.parse(((countryData.countryData.active / countryData.countryData.cases) * 100).toStringAsFixed(1))}%":
+                                    countryData.countryData.active + .0,
+                                "${double.parse(((countryData.countryData.recovered / countryData.countryData.cases) * 100).toStringAsFixed(1))}%":
                                     countryData.countryData.recovered + .0,
-                                "${double.parse(((countryData.countryData.deaths/countryData.countryData.cases)*100).toStringAsFixed(1))}%": countryData.countryData.deaths + .0,
+                                "${double.parse(((countryData.countryData.deaths / countryData.countryData.cases) * 100).toStringAsFixed(1))}%":
+                                    countryData.countryData.deaths + .0,
                               },
                               colorList: [colorYellow, mainColor, colorPink],
                               chartRadius:
@@ -630,8 +642,3 @@ class _CountryStatisticsScreenState extends State<CountryStatisticsScreen> {
         }
   }
 }*/
-
-
-
-
-

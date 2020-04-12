@@ -14,8 +14,38 @@ class ExploreScreen extends StatelessWidget {
         builder: (ctx, snapshot) {
           if (snapshot.hasData) {
             Orgs orgs = snapshot.data;
-            if(orgs.organization.length == 0){
-              return Center(child: Text(orgs.message),);
+            if (orgs.organization.length == 0) {
+              return CustomScrollView(
+                slivers: <Widget>[
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                    ),
+                  ),
+                  MySliverAppBar(
+                    title: 'Explore',
+                    isReplaced: true,
+                  ),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.01,
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.32,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(17),
+                          child: Text(orgs.message, textAlign: TextAlign.center,),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
             }
             return CustomScrollView(
               slivers: <Widget>[
