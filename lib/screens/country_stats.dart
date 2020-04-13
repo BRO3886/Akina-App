@@ -16,7 +16,7 @@ class CountryStatisticsScreen extends StatefulWidget {
 }
 
 class _CountryStatisticsScreenState extends State<CountryStatisticsScreen> {
-  String selectedRegion = "Afghanistan";
+  String selectedRegion = "India";
 
   final formatter = NumberFormat("#,###");
   @override

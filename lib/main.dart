@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Hestia',
-      debugShowCheckedModeBanner: false,
+      title: 'Akina',
+      debugShowCheckedModeBanner: true,
       // darkTheme: ThemeData.dark(),
       theme: ThemeData(
         fontFamily: 'Manrope',
