@@ -89,6 +89,7 @@ class OrganizationCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
             child: Text(
               organization.description,
+              style: TextStyle(color: Colors.grey),
               textAlign: TextAlign.justify,
             ),
           )

@@ -213,6 +213,7 @@ class _CountryStatisticsScreenState extends State<CountryStatisticsScreen> {
                                 horizontal: 8.0, vertical: 10),
                             child: piechart.PieChart(
                               showLegends: true,
+                              chartValueStyle: TextStyle(color: Colors.transparent),
                               showChartValues: false,
                               decimalPlaces: 1,
                               dataMap: {

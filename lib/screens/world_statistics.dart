@@ -241,6 +241,7 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                   height: 18.0,
                 ),
                 pieChart.PieChart(
+                  chartValueStyle: TextStyle(color: Colors.transparent),
                   dataMap: dataMap,
                   chartRadius: MediaQuery.of(context).size.width / 2.7,
                   showChartValues: true,

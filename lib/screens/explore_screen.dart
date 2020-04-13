@@ -92,9 +92,9 @@ class ExploreScreen extends StatelessWidget {
                         //   height: MediaQuery.of(context).size.height * 0.05,
                         // ),
                         Text(
-                          'NGOs providing food to the needy and protective equipment to healthcare workers are listed above. Donate to help fight the battle against covid-19',
+                          'NGOs providing food to the needy and protective equipment to healthcare workers are listed above.\nDonate to help fight the battle against covid-19',
                           style: TextStyle(color: Colors.grey, fontSize: 12),
-                          textAlign: TextAlign.justify,
+                          textAlign: TextAlign.center,
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.025,
