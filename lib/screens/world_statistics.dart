@@ -173,7 +173,7 @@ class WorldStatsPageState extends State<WorldStatsPage> {
         return new SingleChildScrollView(
           child: Container(
             width: MediaQuery.of(context).size.width,
-            height: 1700,
+            // height: 1600,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -317,6 +317,7 @@ class WorldStatsPageState extends State<WorldStatsPage> {
                   color: mainColor,
                 ),
                 bottomDataRow(listDateRecovered),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1,)
               ],
             ),
           ),

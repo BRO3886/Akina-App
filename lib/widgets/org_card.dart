@@ -3,6 +3,7 @@ import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:project_hestia/model/orgs.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/services/call_mail_web.dart';
+import 'package:project_hestia/services/url_launcher.dart';
 
 class OrganizationCard extends StatelessWidget {
   final Organization organization;
@@ -11,7 +12,7 @@ class OrganizationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-      margin: EdgeInsets.symmetric(horizontal: 17, vertical: 10),
+      margin: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
       decoration: BoxDecoration(
         color: colorWhite,
         borderRadius: BorderRadius.circular(5),
@@ -75,7 +76,7 @@ class OrganizationCard extends StatelessWidget {
                     color: colorWhite,
                     size: 12,
                   ),
-                  onTap: () => _launchURL(context, organization.webLinks),
+                  onTap: () => launchURL(context, organization.webLinks),
                 ),
                 radius: 12,
                 backgroundColor: mainColor,
@@ -85,7 +86,7 @@ class OrganizationCard extends StatelessWidget {
         ),
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
             child: Text(
               organization.description,
               textAlign: TextAlign.justify,
@@ -95,38 +96,6 @@ class OrganizationCard extends StatelessWidget {
         backgroundColor: colorWhite,
       ),
     );
-  }
-}
-
-void _launchURL(BuildContext context, String url) async {
-  try {
-    await launch(
-      url,
-      option: new CustomTabsOption(
-        toolbarColor: Theme.of(context).primaryColor,
-        enableDefaultShare: true,
-        enableUrlBarHiding: true,
-        showPageTitle: true,
-        enableInstantApps: true,
-        // animation: new CustomTabsAnimation.,
-        // // or user defined animation.
-        // animation: new CustomTabsAnimation(
-        //   startEnter: 'slide_up',
-        //   startExit: 'android:anim/fade_out',
-        //   endEnter: 'android:anim/fade_in',
-        //   endExit: 'slide_down',
-        // ),
-        // extraCustomTabs: <String>[
-        //   // ref. https://play.google.com/store/apps/details?id=org.mozilla.firefox
-        //   'org.mozilla.firefox',
-        //   // ref. https://play.google.com/store/apps/details?id=com.microsoft.emmx
-        //   'com.microsoft.emmx',
-        // ],
-      ),
-    );
-  } catch (e) {
-    // An exception is thrown if browser app is not installed on Android device.
-    debugPrint(e.toString());
   }
 }
 
