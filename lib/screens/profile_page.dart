@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:project_hestia/Profile/edit_profile.dart';
-import 'package:project_hestia/Profile/myChats.dart';
-import 'package:project_hestia/Profile/myRequests.dart';
 import 'package:project_hestia/model/request.dart';
 import 'package:project_hestia/model/util.dart';
+import 'package:project_hestia/screens/edit_profile.dart';
 import 'package:project_hestia/screens/login.dart';
-import 'package:project_hestia/services/google_auth.dart';
+import 'package:project_hestia/screens/my_chats.dart';
+import 'package:project_hestia/screens/my_requests.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 import 'package:project_hestia/services/view_my_requests.dart';
 import 'package:project_hestia/widgets/my_back_button.dart';

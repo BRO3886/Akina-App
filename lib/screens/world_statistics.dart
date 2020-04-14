@@ -9,7 +9,6 @@ import 'package:flutter/foundation.dart';
 import 'package:project_hestia/model/worldStats.dart';
 import 'package:project_hestia/services/date_formatter.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:http/http.dart' as http;
 import 'package:pie_chart/pie_chart.dart' as pieChart;
 import '../widgets/line_chart.dart';
@@ -134,12 +133,6 @@ class WorldStatsPageState extends State<WorldStatsPage> {
 
   Map<String, double> dataMap = Map();
   List<Color> colorList = [colorYellow, mainColor, colorPink];
-
-  List<Color> gradientColors = [
-    const Color(0xff23b6e6),
-    const Color(0xff02d39a),
-  ];
-  bool showAvg = false;
 
   Container bottomDataRow(final myDataList) {
     return Container(
@@ -324,10 +317,28 @@ class WorldStatsPageState extends State<WorldStatsPage> {
           ),
         );
       } else {
-        return Text("No stats found");
+        return Column(
+          children: <Widget>[
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.2,
+            ),
+            Center(
+              child: Text('No stats found'),
+            ),
+          ],
+        );
       }
     } else {
-      return CircularProgressIndicator();
+      return Column(
+        children: <Widget>[
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.2,
+          ),
+          Center(
+            child: CircularProgressIndicator(),
+          ),
+        ],
+      );
     }
   }
 

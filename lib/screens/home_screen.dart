@@ -1,11 +1,9 @@
 import 'dart:async';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:project_hestia/Profile/myChats.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/explore_screen.dart';
+import 'package:project_hestia/screens/my_chats.dart';
 import 'package:project_hestia/screens/show_shop_suggestios.dart';
 import './requests_feed.dart';
 import './news_feed.dart';
@@ -38,7 +36,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
-        _showItemDialog(message);
+        //_showItemDialog(message);
       },
       // onBackgroundMessage: myBackgroundMessageHandler,
       onLaunch: (Map<String, dynamic> message) async {
@@ -95,32 +93,36 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
   }
   
   void _navigateToItemDetail(Map<String, dynamic> message) {
-    final Item item = _itemForMessage(message);
+    Item item;
+    setState(() {
+      item = _itemForMessage(message);
+    });
     print("The url of notification is "+item.url);
-    if(item.url.contains('requests')){
+    print("The url of my own is "+message['data']['url']);
+    if((message['data']['url']).contains('requests') || (message['data']['url']).contains('chat')){
       Navigator.push(
         context,
         new MaterialPageRoute(
             builder: (BuildContext context) => MyChatsPage()));
     }
-    else if(item.url.contains('main')){
-      Navigator.push(
-        context,
-        new MaterialPageRoute(
-            builder: (BuildContext context) => MyHomeScreen()));
-    }
-    else if(item.url.contains('akina.dscvit.com/suggestashop')){
+    // else if(item.url.contains('main')){
+    //   Navigator.push(
+    //     context,
+    //     new MaterialPageRoute(
+    //         builder: (BuildContext context) => MyHomeScreen()));
+    // }
+    else if((message['data']['url']).contains('akina.dscvit.com/suggestashop')){
       Navigator.push(
         context,
         new MaterialPageRoute(
             builder: (BuildContext context) => ShopSuggestionsScreen()));
     }
-    else{
-      Navigator.push(
-        context,
-        new MaterialPageRoute(
-            builder: (BuildContext context) => MyHomeScreen()));
-    }
+    // else{
+    //   Navigator.push(
+    //     context,
+    //     new MaterialPageRoute(
+    //         builder: (BuildContext context) => MyHomeScreen()));
+    // }
 
     /*Navigator.push(context, item.route);
     //TODO changed

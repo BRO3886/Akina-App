@@ -128,6 +128,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
           sp.setUserName(userInfo["name"]);
           sp.setPhone(userInfo["phone"]);
           sp.setToken(responseBody["Token"]);
+          sp.setDeviceTokenID(deviceID);
           Navigator.of(context).maybePop();
           registerDevice(responseBody["Token"]);
         } catch (e) {
