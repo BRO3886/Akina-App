@@ -145,4 +145,17 @@ class SharedPrefsCustom {
     prefs.setStringList(key, value);
     print("reported-list stored as $value");
   }*/
+
+  Future<String> getDeviceTokenID() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final key = 'device token';
+    return prefs.getString(key);
+  }
+
+  void setDeviceTokenID(String value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final key = 'device token';
+    prefs.setString(key, value);
+    print("device token stored as "+value);
+  }
 }
