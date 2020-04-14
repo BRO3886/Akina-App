@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_hestia/Profile/profilePage.dart';
+import 'package:project_hestia/screens/profile_page.dart';
 import 'package:project_hestia/model/util.dart';
 
 class ProfileIcon extends StatelessWidget {
