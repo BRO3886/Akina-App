@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:project_hestia/Profile/My%20Chats/myChatRequests.dart';
-import 'package:project_hestia/Profile/My%20Chats/otherChatRequests.dart';
-import 'package:project_hestia/Profile/chatScreen.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:flutter/foundation.dart';
+import 'package:project_hestia/screens/MyChats/my_chat_requests.dart';
+import 'package:project_hestia/screens/MyChats/other_chat_requests.dart';
 import 'package:project_hestia/screens/show_shop_suggestios.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
-import 'package:project_hestia/widgets/cust_sliver_app_bar.dart';
 import 'package:project_hestia/widgets/my_back_button.dart';
 import 'package:flutter_socket_io/flutter_socket_io.dart';
 
@@ -24,8 +22,6 @@ class MyChatsPageState extends State<MyChatsPage> {
   void initState() {
     super.initState();
     getValues();
-    //submitData();
-    // _connectSocket();
   }
 
   int userID;
@@ -60,41 +56,17 @@ class MyChatsPageState extends State<MyChatsPage> {
   bool pressAttentionAllText = false;
   bool pressAttentionMyText = true;
 
-  //WebSocketChannel channel = IOWebSocketChannel.connect('ws://hestia-chat.herokuapp.com/api/v1/getChats/21',);
 
   @override
   void dispose() {
-    //channel.sink.close();
     super.dispose();
   }
 
   SocketIO socketIO;
 
-  /*_connectSocket() { 
-    //update your domain before using  
-    socketIO = SocketIOManager().createSocketIO("ws://hestia-chat.herokuapp.com/api/v1", "/getChats/21", query: data.toString(), socketStatusCallback: _socketStatus); 
-
-    //call init socket before doing anything 
-    socketIO.init(); 
-
-    //subscribe event
-    socketIO.subscribe("socket_info", _onSocketInfo(data)); 
-
-    //connect socket 
-    socketIO.connect(); 
-   }
-
-  _socketStatus(dynamic data) { 
-    print("Socket status: " + data.toString()); 
-  }
-   _onSocketInfo(dynamic data) {
-    print("Socket info: " + data.toString());
-  }*/
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // backgroundColor: colorWhite,
         appBar: AppBar(
           elevation: 0,
           automaticallyImplyLeading: false,

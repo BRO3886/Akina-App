@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:project_hestia/Profile/chatScreen.dart';
+import 'package:project_hestia/screens/chat_screen.dart';
 import 'package:project_hestia/model/global.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_hestia/services/shared_prefs_custom.dart';

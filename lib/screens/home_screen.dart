@@ -1,11 +1,9 @@
 import 'dart:async';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:project_hestia/Profile/myChats.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/explore_screen.dart';
+import 'package:project_hestia/screens/my_chats.dart';
 import 'package:project_hestia/screens/show_shop_suggestios.dart';
 import './requests_feed.dart';
 import './news_feed.dart';
