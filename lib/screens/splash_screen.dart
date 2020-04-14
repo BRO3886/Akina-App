@@ -24,12 +24,12 @@ class _SplashScreenState extends State<SplashScreen> {
     final status = await sp.getLoggedInStatus();
     if (status == false || status == null) {
       Future.delayed(
-          Duration(seconds: 3),
+          Duration(seconds: 1),
           () => Navigator.of(context)
               .pushReplacementNamed(LoginScreen.routename));
     } else {
       Future.delayed(
-          Duration(seconds: 3),
+          Duration(seconds: 1),
           () => Navigator.of(context)
               .pushReplacementNamed(MyHomeScreen.routename));
     }

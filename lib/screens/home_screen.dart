@@ -40,7 +40,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
         print("onMessage: $message");
         //_showItemDialog(message);
       },
-      onBackgroundMessage: myBackgroundMessageHandler,
+      // onBackgroundMessage: myBackgroundMessageHandler,
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
         _navigateToItemDetail(message);

@@ -79,7 +79,6 @@ class StatisticsPageState extends State<StatisticsPage> {
                 slivers: <Widget>[
                   SliverToBoxAdapter(
                     child: SizedBox(
-                      //height: MediaQuery.of(context).size.height * 0.05,
                     ),
                   ),
                   MySliverAppBar(
@@ -176,100 +175,9 @@ class StatisticsPageState extends State<StatisticsPage> {
                             pressAttentionMy == true
                                 ? WorldStatsPage()
                                 : CountryStatisticsScreen(getCountries()),
-                            
                           ])
-
                     ) 
                     ),
-                  /*SliverFillRemaining(
-                    child : Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              alignment: Alignment.center,
-                              width: MediaQuery.of(context).size.width * 0.68,
-                              margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                              decoration: new BoxDecoration(
-                                  color: colorWhite,
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.all(Radius.circular(5))),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  GestureDetector(
-                                    onTap: () {
-                                      MyAction();
-                                    },
-                                    child: Container(
-                                        alignment: Alignment.center,
-                                        width: MediaQuery.of(context).size.width * 0.34,
-                                        padding: EdgeInsets.all(5.0),
-                                        decoration: new BoxDecoration(
-                                            border: Border.all(
-                                              width: 1.0,
-                                              color: pressAttentionMy
-                                                  ? mainColor
-                                                  : colorWhite,
-                                            ),
-                                            borderRadius:
-                                                new BorderRadius.all(Radius.circular(5)),
-                                            color: pressAttentionMy
-                                                ? mainColor
-                                                : colorWhite),
-                                        child: Text(
-                                          'World',
-                                          style: TextStyle(
-                                              color: pressAttentionMyText
-                                                  ? colorWhite
-                                                  : colorBlack,
-                                              fontSize: 13.0),
-                                        )),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      AllAction();
-                                    },
-                                    child: Container(
-                                        alignment: Alignment.center,
-                                        width: MediaQuery.of(context).size.width * 0.34,
-                                        padding: EdgeInsets.all(5.0),
-                                        decoration: new BoxDecoration(
-                                            border: Border.all(
-                                              width: 1.0,
-                                              color: pressAttentionAll
-                                                  ? mainColor
-                                                  : colorWhite,
-                                            ),
-                                            borderRadius:
-                                                new BorderRadius.all(Radius.circular(5)),
-                                            color: pressAttentionAll
-                                                ? mainColor
-                                                : colorWhite),
-                                        child: Text(
-                                          'Country',
-                                          style: TextStyle(
-                                              color: pressAttentionAllText
-                                                  ? colorWhite
-                                                  : colorBlack,
-                                              fontSize: 13.0),
-                                        )),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 18,
-                            ),
-                            pressAttentionMy == true
-                                ? WorldStatsPage(
-                                  )
-                                : OtherRequestsChatsPage(
-                                    userID: userID,
-                                  )
-                            
-                          ])
-                  ),*/
                   ],
               ));
   }

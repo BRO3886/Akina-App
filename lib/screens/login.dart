@@ -181,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
     print(userInfo['email']);
     print(userInfo['password']);
     final body = jsonEncode(userInfo);
-    print("Body of login is "+body);
+    print("Body of login is " + body);
     setState(() {
       isLoading = true;
     });
@@ -192,7 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
           'email': userInfo['email'],
         },
       );
-      print("Response of user verify is "+response.statusCode.toString());
+      print("Response of user verify is " + response.statusCode.toString());
       print(jsonDecode(response.body)['Status']);
 
       if (response.statusCode == 401) {
@@ -247,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
         try {
           final response = await http.post(URL_USER_LOGIN, body: userInfo);
           Map<String, dynamic> responseBody = jsonDecode(response.body);
-          print("Response of login is "+responseBody.toString());
+          print("Response of login is " + responseBody.toString());
           if (responseBody.containsKey("Error")) {
             content = responseBody["Error"] +
                 ". Please check your email and try again.";
@@ -294,10 +294,6 @@ class _LoginScreenState extends State<LoginScreen> {
     } catch (e) {
       print(e);
     }
-
-    setState(() {
-      isLoading = false;
-    });
   }
 
   FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
@@ -314,23 +310,23 @@ class _LoginScreenState extends State<LoginScreen> {
   String deviceID;
 
   update(String token) {
-    print("FCM token is "+token);
+    print("FCM token is " + token);
     setState(() {
       deviceID = token;
     });
   }
 
   Map<String, String> body_register_device = {
-    "user_token":"1",
-    "registration_id":"123458"
+    "user_token": "1",
+    "registration_id": "123458"
   };
 
   registerDevice(String tokenID) async {
-    print("Token id is "+tokenID);
+    print("Token id is " + tokenID);
     body_register_device['user_token'] = tokenID;
     body_register_device['registration_id'] = deviceID;
 
-    print("Body sent to register device is "+body_register_device.toString());
+    print("Body sent to register device is " + body_register_device.toString());
 
     try {
       final response = await http.post(
@@ -341,8 +337,8 @@ class _LoginScreenState extends State<LoginScreen> {
         body: body_register_device,
       );
       Map<String, dynamic> responseBody = jsonDecode(response.body);
-      print("Response of register device is"+responseBody.toString());
-      print("Response code is "+response.statusCode.toString());
+      print("Response of register device is" + responseBody.toString());
+      print("Response code is " + response.statusCode.toString());
       if (response.statusCode == 200) {
         Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
       }
@@ -445,8 +441,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           return 'Password length must be atleast 8 characters long';
                         }
                       },
-                      onChanged: (password) => userInfo['password'] = password.trim(),
-                      onSaved: (password) => userInfo['password'] = password.trim(),
+                      onChanged: (password) =>
+                          userInfo['password'] = password.trim(),
+                      onSaved: (password) =>
+                          userInfo['password'] = password.trim(),
                     ),
                     SizedBox(
                       height: 2,
