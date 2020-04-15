@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:project_hestia/Profile/reportPage.dart';
+import 'package:project_hestia/screens/report_page.dart';
 import 'package:project_hestia/model/chatMessage.dart';
 import 'package:project_hestia/model/global.dart';
 import 'package:project_hestia/model/util.dart';

@@ -284,16 +284,29 @@ class _LoginScreenState extends State<LoginScreen> {
               sp.setShopStatus(false);
               sp.setRequestStatus(false);
               sp.setDeviceTokenID(deviceID);
-              registerDevice(responseBody["Token"]);
+              setState(() {
+                isLoading = true;
+              });
+              int code = await registerDevice(responseBody["Token"]);
+              if (code == 200) {
+                Navigator.of(context)
+                    .pushReplacementNamed(MyHomeScreen.routename);
+              }
             }
           }
         } catch (e) {
           print(e);
         }
+        setState(() {
+          isLoading = false;
+        });
       }
     } catch (e) {
       print(e);
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
@@ -321,7 +334,10 @@ class _LoginScreenState extends State<LoginScreen> {
     "registration_id": "123458"
   };
 
-  registerDevice(String tokenID) async {
+  Future<int> registerDevice(String tokenID) async {
+    setState(() {
+      isLoading = true;
+    });
     print("Token id is " + tokenID);
     body_register_device['user_token'] = tokenID;
     body_register_device['registration_id'] = deviceID;
@@ -339,9 +355,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Map<String, dynamic> responseBody = jsonDecode(response.body);
       print("Response of register device is" + responseBody.toString());
       print("Response code is " + response.statusCode.toString());
-      if (response.statusCode == 200) {
-        Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
-      }
+      return response.statusCode;
     } catch (e) {
       print(e.toString());
     }
