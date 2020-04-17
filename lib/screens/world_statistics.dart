@@ -157,16 +157,11 @@ class WorldStatsPageState extends State<WorldStatsPage> {
 
   @override
   Widget build(BuildContext context) {
-    /*return FutureBuilder(
-        future: getWorldStats(),
-        builder: (ctx, snapshot) {
-          */
     if (snapshot == 'hasData') {
       if (listActivecase.length > 0) {
         return new SingleChildScrollView(
           child: Container(
             width: MediaQuery.of(context).size.width,
-            // height: 1600,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
