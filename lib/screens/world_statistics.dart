@@ -30,9 +30,9 @@ class WorldStatsPageState extends State<WorldStatsPage> {
     super.initState();
     getWorldStats();
 
-    dataMap.putIfAbsent("Flutter", () => 1);
-    dataMap.putIfAbsent("React", () => 1);
-    dataMap.putIfAbsent("Xamarin", () => 1);
+    dataMap.putIfAbsent("Recent Cases", () => 1);
+    dataMap.putIfAbsent("Death Cases", () => 1);
+    dataMap.putIfAbsent("Recovered Cases", () => 1);
   }
 
   Widget horizontalDivider() {
@@ -112,11 +112,11 @@ class WorldStatsPageState extends State<WorldStatsPage> {
             total = activeCases + deaths + recovered;
             dataMap = {
               ((listOfStats.globalData.recentCase * 100) / listOfStats.globalData.recentTotalCases).toStringAsPrecision(3) + " %":
-                  (listOfStats.globalData.recentCase * 100) / listOfStats.globalData.recentTotalCases,
+                  (listOfStats.globalData.recentCase * 100) / listOfStats.globalData.recentTotalCases,   
+              ((listOfStats.globalData.recentRecovered * 100) / listOfStats.globalData.recentTotalCases).toStringAsPrecision(3) + " %":
+                  (listOfStats.globalData.recentRecovered * 100) / listOfStats.globalData.recentTotalCases,
               ((listOfStats.globalData.recentDeath * 100) / listOfStats.globalData.recentTotalCases).toStringAsPrecision(3) + " %":
                   (listOfStats.globalData.recentDeath * 100) / listOfStats.globalData.recentTotalCases,
-              ((listOfStats.globalData.recentRecovered * 100) / listOfStats.globalData.recentTotalCases).toStringAsPrecision(3) + " %":
-                  (listOfStats.globalData.recentRecovered * 100) / listOfStats.globalData.recentTotalCases
             };
           });
         }
@@ -157,16 +157,11 @@ class WorldStatsPageState extends State<WorldStatsPage> {
 
   @override
   Widget build(BuildContext context) {
-    /*return FutureBuilder(
-        future: getWorldStats(),
-        builder: (ctx, snapshot) {
-          */
     if (snapshot == 'hasData') {
       if (listActivecase.length > 0) {
         return new SingleChildScrollView(
           child: Container(
             width: MediaQuery.of(context).size.width,
-            // height: 1600,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
