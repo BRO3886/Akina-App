@@ -51,6 +51,9 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
   };
 
   registerDevice(String tokenID) async {
+    setState(() {
+      isLoading = true;
+    });
     print("Token id is "+tokenID);
     body_register_device['user_token'] = tokenID;
     body_register_device['registration_id'] = deviceID;
@@ -71,6 +74,26 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
       if (response.statusCode == 200) {
         Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
       }
+      else{
+        sp.setLoggedInStatus(false);
+        showDialog(
+          context: context,
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            title: Text('Error'),
+            content: Text(responseBody['message'].toString()),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Try Again'),
+                textColor: mainColor,
+                onPressed: () => Navigator.of(context).maybePop(),
+              )
+            ],
+          ),
+        );
+      }
     } catch (e) {
       print(e.toString());
     }
@@ -89,6 +112,8 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
     "name": "",
     "phone": ""
   };
+
+  final sp = SharedPrefsCustom();
 
   Future _register() async {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
@@ -123,7 +148,6 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
           // // final loginInfo = {"email": email, "password": password};
           // final loginResponse = await http.post(URL_USER_LOGIN, body: loginInfo);
           // Map<String, dynamic> loginBody = jsonDecode(loginResponse.body);
-          final sp = SharedPrefsCustom();
           sp.setUserEmail(userInfo["email"]);
           sp.setUserName(userInfo["name"]);
           sp.setPhone(userInfo["phone"]);

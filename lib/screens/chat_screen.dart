@@ -220,7 +220,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                                     new MaterialPageRoute(
                                         builder: (BuildContext context) =>
                                             ReportScreen(
-                                              id: widget.receiverID,
+                                              id: userID == widget.senderID ? widget.receiverID : widget.senderID,
                                               pop: widget.pagePop,
                                             )));
                               },

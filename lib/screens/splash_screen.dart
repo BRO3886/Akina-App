@@ -1,14 +1,10 @@
 import 'dart:convert';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:project_hestia/model/global.dart';
 import 'package:project_hestia/screens/home_screen.dart';
 import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
-import 'package:ant_icons/ant_icons.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 class SplashScreen extends StatefulWidget {
