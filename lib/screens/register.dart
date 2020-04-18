@@ -71,7 +71,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
       Map<String, dynamic> responseBody = jsonDecode(response.body);
       print("Response of register device is"+responseBody.toString());
       print("Response code is "+response.statusCode.toString());
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         Navigator.of(context).pushReplacementNamed(MyHomeScreen.routename);
       }
       else{

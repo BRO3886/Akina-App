@@ -43,7 +43,7 @@ Future<AllRequests> getMyRequests() async {
       URL_VIEW_MY_REQUESTS,
       {
         //TODO change location
-        'location': 'Noida'//address.first.locality
+        'location': address.first.locality
         },
     );
     print("URI in my request is "+uri.toString());
