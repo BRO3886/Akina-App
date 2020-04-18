@@ -300,7 +300,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     title: Text('Error'),
-                    content: Text('Invalid Details'),
+                    content: Text('Another account with same device credentials exist'),
                     actions: <Widget>[
                       FlatButton(
                         child: Text('Try Again'),
