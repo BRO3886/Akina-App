@@ -110,21 +110,26 @@ class ChatScreenPageState extends State<ChatScreenPage> {
           body: json.encode(data_create_chat));
       //print("Response in getting messages is "+response.body.toString());
       final result = json.decode(response.body);
-      //print("Messgaes are " + result.toString());
+      //print("Messages are " + result.toString());
       if (result['code'] == 200 && response.statusCode==200) {
         setState(() {
           messages = Messages.fromJson(result);
           snapshot = 'Got Data';
         });
-      } else if(result['code'] == 400){
+      } else if(result['status'] == 400){
         setState(() {
           snapshot = 'Chat blocked';
         });
-      }  else {
+      } else if (result.containsKey("message")) {
+          setState(() {
+            snapshot = result['message'];
+          });
+          Fluttertoast.showToast(msg: result['message']);
+      } else{
         setState(() {
-          snapshot = result['message'];
+          snapshot = result['messages'];
         });
-        Fluttertoast.showToast(msg: result['message']);
+        Fluttertoast.showToast(msg: result['messages']);
       }
     } catch (e) {
       print("Error in getting messages is " + e.toString());
