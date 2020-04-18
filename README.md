@@ -1,6 +1,6 @@
 # Akina App (formerly Project Hestia)
 <div align="justify">
-A project aimed at fighting the novel coronavirus. Akina is your one-stop to get the latest updates from the World Health Organisation, to request for anything that you need and let the community help you. Akina aims to aid people by bringing them a platform to elevate individuals to become a community.
+A project aimed at fighting the novel coronavirus. Akina is your one-stop to get the latest updates from the World Health Organisation, to request for anything that you need and let the community help you. Akina aims to aid people by bringing them a platform to elevate individuals to become a community. As a part of our latest update, you can also see NGOs around you and view covid 19 stats - Worldwide and country-wise.
 </div>
 
 To read more visit [here](https://akina.dscvit.com)
@@ -13,7 +13,8 @@ Made with 💙 with [Flutter](https://flutter.dev/)
 - [x] Respond to other people's requests
 - [x] Chat with people
 - [x] Suggest a shop
-- [ ] Explore section (coming soon 😉)
+- [x] Explore section - See NGOs around you
+- [x] Covid-19 Stats
 
 ## Contributors(App)
 - [Siddhartha Varma](https://github.com/BRO3886)
