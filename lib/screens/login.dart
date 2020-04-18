@@ -242,7 +242,6 @@ class _LoginScreenState extends State<LoginScreen> {
         });
         return;
       } else {
-        // String baseUrl = 'https://hestia-auth.herokuapp.com/api/user/login';
         String content = "";
         try {
           final response = await http.post(URL_USER_LOGIN, body: userInfo);
@@ -291,6 +290,26 @@ class _LoginScreenState extends State<LoginScreen> {
               if (code == 200) {
                 Navigator.of(context)
                     .pushReplacementNamed(MyHomeScreen.routename);
+              }
+              else{
+                sp.setLoggedInStatus(false);
+                showDialog(
+                  context: context,
+                  child: AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    title: Text('Error'),
+                    content: Text('Invalid Details'),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('Try Again'),
+                        textColor: mainColor,
+                        onPressed: () => Navigator.of(context).maybePop(),
+                      )
+                    ],
+                  ),
+                );
               }
             }
           }
