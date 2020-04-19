@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:project_hestia/screens/report_page.dart';
 import 'package:project_hestia/model/chatMessage.dart';
 import 'package:project_hestia/model/global.dart';
@@ -53,7 +54,8 @@ class ChatScreenPageState extends State<ChatScreenPage> {
   void initState() {
     super.initState();
     getValues();
-    showChats();
+    showChats().then((val) => Timer(Duration(milliseconds: 500),
+        () => _controller.jumpTo(_controller.position.maxScrollExtent * 1.04)));
 
     /*var URL = 'wss://akina.ayushpriya.tech/api/v1/ws?sender=' + widget.receiverID.toString() +'&receiver='+ (userID == widget.senderID ? widget.receiverID : widget.senderID).toString();
     print("URL is " + URL);
@@ -83,7 +85,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     });
 
     token = await SharedPrefsCustom().getToken();
-    print("Token is "+token.toString());
+    print("Token is " + token.toString());
   }
 
   String token = '';
@@ -111,21 +113,21 @@ class ChatScreenPageState extends State<ChatScreenPage> {
       //print("Response in getting messages is "+response.body.toString());
       final result = json.decode(response.body);
       //print("Messages are " + result.toString());
-      if (result['code'] == 200 && response.statusCode==200) {
+      if (result['code'] == 200 && response.statusCode == 200) {
         setState(() {
           messages = Messages.fromJson(result);
           snapshot = 'Got Data';
         });
-      } else if(result['status'] == 400){
+      } else if (result['status'] == 400) {
         setState(() {
           snapshot = 'Chat blocked';
         });
       } else if (result.containsKey("message")) {
-          setState(() {
-            snapshot = result['message'];
-          });
-          Fluttertoast.showToast(msg: result['message']);
-      } else{
+        setState(() {
+          snapshot = result['message'];
+        });
+        Fluttertoast.showToast(msg: result['message']);
+      } else {
         setState(() {
           snapshot = result['messages'];
         });
@@ -201,8 +203,9 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                             ),
                           ],
                         ),
+                        Spacer(),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             GestureDetector(
                               onTap: () {
@@ -211,13 +214,14 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                               child: CircleAvatar(
                                 child: Icon(
                                   Icons.delete,
-                                  size: 22,
+                                  size: 18,
                                   color: colorWhite,
                                 ),
-                                radius: 18,
+                                radius: 16,
                                 backgroundColor: colorRed,
                               ),
                             ),
+                            SizedBox(width: 10,),
                             GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -225,7 +229,9 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                                     new MaterialPageRoute(
                                         builder: (BuildContext context) =>
                                             ReportScreen(
-                                              id: userID == widget.senderID ? widget.receiverID : widget.senderID,
+                                              id: userID == widget.senderID
+                                                  ? widget.receiverID
+                                                  : widget.senderID,
                                               pop: widget.pagePop,
                                             )));
                               },
@@ -268,7 +274,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                         //     end: Alignment.bottomCenter),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal:10),
+                        padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -413,8 +419,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
   bodyMessages() {
     if (snapshot == '') {
       return Center(child: CircularProgressIndicator());
-    }
-    else if(snapshot == 'Chat blocked'){
+    } else if (snapshot == 'Chat blocked') {
       return Center(child: Text('Chat is reported'));
     }
     if (snapshot == 'Got Data' && messages.msgs.length == 0) {
@@ -512,7 +517,9 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                                   //dateFormatter(messages.msgs[index].createdAt.toLocal())
                                   dateFormatter(
                                           messages.msgs[index].createdAt) +
-                                      ',  ${messages.msgs[index].createdAt.toLocal().hour}:${messages.msgs[index].createdAt.toLocal().minute}',
+                                      ", " +
+                                      DateFormat("hh:mm").format(
+                                          messages.msgs[index].createdAt),
                                   style: TextStyle(
                                     color: (messages.msgs[index].sender
                                                 .toString() !=
@@ -615,7 +622,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                                 borderRadius: BorderRadius.circular(5)),
                             color: mainColor,
                             textColor: colorWhite,
-                            onPressed: () { 
+                            onPressed: () {
                               deleteChat();
                               Navigator.pop(dialogContext);
                             },
@@ -669,41 +676,41 @@ class ChatScreenPageState extends State<ChatScreenPage> {
   //I/flutter (26741): Data to delete chat is {receiver: 127, sender: 128, who_deleted: sender}
   //I/flutter (26741): Data to delete chat is {receiver: 127, sender: 128, who_deleted: receiver}
 
-
-
   deleteChat() async {
+    data_delete_chat["receiver"] = widget.requestReceiver;
+    data_delete_chat["sender"] = widget.requestSender;
+    data_delete_chat["who_deleted"] =
+        userID == widget.senderID ? "receiver" : "sender";
 
-      data_delete_chat["receiver"] = widget.requestReceiver;
-      data_delete_chat["sender"] = widget.requestSender;
-      data_delete_chat["who_deleted"] = userID == widget.senderID ? "receiver" : "sender";
+    print("Data to delete chat is " + data_delete_chat.toString());
 
-      print("Data to delete chat is " + data_delete_chat.toString());
+    final client = http.Client();
+    final response = await client
+        .send(http.Request("DELETE", Uri.parse(URL_DELETE_CHAT))
+          ..headers["Authorization"] = token
+          ..body = json.encode(data_delete_chat))
+        .then((value) async {
+      final respStr = await value.stream.bytesToString();
+      final res = json.decode(respStr);
+      print("Response of delete chat is " + respStr.toString());
+      print("Response code of deleting chat is " + value.statusCode.toString());
+      if (res['status'] == 200 || res['code'] == 200) {
+        Fluttertoast.showToast(msg: "Chat deleted successfully");
+        Navigator.of(context).pop();
+        showChats();
+      } else {
+        Fluttertoast.showToast(
+            msg: 'There is some problem. Please try again later!');
+      }
+    });
+    print("Body is is " + json.encode(data_delete_chat).toString());
 
-      final client = http.Client();
-      final response = await client.send(
-            http.Request("DELETE", Uri.parse(URL_DELETE_CHAT))
-              ..headers["Authorization"] = token
-              ..body = json.encode(data_delete_chat)).then((value) async {
-                final respStr = await value.stream.bytesToString();
-                final res = json.decode(respStr); 
-                print("Response of delete chat is "+ respStr.toString());
-                print("Response code of deleting chat is "+ value.statusCode.toString());
-                if (res['status'] == 200 || res['code']==200) {
-                    Fluttertoast.showToast(msg: "Chat deleted successfully");
-                    Navigator.of(context).pop();
-                    showChats();
-                  } else {
-                    Fluttertoast.showToast(msg: 'There is some problem. Please try again later!');
-                  }
-              });
-      print("Body is is "+json.encode(data_delete_chat).toString());
-
-      /*final response = await http.delete(URL_DELETE_CHAT,
+    /*final response = await http.delete(URL_DELETE_CHAT,
           headers: {
             HttpHeaders.authorizationHeader: token,
           },
           body: json.encode(data_send_message));*/
-      //print("response of deleting chat is " + response.body.toString());
-      //final result = json.decode(response.body);
-    }
+    //print("response of deleting chat is " + response.body.toString());
+    //final result = json.decode(response.body);
+  }
 }

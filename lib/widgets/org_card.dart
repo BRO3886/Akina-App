@@ -38,16 +38,16 @@ class OrganizationCard extends StatelessWidget {
                   child: Icon(
                     Icons.alternate_email,
                     color: colorWhite,
-                    size: 12,
+                    size: 15,
                   ),
                   onTap: () => sendEmail(organization.email),
                 ),
-                radius: 12,
+                radius: 15,
                 backgroundColor: mainColor,
               ),
             ),
             SizedBox(
-              width: 5,
+              width: 10,
             ),
             Tooltip(
               message: 'Call',
@@ -56,16 +56,16 @@ class OrganizationCard extends StatelessWidget {
                   child: Icon(
                     Icons.phone,
                     color: colorWhite,
-                    size: 12,
+                    size: 15,
                   ),
                   onTap: () => callPhone(organization.phoneNo),
                 ),
-                radius: 12,
+                radius: 15,
                 backgroundColor: mainColor,
               ),
             ),
             SizedBox(
-              width: 5,
+              width: 10,
             ),
             Tooltip(
               message: 'Donate',
@@ -74,11 +74,11 @@ class OrganizationCard extends StatelessWidget {
                   child: Icon(
                     Icons.link,
                     color: colorWhite,
-                    size: 12,
+                    size: 15,
                   ),
                   onTap: () => launchURL(context, organization.webLinks),
                 ),
-                radius: 12,
+                radius: 15,
                 backgroundColor: mainColor,
               ),
             ),
