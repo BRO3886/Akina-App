@@ -25,8 +25,6 @@
 }
 */
 
-import 'dart:convert';
-
 class Chats {
   final List<Chat> chats;
 

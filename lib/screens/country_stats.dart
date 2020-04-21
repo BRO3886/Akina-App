@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:pie_chart/pie_chart.dart' as piechart;
 import 'package:project_hestia/model/country_data_stats.dart';
 import 'package:project_hestia/model/util.dart';
-import 'package:project_hestia/services/get_countries.dart';
 import 'package:project_hestia/services/get_stats_country.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 

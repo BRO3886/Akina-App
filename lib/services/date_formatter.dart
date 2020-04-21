@@ -1,4 +1,3 @@
-
 String dateFormatter(DateTime dateTime) {
   int date = dateTime.day;
   int month = dateTime.month;
@@ -67,4 +66,13 @@ String dateFormatter(DateTime dateTime) {
       }
   }
   return '$date $monthString $year';
+}
+
+String checkTimeOfDay(DateTime dateTime) {
+  dateTime = dateTime.toLocal();
+  if (dateTime.hour > 12) {
+    return 'PM';
+  } else {
+    return 'AM';
+  }
 }

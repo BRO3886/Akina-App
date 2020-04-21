@@ -221,7 +221,9 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                                 backgroundColor: colorRed,
                               ),
                             ),
-                            SizedBox(width: 10,),
+                            SizedBox(
+                              width: 10,
+                            ),
                             GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -518,8 +520,10 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                                   dateFormatter(
                                           messages.msgs[index].createdAt) +
                                       ", " +
-                                      DateFormat("hh:mm").format(
-                                          messages.msgs[index].createdAt),
+                                      DateFormat("hh:mm").format(messages
+                                          .msgs[index].createdAt
+                                          .toLocal()) +
+                                      ' ${checkTimeOfDay(messages.msgs[index].createdAt)}',
                                   style: TextStyle(
                                     color: (messages.msgs[index].sender
                                                 .toString() !=

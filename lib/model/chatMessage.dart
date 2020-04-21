@@ -19,15 +19,11 @@ class Messages {
 
   Messages({this.msgs});
 
-  factory Messages.fromJson(Map<String, dynamic> parsedJson){
-
+  factory Messages.fromJson(Map<String, dynamic> parsedJson) {
     var list = parsedJson['messages'] as List;
     List<Message> msgsList = list.map((i) => Message.fromJson(i)).toList();
 
-
-    return Messages(
-      msgs: msgsList
-    );
+    return Messages(msgs: msgsList);
   }
 }
 
@@ -39,12 +35,12 @@ class Message {
 
   Message({this.sender, this.title, this.receiver, this.createdAt});
 
-  factory Message.fromJson(Map<String, dynamic> parsedJson){
-   return Message(
-     sender:parsedJson['sender'],
-     title:parsedJson['text'],
-     receiver: parsedJson['receiver'],
-     createdAt: DateTime.parse(parsedJson['CreatedAt']),
-   );
+  factory Message.fromJson(Map<String, dynamic> parsedJson) {
+    return Message(
+      sender: parsedJson['sender'],
+      title: parsedJson['text'],
+      receiver: parsedJson['receiver'],
+      createdAt: DateTime.parse(parsedJson['CreatedAt']),
+    );
   }
 }

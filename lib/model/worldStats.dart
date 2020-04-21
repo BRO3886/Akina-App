@@ -39,8 +39,6 @@
 }
 */
 
-import 'dart:convert';
-
 class WorldStats{
   List<ActiveCases> cases;
   List<Deaths> deaths;

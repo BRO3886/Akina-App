@@ -16,10 +16,6 @@ class _ShopSuggestionsScreenState extends State<ShopSuggestionsScreen> {
   bool _dataIsLoaded = false;
 
   @override
-  void initState() {
-  }
-
-  @override
   void dispose() {
     super.dispose();
   }
@@ -41,7 +37,7 @@ class _ShopSuggestionsScreenState extends State<ShopSuggestionsScreen> {
                       height: MediaQuery.of(context).size.height * 0.05,
                     ),
                   ),
-                  MySliverAppBar(title: 'Suggestions',isReplaced: false,),
+                  MySliverAppBar(title: 'Suggestions',isReplaced: false,hideIcon: true),
                   SliverToBoxAdapter(
                     child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.05,
@@ -64,7 +60,7 @@ class _ShopSuggestionsScreenState extends State<ShopSuggestionsScreen> {
                       height: MediaQuery.of(context).size.height * 0.05,
                     ),
                   ),
-                  MySliverAppBar(title: 'Suggestions',isReplaced: false,),
+                  MySliverAppBar(title: 'Suggestions',isReplaced: false,hideIcon: true),
                   SliverToBoxAdapter(
                     child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.05,
@@ -86,7 +82,7 @@ class _ShopSuggestionsScreenState extends State<ShopSuggestionsScreen> {
                       height: MediaQuery.of(context).size.height * 0.05,
                     ),
                   ),
-                MySliverAppBar(title: 'Suggestions',isReplaced: false,),
+                MySliverAppBar(title: 'Suggestions',isReplaced: false,hideIcon: true),
                 SliverToBoxAdapter(
                     child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.05,

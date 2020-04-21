@@ -6,7 +6,6 @@ import 'package:project_hestia/model/global.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_hestia/model/shop.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
-import '../model/request.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 Future<AllShops> getAllShops() async {

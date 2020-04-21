@@ -6,7 +6,8 @@ import 'package:project_hestia/widgets/profile_icon.dart';
 class MySliverAppBar extends StatelessWidget {
   final String title;
   final bool isReplaced;
-  MySliverAppBar({@required this.title, @required this.isReplaced});
+  final bool hideIcon;
+  MySliverAppBar({@required this.title, @required this.isReplaced, this.hideIcon = false});
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -33,7 +34,7 @@ class MySliverAppBar extends StatelessWidget {
         ),
       ),
       actions: <Widget>[
-        ProfileIcon(enabled: isReplaced,),
+        hideIcon?Container():ProfileIcon(enabled: !hideIcon,),
       ],
       backgroundColor: Theme.of(context).canvasColor,
     );
