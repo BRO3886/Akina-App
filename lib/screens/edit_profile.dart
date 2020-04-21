@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_hestia/model/global.dart';
 import 'package:project_hestia/model/util.dart';
+import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 import 'package:project_hestia/widgets/my_back_button.dart';
 
@@ -102,7 +103,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         if (responseBody.containsKey("Status")) {
           _showSnackBar(200, responseBody["Status"]);
         } else if (responseBody.containsKey("Alert")) {
-          _showSnackBar(300, responseBody["Alert"]);
+          _showSnackBar(300, responseBody["Alert"]+'. Log in with your new email id.');
+          sp.setLoggedInStatus(false);
+          Future.delayed(Duration(seconds: 3),()=>Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.routename, (route)=>false));
         }
         sp.setUserName(newuserDetails['name']);
         sp.setUserEmail(newuserDetails['email']);
@@ -218,7 +221,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             initialValue: userDetails['email'],
                             // controller: emailController,
                             keyboardType: TextInputType.emailAddress,
-                            textCapitalization: TextCapitalization.words,
+                            textCapitalization: TextCapitalization.none,
                             decoration: InputDecoration(
                               labelText: 'Email',
                               border: OutlineInputBorder(
