@@ -9,6 +9,7 @@
 .history
 .svn/
 debug.keystore
+*.properties
 # IntelliJ related
 *.iml
 *.ipr
