@@ -47,6 +47,7 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
         }
       }
     });
+    //takeValues();
   }
 
   @override
@@ -54,6 +55,17 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
     fabController.dispose();
     getMyRequests();
     super.dispose();
+  }
+
+  AllRequests allRequests;
+  takeValues() async{
+    allRequests = await getMyRequests();
+    if(this.mounted){
+      setState(() {
+        allRequests;
+        print('New value of requests is '+allRequests.toString());  
+      });
+    }
   }
 
   @override
@@ -88,8 +100,10 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
       body: FutureBuilder(
         future: getMyRequests(),
         builder: (ctx, snapshot) {
+          print('Snapshot is '+snapshot.toString());
           if (snapshot.hasData) {
             AllRequests allRequests = snapshot.data;
+            //print('Data in my requests is '+allRequests.request.length.toString());
             //  allRequests.request = allRequests.request.reversed.toList();
             if (allRequests.request.length <= 0) {
               return CustomScrollView(
@@ -141,7 +155,7 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
                     delegate: SliverChildBuilderDelegate((ctx, index) {
                       return Padding(
                         padding: const EdgeInsets.only(top: 8.0),
-                        child: RequestDeleteCard(allRequests.request[index]),
+                        child: RequestDeleteCard(allRequests.request[index], allRequests.request.length),
                       );
                     }, childCount: allRequests.request.length),
                   ),

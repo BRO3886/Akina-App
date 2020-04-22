@@ -173,6 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future _login() async {
+    print('I am in login');
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     if (!_formKey.currentState.validate()) {
       return;
@@ -354,6 +355,7 @@ class _LoginScreenState extends State<LoginScreen> {
   };
 
   Future<int> registerDevice(String tokenID) async {
+    print('I am in register device');
     setState(() {
       isLoading = true;
     });

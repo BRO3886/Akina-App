@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/services/date_formatter.dart';
 import 'package:project_hestia/services/delete_request.dart';
+import 'package:project_hestia/services/view_my_requests.dart';
 
 import '../model/request.dart';
 
 class RequestDeleteCard extends StatefulWidget {
   final Request request;
-  RequestDeleteCard(this.request);
+  int length;
+  RequestDeleteCard(this.request, this.length);
 
   @override
   _RequestDeleteCardState createState() => _RequestDeleteCardState();
@@ -17,10 +20,13 @@ class _RequestDeleteCardState extends State<RequestDeleteCard> {
   bool cardDeleted = false;
   @override
   Widget build(BuildContext context) {
+    //Fluttertoast.showToast(msg: 'Length is '+widget.length.toString());
     // widget.request.description =
     //     'This is the full description since the backend is not taking the description into account';
     return (cardDeleted)
-        ? Container()
+        ?  
+        //(widget.length) == 0 ? Text('Item is deleted') :  
+        Container()
         : Container(
             padding: EdgeInsets.symmetric(horizontal: 25, vertical: 14),
             width: MediaQuery.of(context).size.width,
@@ -63,7 +69,7 @@ class _RequestDeleteCardState extends State<RequestDeleteCard> {
                 ],
                 title: Row(
                   children: <Widget>[
-                    Text(widget.request.itemName),
+                    Text(widget.request.itemName, style: TextStyle(color: colorBlack),),
                     // Container(
                     //   margin: EdgeInsets.symmetric(horizontal: 10),
                     //   height: 15,
@@ -89,9 +95,11 @@ class _RequestDeleteCardState extends State<RequestDeleteCard> {
                         widget.request.quantity,
                         overflow: TextOverflow.ellipsis,
                         softWrap: false,
+                        style: TextStyle(color: colorBlack),
                       ),
                       Text(
                         dateFormatter(widget.request.dateTimeCreated),
+                        style: TextStyle(color: colorBlack),
                       ),
                     ],
                   ),
@@ -127,6 +135,7 @@ class _RequestDeleteCardState extends State<RequestDeleteCard> {
                       Navigator.of(context).pop();
                       setState(() {
                         cardDeleted = true;
+                        //-- widget.length;
                       });
                       showDialog(
                         barrierDismissible: false,

@@ -8,6 +8,7 @@ import '../model/request.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 Future<AllRequests> getMyRequests() async {
+  print('i am in get my requests');
   AllRequests allRequests;
   Position position;
   PermissionStatus permissionStatus =
@@ -54,14 +55,13 @@ Future<AllRequests> getMyRequests() async {
         HttpHeaders.authorizationHeader: token,
       },
     );
-    print(response.statusCode);
+    print("Response code of view my request is "+response.statusCode.toString());
     if (response.statusCode == 204) {
       return AllRequests(message: 'No requests found.', request: []);
     } else if (response.statusCode == 200) {
       AllRequests allRequests = allRequestsFromJson(response.body);
       allRequests.request.sort((a,b)=>b.dateTimeCreated.compareTo(a.dateTimeCreated));
       return allRequests;
-
     } else {
       allRequests =
           AllRequests(message: 'Something\'s wrong on our end', request: []);

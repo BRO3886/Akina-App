@@ -57,7 +57,7 @@ Future<AllRequests> getAllRequests() async {
       },
     );
     //print("Token is "+token);
-    print(response.statusCode);
+    print("Response code of view all requests is"+response.statusCode.toString());
     //print("Response in view all requests is "+response.toString());
     if (response.statusCode == 200) {
       allRequests = allRequestsFromJson(response.body);
