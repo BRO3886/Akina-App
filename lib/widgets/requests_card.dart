@@ -79,21 +79,7 @@ class _RequestCardState extends State<RequestCard> {
         // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         // elevation: 0,
         child: ExpansionTile(
-          // isThreeLine: true,
-          // contentPadding: EdgeInsets.only(top: 2, left: 14, right: 14),
-          // onExpansionChanged: (didChange){
-          //   if(didChange){
-          //     setState(() {
-          //       _color = mainColor;
-          //       _headingColor = mainColor;
-          //     });
-          //   }else{
-          //     setState(() {
-          //       _color = Colors.grey;
-          //       _headingColor = Colors.black;
-          //     });
-          //   }
-          // },
+         
           children: <Widget>[
             Container(
               margin: EdgeInsets.only(bottom: 10),
