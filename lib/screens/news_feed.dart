@@ -11,7 +11,7 @@ class NewsFeedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: FutureBuilder(
+      body: FutureBuilder(
       future: getNews(),
       builder: (ctx, snapshot) {
         if (snapshot.hasData) {

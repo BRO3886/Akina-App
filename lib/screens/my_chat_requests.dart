@@ -178,7 +178,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                             // else{
                             //   Fluttertoast.showToast(msg: 'True that not');
                             // }
-                          });;
+                          });
                         },
                         child: Container(
                             margin: EdgeInsets.only(
