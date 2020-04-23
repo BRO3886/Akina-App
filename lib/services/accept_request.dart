@@ -8,6 +8,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:project_hestia/screens/chat_screen.dart';
 import 'package:project_hestia/model/global.dart';
 import 'package:http/http.dart' as http;
+import 'package:project_hestia/screens/my_chats.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 import '../model/request.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -61,7 +62,8 @@ acceptRequest(BuildContext context ,String itemID, String itemName, String recei
 
     } else if(result['message'].toString().contains('blocked')){
       Fluttertoast.showToast(msg: 'You cannot accept this request');
-    } else {
+    }
+    else {
         Fluttertoast.showToast(msg: result['message']);
     }
   } catch (e) {
@@ -128,7 +130,14 @@ createChat(BuildContext context, int sender, String receiver, String itemName, S
                   requestSender: result['chat_room']['request_sender'],
         )));
     } else if(result["status"] == 500){
-      Fluttertoast.showToast(msg: 'Something went wrong. Please try again later');
+      Fluttertoast.showToast(msg: 'Chat room is already created');
+      
+      Future.delayed(
+          Duration(seconds: 2),
+          () => Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => MyChatsPage())));
     }
     else {
       Fluttertoast.showToast(msg: result['message']);

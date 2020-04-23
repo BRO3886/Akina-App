@@ -6,7 +6,7 @@ Future<List<String>> getCountries() async {
   final String url = "http://hestia-info.herokuapp.com/allCountries";
   try {
     final response = await http.get(url);
-    print(response.statusCode);
+    //print(response.statusCode);
     if (response.statusCode == 200) {
       Map<String, dynamic> resBody = json.decode(response.body);
       // print(resBody);
