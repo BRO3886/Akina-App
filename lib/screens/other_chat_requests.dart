@@ -9,13 +9,7 @@ import 'package:project_hestia/model/global.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:project_hestia/screens/chat_screen.dart';
-import 'package:project_hestia/services/accept_request.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
-import 'package:project_hestia/services/view_accept_request.dart';
-import 'package:web_socket_channel/io.dart';
-import 'package:flutter/material.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:flutter_socket_io/flutter_socket_io.dart';
 import 'package:http/http.dart' as http;
 
 class OtherRequestsChatsPage extends StatefulWidget {
@@ -32,9 +26,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
   @override
   void initState() {
     super.initState();
-    getOtherChats();
-    
-    new Timer.periodic(new Duration(seconds: 60), (Timer t) => getOtherChats());
+    //getOtherChats();
     //getValues();
   }
 
@@ -45,7 +37,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
   getValues() {
     checkReportedList = s.getReportedList();
     checkReportedList.then((resultStringLogin) {
-      setState(() {
+      setState(() 60
         reportedList = resultStringLogin;
       });
       if(reportedList==null){
@@ -68,6 +60,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
   String snapshot = '' ;
 
   Future<List<Chat>> getOtherChats() async {
+    //print('I am in get chats');
     final userId = await SharedPrefsCustom().getUserId();
     data_passed['user_id'] = userId;
     //
@@ -90,15 +83,19 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
       final data = json.decode(response.body);
       //print('Data in other chats is '+data.toString());
       if (response.statusCode == 200) {
-        setState(() {
-          listOtherChats = Chats.fromJson(data).chats;
-          snapshot = 'hasData';
-        });
+        if(this.mounted){
+          setState(() {
+            listOtherChats = Chats.fromJson(data).chats;
+            snapshot = 'hasData';
+          });
+        }
       } else {
-        setState(() {
-          snapshot = data['message'];
-          listOtherChats = [];
-        });
+        if(this.mounted){
+          setState(() {
+            snapshot = data['message'];
+            listOtherChats = [];
+          });
+        }
       }
     } catch (e) {
       print(e.toString());
@@ -114,7 +111,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
     return FutureBuilder(
       future: getOtherChats(),
       builder: (ctx, snapshot) {
-        listOtherChats = snapshot.data;
+        //listOtherChats = snapshot.data;
         if (snapshot.hasData) {
           if (listOtherChats.length > 0 ) {
             return new Expanded(
@@ -139,7 +136,18 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                 requestSender: listOtherChats[index].requestSender,
                               ),
                             ),
-                          );
+                          ).then((value){
+                            if(value.toString() == 'delete'){
+                              //Fluttertoast.showToast(msg: 'True that');
+                              getOtherChats();
+                              setState(() {
+                                listOtherChats = snapshot.data;
+                              });
+                            }
+                            // else{
+                            //   Fluttertoast.showToast(msg: 'True that not');
+                            // }
+                          });
                         },
                         child: Container(
                             margin: EdgeInsets.symmetric(

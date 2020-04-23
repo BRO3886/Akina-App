@@ -700,7 +700,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
       print("Response code of deleting chat is " + value.statusCode.toString());
       if (res['status'] == 200 || res['code'] == 200) {
         Fluttertoast.showToast(msg: "Chat deleted successfully");
-        Navigator.of(context).pop();
+        Navigator.pop(context, 'delete');
         showChats();
       } else {
         Fluttertoast.showToast(

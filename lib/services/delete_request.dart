@@ -57,7 +57,7 @@ Future<bool> deleteRequest(String id) async {
     print("Response for delete is ");
     if (response.statusCode == 200) {
       result = "Request successfully deleted";
-      getMyRequests();
+      //getMyRequests();
       // Fluttertoast.showToast(msg: "Request successfully deleted");
       return true;
     } else if (response.statusCode == 204) {

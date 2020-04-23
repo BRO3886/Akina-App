@@ -26,9 +26,9 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
   @override
   void initState() {
     super.initState();
-    getMyChats();
+    //getMyChats();
     
-    new Timer.periodic(new Duration(seconds: 60), (Timer t) => getMyChats());
+    //new Timer.periodic(new Duration(seconds: 60), (Timer t) => getMyChats());
     //getValues();
   }
 
@@ -83,15 +83,19 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
       //print('Data in my chats is ' + data.toString());
       if (response.statusCode == 200) {
         //print("Output of my chat is "+response.body.toString());
-        setState(() {
-          listMyChats = Chats.fromJson(data).chats;
-          snapshot = 'hasData';
-        });
+        if(this.mounted){
+          setState(() {
+            listMyChats = Chats.fromJson(data).chats;
+            snapshot = 'hasData';
+          });
+        }
       } else {
-        setState(() {
-          snapshot = data['message'];
-          listMyChats = [];
-        });
+        if(this.mounted){
+          setState(() {
+            snapshot = data['message'];
+            listMyChats = [];
+          });
+        }
       }
     } catch (e) {
       print(e.toString());
@@ -137,7 +141,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
       return FutureBuilder(
         future: getMyChats(),
         builder: (ctx, snapshot) {
-          listMyChats = snapshot.data;
+          //listMyChats = snapshot.data;
           if (snapshot.hasData) {
             
             if (listMyChats.length > 0 ) {
@@ -163,7 +167,18 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                 requestSender: listMyChats[index].requestSender,
                               ),
                             ),
-                          );
+                          ).then((value){
+                            if(value.toString() == 'delete'){
+                              //Fluttertoast.showToast(msg: 'True that');
+                              getMyChats();
+                              setState(() {
+                                listMyChats = snapshot.data;
+                              });
+                            }
+                            // else{
+                            //   Fluttertoast.showToast(msg: 'True that not');
+                            // }
+                          });
                         },
                         child: Container(
                             margin: EdgeInsets.only(
