@@ -13,7 +13,7 @@ import 'package:project_hestia/services/shared_prefs_custom.dart';
 import '../model/request.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-acceptRequest(BuildContext context ,String itemID, String itemName, String receiverID, String description) async {
+acceptRequest(BuildContext context ,String itemID, String itemNameInitial, String receiverID, String description) async {
   Position position;
   PermissionStatus permissionStatus =
       await PermissionHandler().checkPermissionStatus(PermissionGroup.locationAlways);
@@ -55,7 +55,7 @@ acceptRequest(BuildContext context ,String itemID, String itemName, String recei
     print("response is "+response.body.toString());
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      createChat(context, senderID, receiverID, itemName, description);
+      createChat(context, senderID, receiverID, itemNameInitial, description);
       //Fluttertoast.showToast(msg: 'Request accepted!');
 
       //I/flutter ( 6821): response is {"message":"Item Already Accepted"}
@@ -80,12 +80,12 @@ var bodyCreateChatRoom = {
     'req_desc' : 'description'
   };
 
-createChat(BuildContext context, int sender, String receiver, String itemName, String description) async{  
+createChat(BuildContext context, int sender, String receiver, String itemNameInitial, String description) async{  
   print("I am in create chat");
   try {
     bodyCreateChatRoom['receiver'] = int.parse(receiver);
     bodyCreateChatRoom['sender'] = sender ;
-    bodyCreateChatRoom['title'] = itemName;
+    bodyCreateChatRoom['title'] = itemNameInitial;
     bodyCreateChatRoom["request_sender"] = int.parse(receiver);
 	  bodyCreateChatRoom["request_receiver"] = sender;
     bodyCreateChatRoom['req_desc'] = description;
@@ -114,7 +114,7 @@ createChat(BuildContext context, int sender, String receiver, String itemName, S
     if (result["code"] == 200) {
       Fluttertoast.showToast(msg: 'Request accepted!');
       print("Result from create chat room is "+result.toString());
-      print("Description is "+description +" "+sender.toString()+" "+int.parse(receiver).toString()+" "+itemName+" "+result['chat_room']['sender_name'].toString());
+      print("Description is "+description +" "+sender.toString()+" "+int.parse(receiver).toString()+" "+itemNameInitial+" "+result['chat_room']['sender_name'].toString());
       Navigator.push(
         context,
         new MaterialPageRoute(
@@ -122,22 +122,70 @@ createChat(BuildContext context, int sender, String receiver, String itemName, S
                 ChatScreenPage(
                   senderID: sender,
                   receiverID: int.parse(receiver),
-                  itemName: itemName,
+                  itemName: itemNameInitial,
                   personName: result['chat_room']['sender_name'],
                   itemDescription: description,
                   pagePop: false,
                   requestReceiver: result['chat_room']['request_receiver'],
                   requestSender: result['chat_room']['request_sender'],
         )));
-    } else if(result["status"] == 500){
+    } else if(result["code"] == 500 || result["status"] == 500){
       Fluttertoast.showToast(msg: 'Chat room is already created');
+      updateChat(context, result['chat_details']['sender'], result['chat_details']['receiver'], itemNameInitial + ", " + result['chat_details']['title'], result['chat_details']['sender_name'], 
+      result['chat_details']['req_desc'], false, result['chat_details']['request_receiver'], result['chat_details']['request_sender']);
+    }
+    else {
+      Fluttertoast.showToast(msg: result['message']);
+    }
+  } catch (e) {
+    print(e.toString());
+  }
+}
+
+var bodyUpdateChatRoom = {
+    'title': 'itemName',
+    "request_sender": 1,
+    "request_receiver": 'sender'
+  };
+
+updateChat(BuildContext context, int senderID, int receiverID, String itemNameFinal, personName, itemDescription, bool pagePop, int requestReceiver, int requestSender) async{
+  print("I am in update chat");
+  try {
+    bodyUpdateChatRoom['title'] = itemNameFinal;
+    bodyUpdateChatRoom["request_sender"] = requestSender;
+	  bodyUpdateChatRoom["request_receiver"] = requestReceiver;
+    final token = await SharedPrefsCustom().getToken();
+    final response = await http.post(
+      URL_UPDATE_CHAT,
+      headers: {
+        HttpHeaders.authorizationHeader: token,
+      },
+      body: json.encode(
+        bodyUpdateChatRoom
+    ));
+
+    print("Body of update chat is " + bodyUpdateChatRoom.toString() );
+    print("response of update chat is "+response.body.toString());
+    final result = json.decode(response.body);
+    print("Result of create chat room is "+result.toString());
+    if (result["code"] == 200) {
       
       Future.delayed(
           Duration(seconds: 2),
           () => Navigator.push(
-              context,
-              new MaterialPageRoute(
-                  builder: (BuildContext context) => MyChatsPage())));
+            context,
+            new MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  ChatScreenPage(
+                    senderID: senderID,
+                    receiverID: receiverID,
+                    itemName: itemNameFinal,
+                    personName: personName,
+                    itemDescription: itemDescription,
+                    pagePop: pagePop,
+                    requestReceiver: requestReceiver,
+                    requestSender: requestSender,
+                  ))));
     }
     else {
       Fluttertoast.showToast(msg: result['message']);

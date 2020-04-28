@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_hestia/model/getChats.dart';
 import 'package:project_hestia/model/global.dart';
 import 'package:project_hestia/model/util.dart';
@@ -169,7 +170,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                             ),
                           ).then((value){
                             if(value.toString() == 'delete'){
-                              //Fluttertoast.showToast(msg: 'True that');
+                              Fluttertoast.showToast(msg: 'True that');
                               getMyChats();
                               setState(() {
                                 listMyChats = snapshot.data;
@@ -370,7 +371,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                                       listMyChats[index].title,
                                                   personName: listMyChats[index]
                                                       .senderName,
-                                                      itemDescription: listMyChats[index].description,
+                                                  itemDescription: listMyChats[index].description,
                                                   pagePop: true,
                                                   requestReceiver: listMyChats[index].requestReceiver,
                                                   requestSender: listMyChats[index].requestSender,
