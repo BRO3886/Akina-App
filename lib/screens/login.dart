@@ -288,6 +288,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 isLoading = true;
               });
               int code = await registerDevice(responseBody["Token"]);
+              print('Code from register device is '+code.toString());
               if (code == 200 || code == 201) {
                 Navigator.of(context)
                     .pushReplacementNamed(MyHomeScreen.routename);
@@ -355,7 +356,7 @@ class _LoginScreenState extends State<LoginScreen> {
   };
 
   Future<int> registerDevice(String tokenID) async {
-    print('I am in register device');
+    print('I am in register device of login');
     setState(() {
       isLoading = true;
     });
@@ -375,7 +376,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       Map<String, dynamic> responseBody = jsonDecode(response.body);
       print("Response of register device is" + responseBody.toString());
-      print("Response code is " + response.statusCode.toString());
+      print("Response code to register device is " + response.statusCode.toString());
       return response.statusCode;
     } catch (e) {
       print(e.toString());

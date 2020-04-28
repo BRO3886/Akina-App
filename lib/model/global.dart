@@ -1,5 +1,7 @@
 const AUTH_BASE_URL = 'https://hestia-auth.herokuapp.com/api/user';
-const BASE_URL = 'https://akina.ayushpriya.tech/api/user';
+
+const BASE_URL = 'https://akina-auth.herokuapp.com/api/user';
+//const BASE_URL = 'https://akina.ayushpriya.tech/api/user';
 
 const URL_USER_LOGIN = '$BASE_URL/login';
 const URL_USER_REGISTER = '$BASE_URL/registerapp';
@@ -50,3 +52,4 @@ const URL_CREATE_MESSAGE = '$CHAT_BASE_URL/api/v1/sendMessage';
 const URL_CREATE_CHAT = '$CHAT_BASE_URL/api/v1/createChat';
 const URL_GET_MESSAGES = '$CHAT_BASE_URL/api/v1/getMessages';
 const URL_DELETE_CHAT = '$CHAT_BASE_URL/api/v1/delChat';
+const URL_UPDATE_CHAT = '$CHAT_BASE_URL/api/v1/updateChat';

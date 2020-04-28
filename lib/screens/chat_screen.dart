@@ -374,6 +374,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                                     maxLines: 5,
                                     minLines: 1,
                                     decoration: InputDecoration(
+                                      enabled: snapshot == 'Chat blocked' ? false : true,
                                       contentPadding: EdgeInsets.only(
                                           left: 5.0, right: 5.0),
                                       // fillColor: colorWhite,

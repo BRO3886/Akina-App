@@ -68,9 +68,9 @@ print("Report id is "+widget.id.toString());
         //setReportedList();
         Fluttertoast.showToast(msg: "Successfully reported");
         Navigator.pop(context);
-        Navigator.pop(context);
-        widget.pop ? Navigator.pop(context) : Fluttertoast.showToast(msg: "Successfully reported");
-//{status: success, message: User successfully reported, payload: {id: 9, user_id: 28, reported_by: 126, reason: Gugug, timestamp: 2020-04-18T14:32:15.029120Z}}
+        Navigator.pop(context, 'delete');
+        //TODO check this
+        Fluttertoast.showToast(msg: "Successfully reported");
 
       } else {
         Fluttertoast.showToast(msg: responseBody['message']);
