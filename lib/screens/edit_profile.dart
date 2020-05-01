@@ -98,18 +98,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       );
       //print(token);
       Map<String, dynamic> responseBody = jsonDecode(response.body);
-      print("Response of edit is"+responseBody.toString());
+      print("Response of edit is" + responseBody.toString());
       if (response.statusCode == 200) {
         if (responseBody.containsKey("Status")) {
           _showSnackBar(200, responseBody["Status"]);
         } else if (responseBody.containsKey("Alert")) {
-          _showSnackBar(300, responseBody["Alert"]+'. Log in with your new email id.');
+          _showSnackBar(
+              300, responseBody["Alert"] + '. Log in with your new email id.');
           sp.setLoggedInStatus(false);
-          Future.delayed(Duration(seconds: 3),()=>Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.routename, (route)=>false));
+          Future.delayed(
+              Duration(seconds: 3),
+              () => Navigator.of(context).pushNamedAndRemoveUntil(
+                  LoginScreen.routename, (route) => false));
         }
         sp.setUserName(newuserDetails['name']);
         sp.setUserEmail(newuserDetails['email']);
         sp.setPhone(newuserDetails["phone"]);
+      } else if (response.statusCode == 409) {
+        _showSnackBar(409, "Email already in use");
       }
     } catch (e) {
       print(e.toString());
@@ -206,7 +212,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ),
                             ),
                             // onChanged: (value) => userInfo["name"] = value,
-                            onSaved: (value) => newuserDetails["name"] = value.trim(),
+                            onSaved: (value) =>
+                                newuserDetails["name"] = value.trim(),
                             validator: (value) {
                               if (value == "") {
                                 return "This field is required";
@@ -230,7 +237,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ),
                             ),
                             // onChanged: (value) => userInfo["name"] = value,
-                            onSaved: (value) => newuserDetails["email"] = value.trim(),
+                            onSaved: (value) =>
+                                newuserDetails["email"] = value.trim(),
                             validator: (value) {
                               if (value == "") {
                                 return "This field is required";
@@ -258,7 +266,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ),
                             ),
                             // onChanged: (value) => userInfo["name"] = value,
-                            onSaved: (value) => newuserDetails["phone"] = value.trim(),
+                            onSaved: (value) =>
+                                newuserDetails["phone"] = value.trim(),
                             validator: (value) {
                               if (value.contains(" ")) {
                                 return "Can\'t have spaces";

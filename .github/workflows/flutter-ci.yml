@@ -64,7 +64,10 @@ jobs:
           to: ${{secrets.TELEGRAM_CHANNEL}}
           token: ${{secrets.TELEGRAM_BOT_APIKEY}}
           document: build/app/outputs/apk/release/app-release.apk
-          message: Here is the latest testing build for you for Akina
+          message: |
+            Here is the latest testing build for you for Akina with the following changes:
+            {{commit.ref}}
+            Uninstall previous version
 
 
 
