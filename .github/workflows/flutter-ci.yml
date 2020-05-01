@@ -33,7 +33,11 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '1.12.13+hotfix.5'
-
+        env:
+          KEY_JKS: ${{secrets.KEY_JKS}}
+          KEY_PASSWORD: ${{secrets.KEY_PASSWORD}}
+          STORE_PASSWORD: ${{secrets.STORE_PASSWORD}}
+          run: echo $KEY_JKS > key.jks
         
       # get packages
       - run: flutter pub get
@@ -66,7 +70,7 @@ jobs:
           document: build/app/outputs/apk/release/app-release.apk
           message: |
             Here is the latest testing build for you for Akina with the following changes:
-            {{commit.ref}}
+            {{github.ref}}
             Uninstall previous version
 
 
