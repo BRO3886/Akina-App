@@ -8,12 +8,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:project_hestia/screens/chat_screen.dart';
 import 'package:project_hestia/model/global.dart';
 import 'package:http/http.dart' as http;
-import 'package:project_hestia/screens/my_chats.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 import '../model/request.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-acceptRequest(BuildContext context ,String itemID, String itemNameInitial, String receiverID, String description) async {
+Future<bool> acceptRequest(BuildContext context, String itemID, String itemNameInitial, String receiverID, String description) async {
+  bool returnBool;
   Position position;
   PermissionStatus permissionStatus =
       await PermissionHandler().checkPermissionStatus(PermissionGroup.locationAlways);
@@ -23,8 +23,9 @@ acceptRequest(BuildContext context ,String itemID, String itemNameInitial, Strin
             .requestPermissions([PermissionGroup.location]);
     if (permissions[PermissionGroup.location] != PermissionStatus.granted) {
       Fluttertoast.showToast(msg: 'Required Permissions Not Granted');
-      return AllRequests(
-          message: 'Required Permissions Not Granted', request: []);
+      /*return AllRequests(
+          message: 'Required Permissions Not Granted', request: []);*/
+      returnBool =  false;
     }
   }
   try {
@@ -55,20 +56,23 @@ acceptRequest(BuildContext context ,String itemID, String itemNameInitial, Strin
     print("response is "+response.body.toString());
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      createChat(context, senderID, receiverID, itemNameInitial, description);
+      returnBool =  await createChat(context, senderID, receiverID, itemNameInitial, description);
       //Fluttertoast.showToast(msg: 'Request accepted!');
 
       //I/flutter ( 6821): response is {"message":"Item Already Accepted"}
-
     } else if(result['message'].toString().contains('blocked')){
       Fluttertoast.showToast(msg: 'You cannot accept this request');
+      returnBool =  false;
     }
     else {
-        Fluttertoast.showToast(msg: result['message']);
+      Fluttertoast.showToast(msg: result['message']);
+      returnBool =  false;
     }
   } catch (e) {
     print(e.toString());
+    returnBool =  false;
   }
+  return returnBool;
 }
 
 var bodyCreateChatRoom = {
@@ -80,7 +84,8 @@ var bodyCreateChatRoom = {
     'req_desc' : 'description'
   };
 
-createChat(BuildContext context, int sender, String receiver, String itemNameInitial, String description) async{  
+Future<bool> createChat(BuildContext context, int sender, String receiver, String itemNameInitial, String description) async{ 
+  bool returnBool; 
   print("I am in create chat");
   try {
     bodyCreateChatRoom['receiver'] = int.parse(receiver);
@@ -129,17 +134,24 @@ createChat(BuildContext context, int sender, String receiver, String itemNameIni
                   requestReceiver: result['chat_room']['request_receiver'],
                   requestSender: result['chat_room']['request_sender'],
         )));
+      returnBool =  false;
     } else if(result["code"] == 500 || result["status"] == 500){
       Fluttertoast.showToast(msg: 'Chat room is already created');
-      updateChat(context, result['chat_details']['sender'], result['chat_details']['receiver'], itemNameInitial + ", " + result['chat_details']['title'], result['chat_details']['sender_name'], 
-      result['chat_details']['req_desc'], false, result['chat_details']['request_receiver'], result['chat_details']['request_sender']);
+      updateChat(context, result['chat_details']['sender'], result['chat_details']['receiver'], 
+        //itemNameInitial + ", " + 
+        result['chat_details']['title'], result['chat_details']['sender_name'], 
+        result['chat_details']['req_desc'], false, result['chat_details']['request_receiver'], result['chat_details']['request_sender']);
+      returnBool =  false;
     }
     else {
       Fluttertoast.showToast(msg: result['message']);
+      returnBool =  false;
     }
   } catch (e) {
     print(e.toString());
+    returnBool = false;
   }
+  return returnBool ;
 }
 
 var bodyUpdateChatRoom = {
@@ -156,7 +168,7 @@ updateChat(BuildContext context, int senderID, int receiverID, String itemNameFi
 	  bodyUpdateChatRoom["request_receiver"] = requestReceiver;
     final token = await SharedPrefsCustom().getToken();
     final response = await http.post(
-      URL_UPDATE_CHAT,
+      URL_ADD_ITEM,
       headers: {
         HttpHeaders.authorizationHeader: token,
       },
@@ -169,7 +181,6 @@ updateChat(BuildContext context, int senderID, int receiverID, String itemNameFi
     final result = json.decode(response.body);
     print("Result of create chat room is "+result.toString());
     if (result["code"] == 200) {
-      
       Future.delayed(
           Duration(seconds: 2),
           () => Navigator.push(

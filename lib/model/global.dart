@@ -52,4 +52,4 @@ const URL_CREATE_MESSAGE = '$CHAT_BASE_URL/api/v1/sendMessage';
 const URL_CREATE_CHAT = '$CHAT_BASE_URL/api/v1/createChat';
 const URL_GET_MESSAGES = '$CHAT_BASE_URL/api/v1/getMessages';
 const URL_DELETE_CHAT = '$CHAT_BASE_URL/api/v1/delChat';
-const URL_UPDATE_CHAT = '$CHAT_BASE_URL/api/v1/updateChat';
+const URL_ADD_ITEM = '$CHAT_BASE_URL/api/v1/addItem';

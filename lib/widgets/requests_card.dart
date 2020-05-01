@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/create_shop_suggestion.dart';
 import 'package:project_hestia/services/accept_request.dart';
@@ -55,9 +56,13 @@ class _RequestCardState extends State<RequestCard> {
   _RequestCardState({this.request, 
   this.requestStatus, this.shopStatus
     });
+
+  bool load = false;
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Stack(
+      children: <Widget>[
+      Container(
       // padding: EdgeInsets.symmetric(horizontal: 25, vertical: 14),
       width: MediaQuery.of(context).size.width,
       margin: EdgeInsets.symmetric(horizontal: 20),
@@ -164,10 +169,25 @@ class _RequestCardState extends State<RequestCard> {
                   width: 10,
                 ),
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     print("Value of accept in check is "+widget.requestStatus.toString());
                     if (widget.requestStatus == true) {
-                      acceptRequest(context, widget.request.id.toString(),widget.request.itemName, widget.request.requestMadeBy, widget.request.description);
+                      setState(() {
+                        load = true;
+                        //Fluttertoast.showToast(msg: 'Its true');
+                      });
+                      load = await acceptRequest(context, widget.request.id.toString(),widget.request.itemName, widget.request.requestMadeBy, widget.request.description);
+                      // setState(() {
+                      //   load = false;
+                      // });
+                      /*.then((value) {
+                          print("called with value = null");
+                          setState(() {
+                            load;
+                          });
+                        }).whenComplete(() {
+                          print("called when future completes");
+                        });*/
                     } else if (widget.requestStatus == false || widget.requestStatus == null ) {
                       acceptWidget(
                           context,
@@ -191,6 +211,24 @@ class _RequestCardState extends State<RequestCard> {
           ),
         ),
       ),
+    ),
+    load == true ? 
+      new Center(
+        child : Container(
+      height: MediaQuery.of(context).size.height - 160.0,
+      width: MediaQuery.of(context).size.width,
+      color: Colors.grey.withOpacity(0.5),
+      child : Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          CircularProgressIndicator(),
+          Text('Processing the request...'),
+        ],
+      )
+      )
+     ) : Container()
+    ],
     );
   }
 
@@ -235,10 +273,35 @@ class _RequestCardState extends State<RequestCard> {
                                 borderRadius: BorderRadius.circular(5)),
                             color: mainColor,
                             textColor: colorWhite,
-                            onPressed: () {
+                            onPressed: () async{
                               Navigator.pop(dialogContext);
-                              acceptRequest(context, itemID.toString(),
-                                  itemName, receiverID, description);
+                              setState(() {
+                                load = true;
+                                //Fluttertoast.showToast(msg: 'Its true');
+                              });
+                              load = await acceptRequest(context, widget.request.id.toString(),widget.request.itemName, widget.request.requestMadeBy, widget.request.description);
+                              // setState(() {
+                              //   load;
+                              //load == false ? Fluttertoast.showToast(msg: 'Noooo') : Container( color: Colors.red, width: 10.0, height: 10.0,);
+                              //});
+                              /*acceptRequest(context, itemID.toString(),
+                                  itemName, receiverID, description).then((value) {
+                                      print("called with value = null " + value.toString());
+                                      if(value == false && mounted){
+                                        setState(() {
+                                          load = value;
+                                          Fluttertoast.showToast(msg: 'Its false');
+                                        });
+                                      }
+                                      if(mounted){
+                                        setState(() {
+                                          load = false;
+                                          Fluttertoast.showToast(msg: 'Its false');
+                                        });
+                                      }
+                                    }).whenComplete(() {
+                                      print("called when future completes");
+                                    });*/
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
