@@ -96,6 +96,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
   }
 
   String snapshot = '';
+  List<String> itemsList = [];
 
   Future<Messages> showChats() async {
     //print("I am in show chats");
@@ -112,24 +113,31 @@ class ChatScreenPageState extends State<ChatScreenPage> {
           body: json.encode(data_create_chat));
       //print("Response in getting messages is "+response.body.toString());
       final result = json.decode(response.body);
-      //print("Messages are " + result.toString());
+      print("Messages are " + result.toString());
       if (result['code'] == 200 && response.statusCode == 200) {
         setState(() {
+          itemsList = [];
           messages = Messages.fromJson(result);
           snapshot = 'Got Data';
+          for(int i=0;i<messages.items.length;i++){
+            itemsList.add(messages.items[i].item);
+          }
         });
       } else if (result['status'] == 400) {
         setState(() {
           snapshot = 'Chat blocked';
+          itemsList = [];
         });
       } else if (result.containsKey("message")) {
         setState(() {
           snapshot = result['message'];
+          itemsList = [];
         });
         Fluttertoast.showToast(msg: result['message']);
       } else {
         setState(() {
           snapshot = result['messages'];
+          itemsList = [];
         });
         Fluttertoast.showToast(msg: result['messages']);
       }
@@ -198,7 +206,11 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                                       fontSize: 20.0,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Text(widget.itemName),
+                                Text(
+                                  itemsList == [] ? 
+                                    widget.itemName : itemsList.toString().substring(1, itemsList.toString().length - 1).length > 25 ?
+                                    itemsList.toString().substring(1, 24)+"..." : itemsList.toString().substring(1, itemsList.toString().length - 1),
+                                ),
                               ],
                             ),
                           ],

@@ -186,7 +186,9 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                             style: TextStyle(fontSize: 17.0),
                                           ),
                                         ),
-                                        Text(listOtherChats[index].title,
+                                        Text(
+                                          'Click to see more',
+                                          //listOtherChats[index].title,
                                             style: TextStyle(
                                                 color: colorGrey,
                                                 fontSize: 13.0))

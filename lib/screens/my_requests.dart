@@ -541,10 +541,10 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
   }
 
   bool cardDeleted =  false;
-  requestDeleteCard(Request request, BuildContext context){
+  requestDeleteCard(Request request, BuildContext cardContext){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 25, vertical: 14),
-    width: MediaQuery.of(context).size.width,
+    width: MediaQuery.of(cardContext).size.width,
     // height: 125,
     child: Container(
       // padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
@@ -624,7 +624,7 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
             if (cardDeleted == false) {
               showDialog(
                 barrierDismissible: false,
-                context: context,
+                context: cardContext,
                 child: AlertDialog(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5)),
@@ -648,14 +648,14 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
             bool deleted =
                 await deleteRequest(request.id.toString());
             if (deleted == true) {
-              Navigator.of(context).pop();
+              Navigator.of(cardContext).pop();
               setState(() {
                 cardDeleted = true;
                 all = getMyRequestsMethod();
               });
               showDialog(
-                barrierDismissible: false,
-                context: context,
+                barrierDismissible: true,
+                context: cardContext,
                 child: AlertDialog(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5)),
@@ -687,7 +687,7 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
                     FlatButton(
                       textColor: mainColor,
                       child: Text('Close'),
-                      onPressed: () => Navigator.of(context).maybePop(),
+                      onPressed: () => Navigator.of(cardContext).pop(),
                     ),
                   ],
                 ),

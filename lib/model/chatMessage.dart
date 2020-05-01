@@ -1,5 +1,16 @@
 /*{
   code: 200, 
+  "items": [
+    {
+      "ID": 1,
+      "CreatedAt": "2020-04-30T16:26:22.606452Z",
+      "UpdatedAt": "2020-04-30T16:26:22.606452Z",
+      "DeletedAt": null,
+      "request_sender": 124,
+      "request_receiver": 125,
+      "item": "Sanitizer"
+    }
+  ],
   message: Successfully retrieved chat messages, 
   messages: [
     {
@@ -16,14 +27,37 @@
 
 class Messages {
   final List<Message> msgs;
+  final List<Items> items;
 
-  Messages({this.msgs});
+  Messages({this.msgs, this.items});
 
   factory Messages.fromJson(Map<String, dynamic> parsedJson) {
     var list = parsedJson['messages'] as List;
     List<Message> msgsList = list.map((i) => Message.fromJson(i)).toList();
 
-    return Messages(msgs: msgsList);
+    var iList = parsedJson['items'] as List;
+    List<Items> itemsList = iList.map((i) => Items.fromJson(i)).toList();
+
+    return Messages(
+      msgs: msgsList,
+      items: itemsList
+      );
+  }
+}
+
+class Items {
+  final int requestReceiver;
+  final int requestSender;
+  final String item;
+
+  Items({this.item, this.requestReceiver, this.requestSender});
+
+  factory Items.fromJson(Map<String, dynamic> parsedJson) {
+    return Items(
+      requestSender: parsedJson['request_sender'],
+      requestReceiver: parsedJson['request_receiver'],
+      item: parsedJson['item'],
+    );
   }
 }
 

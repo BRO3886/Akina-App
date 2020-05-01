@@ -170,7 +170,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                             ),
                           ).then((value){
                             if(value.toString() == 'delete'){
-                              Fluttertoast.showToast(msg: 'True that');
+                              //Fluttertoast.showToast(msg: 'True that');
                               getMyChats();
                               setState(() {
                                 listMyChats = snapshot.data;
@@ -220,7 +220,9 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                             style: TextStyle(fontSize: 17.0),
                                           ),
                                         ),
-                                        Text(listMyChats[index].title,
+                                        Text(
+                                          'Click to see more',
+                                          //listMyChats[index].title,
                                             style: TextStyle(
                                                 color: colorGrey,
                                                 fontSize: 13.0))
