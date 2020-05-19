@@ -71,7 +71,9 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     print("Description is "+widget.itemDescription);
     
     new Timer.periodic(new Duration(seconds: 30), (Timer t) => doSomething());*/
-    new Timer.periodic(new Duration(seconds: 10), (Timer t) => showChats());
+    if(this.mounted){
+      new Timer.periodic(new Duration(seconds: 10), (Timer t) => showChats());
+    }
   }
 
   Map<String, int> data_create_chat = {'receiver': 27, 'sender': 21};
@@ -96,7 +98,8 @@ class ChatScreenPageState extends State<ChatScreenPage> {
   }
 
   String snapshot = '';
-  List<String> itemsList = [];
+  List<Items> itemsList = [];
+  List<String> itemNameList = [];
 
   Future<Messages> showChats() async {
     //print("I am in show chats");
@@ -114,30 +117,35 @@ class ChatScreenPageState extends State<ChatScreenPage> {
       //print("Response in getting messages is "+response.body.toString());
       final result = json.decode(response.body);
       print("Messages are " + result.toString());
+      //print("Message is "+result['message']);
       if (result['code'] == 200 && response.statusCode == 200) {
         setState(() {
-          itemsList = [];
+          itemNameList = [];
           messages = Messages.fromJson(result);
           snapshot = 'Got Data';
+          itemsList = messages.items;
           for(int i=0;i<messages.items.length;i++){
-            itemsList.add(messages.items[i].item);
+            itemNameList.add(messages.items[i].item);
           }
         });
       } else if (result['status'] == 400) {
         setState(() {
           snapshot = 'Chat blocked';
-          itemsList = [];
+          itemsList = []; 
+          itemNameList = [];
         });
       } else if (result.containsKey("message")) {
         setState(() {
           snapshot = result['message'];
-          itemsList = [];
+          itemsList = []; 
+          itemNameList = [];
         });
         Fluttertoast.showToast(msg: result['message']);
       } else {
         setState(() {
           snapshot = result['messages'];
-          itemsList = [];
+          itemsList = []; 
+          itemNameList = [];
         });
         Fluttertoast.showToast(msg: result['messages']);
       }
@@ -148,12 +156,12 @@ class ChatScreenPageState extends State<ChatScreenPage> {
     return messages;
   }
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   controller.dispose();
-  //   //channel.sink.close();
-  // }
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+    //channel.sink.close();
+  }
 
   String text = '';
   GlobalKey<FormState> _key = new GlobalKey();
@@ -165,6 +173,10 @@ class ChatScreenPageState extends State<ChatScreenPage> {
 
   //WebSocketChannel channel;
   final TextEditingController controller = TextEditingController();
+
+  ScrollController _controllerExpansion = ScrollController();
+
+  bool expansionValue = false;
 
   @override
   Widget build(BuildContext context) {
@@ -182,7 +194,126 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
+                   Container(
+                     child : ExpansionTile(
+                    children: <Widget>[
+                    Container(
+                     height: MediaQuery.of(context).size.height/2,
+                        child: ListView.builder(
+                          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                          controller: _controllerExpansion,
+                          shrinkWrap: true,
+                          itemCount: itemsList.length,
+                          itemBuilder: (BuildContext ctxt, int index) {
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(itemsList[index].item, style: TextStyle(color: mainColor),),
+                                Text(itemsList[index].description+"ghjk", style: TextStyle(fontSize: 11.0),),
+                                SizedBox(
+                                  height: 10.0,
+                                  width: 10.0,
+                                )
+                              ],
+                            );
+                          }
+                        ),
+                      ),
+                    ],
+                    title: Container(
+                      margin: EdgeInsets.only(top: 10),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            widget.personName,
+                            style: TextStyle(
+                                color: colorBlack,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    subtitle: Container(
+                      margin: EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        itemNameList == [] ? 
+                          widget.itemName : itemNameList.toString().substring(1, itemNameList.toString().length - 1).length > 15 ?
+                          itemNameList.toString().substring(1, 14)+"..." : itemNameList.toString().substring(1, itemNameList.toString().length - 1),
+                        style: TextStyle(
+                          color: colorBlack
+                        ),
+                      )
+                    ),
+                    leading: MyBackButton(),
+                    onExpansionChanged: (bool value){
+                      setState(() {
+                        expansionValue = value;
+                      });
+                    },
+                    trailing: Container(
+                      child : Row(
+                        mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            GestureDetector(
+                              child: CircleAvatar(
+                                child: Icon(
+                                  expansionValue == true ? Icons.clear : Icons.info,
+                                  size: 18,
+                                  color: colorWhite,
+                                ),
+                                radius: 16,
+                                backgroundColor: expansionValue == true ? colorRed : mainColor,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                deleteChatDialog();
+                              },
+                              child: CircleAvatar(
+                                child: Icon(
+                                  Icons.delete,
+                                  size: 18,
+                                  color: colorWhite,
+                                ),
+                                radius: 16,
+                                backgroundColor: colorRed,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            ReportScreen(
+                                              id: userID == widget.senderID
+                                                  ? widget.receiverID
+                                                  : widget.senderID,
+                                              pop: widget.pagePop,
+                                              requestReceiver: widget.requestReceiver,
+                                              requestSender: widget.requestSender,
+                                            )));
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(left: 10.0),
+                                child: SvgPicture.asset(
+                                  'assets/images/report.svg',
+                                  width: 30,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      )
+                    )
+                  ),
+                  /*Container(
                     margin: EdgeInsets.only(
                         top: 10.0, left: 10.0, right: 10.0, bottom: 18.0),
                     child: Row(
@@ -207,9 +338,9 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  itemsList == [] ? 
-                                    widget.itemName : itemsList.toString().substring(1, itemsList.toString().length - 1).length > 25 ?
-                                    itemsList.toString().substring(1, 24)+"..." : itemsList.toString().substring(1, itemsList.toString().length - 1),
+                                  itemNameList == [] ? 
+                                    widget.itemName : itemNameList.toString().substring(1, itemNameList.toString().length - 1).length > 25 ?
+                                    itemNameList.toString().substring(1, 24)+"..." : itemNameList.toString().substring(1, itemNameList.toString().length - 1),
                                 ),
                               ],
                             ),
@@ -359,7 +490,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                         ),
                       ),
                     ),
-                  ),
+                  ),*/
                   new Expanded(
                     child: bodyMessages(),
                   ),
@@ -432,12 +563,13 @@ class ChatScreenPageState extends State<ChatScreenPage> {
   }
 
   bodyMessages() {
+    print("Snapshot is "+snapshot);
     if (snapshot == '') {
       return Center(child: CircularProgressIndicator());
     } else if (snapshot == 'Chat blocked') {
       return Center(child: Text('Chat is reported'));
     }
-    if (snapshot == 'Got Data' && messages.msgs.length == 0) {
+    else if (snapshot == 'Got Data' && messages.msgs.length == 0) {
       return Center(
         child: Text("No messages found"),
       );
@@ -553,7 +685,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
           });
     } else {
       Center(
-        child: Text(snapshot),
+        child: Text(snapshot.toString()),
       );
     }
   }

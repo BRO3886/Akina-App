@@ -11,8 +11,8 @@ import 'package:project_hestia/services/shared_prefs_custom.dart';
 import 'package:project_hestia/widgets/my_back_button.dart';
 
 class ReportScreen extends StatefulWidget {
-  ReportScreen({this.id, this.pop});
-  final int id;
+  ReportScreen({this.id, this.pop, this.requestReceiver, this.requestSender});
+  final int id, requestSender, requestReceiver;
   bool pop;
   @override
   _ReportScreenState createState() => _ReportScreenState();
@@ -66,11 +66,13 @@ print("Report id is "+widget.id.toString());
       print(responseBody);
       if (response.statusCode == 201) {
         //setReportedList();
-        Fluttertoast.showToast(msg: "Successfully reported");
+        /*Fluttertoast.showToast(msg: "Successfully reported");
         Navigator.pop(context);
         Navigator.pop(context, 'delete');
         //TODO check this
-        Fluttertoast.showToast(msg: "Successfully reported");
+        Fluttertoast.showToast(msg: "Successfully reported");*/
+
+        updateChat();
 
       } else {
         Fluttertoast.showToast(msg: responseBody['message']);
@@ -82,6 +84,47 @@ print("Report id is "+widget.id.toString());
       isLoading = false;
     });
   }
+
+  var bodyUpdateChatRoom = {
+    'title': 'itemName',
+    "request_sender": 1,
+    "is_reported":true
+  };
+
+updateChat() async{
+  print("I am in update chat");
+  try {
+    bodyUpdateChatRoom["request_sender"] = widget.requestSender;
+	  bodyUpdateChatRoom["request_receiver"] = widget.requestReceiver;
+    bodyUpdateChatRoom['is_reported'] = true;
+    final token = await SharedPrefsCustom().getToken();
+    final response = await http.post(
+      URL_UPDATE_CHAT,
+      headers: {
+        HttpHeaders.authorizationHeader: token,
+      },
+      body: json.encode(
+        bodyUpdateChatRoom
+    ));
+
+    print("Body of update chat is " + bodyUpdateChatRoom.toString() );
+    print("response of update chat is "+response.body.toString());
+    final result = json.decode(response.body);
+    print("Result of create chat room is "+result.toString());
+    if (result["code"] == 200) {
+        Fluttertoast.showToast(msg: "Successfully reported");
+        Navigator.pop(context);
+        Navigator.pop(context, 'delete');
+        //TODO check this
+        Fluttertoast.showToast(msg: "Successfully reported");
+    }
+    else {
+      Fluttertoast.showToast(msg: result['message']);
+    }
+  } catch (e) {
+    print(e.toString());
+  }
+}
 
   /*setReportedList(){
     if(reportedList == null){

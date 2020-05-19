@@ -49,14 +49,16 @@ class Items {
   final int requestReceiver;
   final int requestSender;
   final String item;
+  final String description;
 
-  Items({this.item, this.requestReceiver, this.requestSender});
+  Items({this.item, this.requestReceiver, this.requestSender, this.description});
 
   factory Items.fromJson(Map<String, dynamic> parsedJson) {
     return Items(
       requestSender: parsedJson['request_sender'],
       requestReceiver: parsedJson['request_receiver'],
       item: parsedJson['item'],
+      description: parsedJson['req_desc']
     );
   }
 }

@@ -136,7 +136,7 @@ Future<bool> createChat(BuildContext context, int sender, String receiver, Strin
         )));
       returnBool =  false;
     } else if(result["code"] == 500 || result["status"] == 500){
-      Fluttertoast.showToast(msg: 'Chat room is already created');
+      Fluttertoast.showToast(msg: 'Chat room is already created ');
       updateChat(context, result['chat_details']['sender'], result['chat_details']['receiver'], 
         //itemNameInitial + ", " + 
         result['chat_details']['title'], result['chat_details']['sender_name'], 
@@ -157,18 +157,20 @@ Future<bool> createChat(BuildContext context, int sender, String receiver, Strin
 var bodyUpdateChatRoom = {
     'title': 'itemName',
     "request_sender": 1,
-    "request_receiver": 'sender'
+    "request_receiver": 'sender',
+    'req_desc':'hjnlkm'
   };
 
-updateChat(BuildContext context, int senderID, int receiverID, String itemNameFinal, personName, itemDescription, bool pagePop, int requestReceiver, int requestSender) async{
+updateChat(BuildContext context, int senderID, int receiverID, String itemNameFinal, String personName, String itemDescription, bool pagePop, int requestReceiver, int requestSender) async{
   print("I am in update chat");
   try {
     bodyUpdateChatRoom['title'] = itemNameFinal;
     bodyUpdateChatRoom["request_sender"] = requestSender;
 	  bodyUpdateChatRoom["request_receiver"] = requestReceiver;
+    bodyUpdateChatRoom['req_desc'] = itemDescription;
     final token = await SharedPrefsCustom().getToken();
     final response = await http.post(
-      URL_ADD_ITEM,
+      URL_UPDATE_CHAT,
       headers: {
         HttpHeaders.authorizationHeader: token,
       },
