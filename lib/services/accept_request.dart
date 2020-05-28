@@ -137,10 +137,24 @@ Future<bool> createChat(BuildContext context, int sender, String receiver, Strin
       returnBool =  false;
     } else if(result["code"] == 500 || result["status"] == 500){
       Fluttertoast.showToast(msg: 'Chat room is already created ');
-      updateChat(context, result['chat_details']['sender'], result['chat_details']['receiver'], 
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) =>
+                ChatScreenPage(
+                  senderID: sender,
+                  receiverID: int.parse(receiver),
+                  itemName: itemNameInitial,
+                  personName: result['chat_room']['sender_name'],
+                  itemDescription: description,
+                  pagePop: false,
+                  requestReceiver: result['chat_room']['request_receiver'],
+                  requestSender: result['chat_room']['request_sender'],
+        )));
+      /*updateChat(context, result['chat_details']['sender'], result['chat_details']['receiver'], 
         //itemNameInitial + ", " + 
         result['chat_details']['title'], result['chat_details']['sender_name'], 
-        result['chat_details']['req_desc'], false, result['chat_details']['request_receiver'], result['chat_details']['request_sender']);
+        result['chat_details']['req_desc'], false, result['chat_details']['request_receiver'], result['chat_details']['request_sender']);*/
       returnBool =  false;
     }
     else {
