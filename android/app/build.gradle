@@ -56,18 +56,17 @@ android {
 
     signingConfigs {
        release {
-           if(keystorePropertiesFile.exists()){
-               keyAlias keystoreProperties['keyAlias']
-               keyPassword keystoreProperties['keyPassword']
-               storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-               storePassword keystoreProperties['storePassword']
-           }
+            keyAlias="key"
+            keyPassword ="$System.env.ALIAS_PASSWORD"
+            storeFile file("../key.jks")
+            storePassword ="$System.env.ALIAS_PASSWORD"
+        
        }
     }
     buildTypes {
         release {
             if(keystorePropertiesFile.exists()){
-                signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
             }else{
                 signingConfig signingConfigs.debug
             }

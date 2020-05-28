@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:project_hestia/model/global.dart';
 import 'package:project_hestia/model/util.dart';
 import 'package:project_hestia/screens/home_screen.dart';
-import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 
 class EmailVerificationPage extends StatefulWidget {

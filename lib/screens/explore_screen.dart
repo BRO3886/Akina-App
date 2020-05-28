@@ -107,7 +107,7 @@ class ExploreScreen extends StatelessWidget {
                           onTap: () => launchURL(
                               context, "https://orgregister.netlify.com/"),
                           child: Text(
-                            "https://orgregister.netlify.com/",
+                            "Akina Org-Registration Portal",
                             style: TextStyle(color: mainColor),
                             textAlign: TextAlign.center,
                           ),

@@ -70,7 +70,7 @@ String dateFormatter(DateTime dateTime) {
 
 String checkTimeOfDay(DateTime dateTime) {
   dateTime = dateTime.toLocal();
-  if (dateTime.hour > 12) {
+  if (dateTime.hour >= 12) {
     return 'PM';
   } else {
     return 'AM';
