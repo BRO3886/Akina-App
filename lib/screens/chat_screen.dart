@@ -226,7 +226,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                       child: Row(
                         children: <Widget>[
                           Text(
-                            widget.personName,
+                            widget.personName.length>10 ? widget.personName.substring(0, 9)+"..." : widget.personName,
                             style: TextStyle(
                                 color: colorBlack,
                                 fontSize: 20.0,
