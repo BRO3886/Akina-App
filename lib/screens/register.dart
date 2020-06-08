@@ -138,9 +138,10 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
         //content = responseBody["Verify"];
         // Fluttertoast.showToast(
         //     msg: 'An email has been sent to your registered mail ID');
+        sp.setUserPassword(userInfo['password']);
         Navigator.of(context).pushReplacementNamed(EmailVerificationPage.routename, arguments: userInfo);
       } else if (responseBody.containsKey("Token")) {
-        print("registered succesfully");
+        print("registered succesfully and password is "+userInfo["password"]);
         try {
           //String loginUrl = 'https://hestia-auth.herokuapp.com/api/user/login';
           // String email = userInfo["email"];
@@ -149,6 +150,7 @@ class _RegsiterScreenState extends State<RegsiterScreen> {
           // final loginResponse = await http.post(URL_USER_LOGIN, body: loginInfo);
           // Map<String, dynamic> loginBody = jsonDecode(loginResponse.body);
           sp.setUserEmail(userInfo["email"]);
+          sp.setUserPassword(userInfo["password"]);
           sp.setUserName(userInfo["name"]);
           sp.setPhone(userInfo["phone"]);
           sp.setToken(responseBody["Token"]);

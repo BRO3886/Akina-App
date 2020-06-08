@@ -15,6 +15,19 @@ class SharedPrefsCustom {
     print("email stored");
   }
 
+  Future<String> getUserPassword() async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    final key = "password";
+    return preferences.getString(key);
+  }
+
+  void setUserPassword(String value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final key = 'password';
+    prefs.setString(key, value);
+    print("password stored as "+value.toString());
+  }
+
   Future<String> getUserName() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final key = 'name';

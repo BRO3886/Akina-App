@@ -279,6 +279,7 @@ class _LoginScreenState extends State<LoginScreen> {
               _getUserDetails(userInfo['email']);
               final sp = SharedPrefsCustom();
               sp.setUserEmail(userInfo['email']);
+              sp.setUserPassword(userInfo["password"]);
               sp.setToken(responseBody["Token"]);
               sp.setLoggedInStatus(true);
               sp.setShopStatus(false);
