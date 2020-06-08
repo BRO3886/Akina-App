@@ -25,11 +25,12 @@ class ChatScreenPage extends StatefulWidget {
       @required this.itemName,
       this.personName,
       @required this.itemDescription,
-      this.pagePop})
+      this.pagePop,
+      @required this.isReported})
       : super(key: key);
 
   final int senderID, receiverID, requestSender, requestReceiver;
-  final bool pagePop;
+  final bool pagePop, isReported;
   final String itemName, personName, itemDescription;
 
   @override
@@ -45,9 +46,10 @@ class ChatScreenPageState extends State<ChatScreenPage> {
       this.requestSender,
       this.itemName,
       this.itemDescription,
-      this.pagePop});
+      this.pagePop,
+      this.isReported});
   final int senderID, receiverID, requestSender, requestReceiver;
-  final bool pagePop;
+  final bool pagePop, isReported;
   final String itemName, itemDescription;
 
   @override
@@ -516,8 +518,9 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                                     // enableSuggestions: true,
                                     maxLines: 5,
                                     minLines: 1,
+                                    enabled: (snapshot == 'Chat blocked' || widget.isReported) ? false : true,
                                     decoration: InputDecoration(
-                                      enabled: snapshot == 'Chat blocked' ? false : true,
+                                      enabled: (snapshot == 'Chat blocked' || widget.isReported) ? false : true,
                                       contentPadding: EdgeInsets.only(
                                           left: 5.0, right: 5.0),
                                       // fillColor: colorWhite,
@@ -823,7 +826,6 @@ class ChatScreenPageState extends State<ChatScreenPage> {
   };
 
   //I/flutter (26741): Data to delete chat is {receiver: 127, sender: 128, who_deleted: sender}
-  //I/flutter (26741): Data to delete chat is {receiver: 127, sender: 128, who_deleted: receiver}
 
   deleteChat() async {
     data_delete_chat["receiver"] = widget.requestReceiver;

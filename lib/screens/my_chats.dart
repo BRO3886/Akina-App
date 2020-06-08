@@ -330,7 +330,6 @@ class MyChatsPageState extends State<MyChatsPage> {
                 ],
               )*/
               
-              //TODO add in sliver bar
             Container(
             width: MediaQuery.of(context).size.width,
             child: Column(
