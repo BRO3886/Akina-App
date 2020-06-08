@@ -61,12 +61,13 @@ class _RequestCardState extends State<RequestCard> {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: Alignment(0, 0),
       children: <Widget>[
       Container(
       // padding: EdgeInsets.symmetric(horizontal: 25, vertical: 14),
       width: MediaQuery.of(context).size.width,
       margin: EdgeInsets.symmetric(horizontal: 20),
-      // height: 125,
+      //height: 125,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
         decoration: BoxDecoration(
@@ -212,20 +213,21 @@ class _RequestCardState extends State<RequestCard> {
         ),
       ),
     ),
-    load == true ? 
+    load == true ?
       new Center(
         child : Container(
-      height: MediaQuery.of(context).size.height - 160.0,
-      width: MediaQuery.of(context).size.width,
-      color: Colors.grey.withOpacity(0.5),
-      child : Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          CircularProgressIndicator(),
-          Text('Processing the request...'),
-        ],
-      )
+        //height: 200.0,
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.only(top: 30.0, bottom: 30.0),
+        color: Colors.grey.withOpacity(0.5),
+        child : Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            Text('Processing the request...'),
+          ],
+        )
       )
      ) : Container()
     ],

@@ -150,7 +150,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                 child: ListView.builder(
                     itemCount: listMyChats.length,
                     itemBuilder: (BuildContext ctxt, int index) {
-                      return 
+                      return listMyChats[index].receiverName == "" ? Container() :
                       //(reportedList.contains(listMyChats[index].sender.toString()) || reportedList.contains(listMyChats[index].receiver.toString()))  ? Container() : 
                       GestureDetector(
                         onTap: () {
