@@ -69,7 +69,6 @@ print("Report id is "+widget.id.toString());
         /*Fluttertoast.showToast(msg: "Successfully reported");
         Navigator.pop(context);
         Navigator.pop(context, 'delete');
-        //TODO check this
         Fluttertoast.showToast(msg: "Successfully reported");*/
 
         updateChat();

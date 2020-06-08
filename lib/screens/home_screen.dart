@@ -125,7 +125,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
     // }
 
     /*Navigator.push(context, item.route);
-    //TODO changed
+
     //Navigator.popUntil(context, (Route<dynamic> route) => route is PageRoute);
     if (!item.route.isCurrent) {
       Navigator.push(context, item.route);

@@ -138,7 +138,6 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
         ),
       ),*/
       
-      //TODO: Change
       return FutureBuilder(
         future: getMyChats(),
         builder: (ctx, snapshot) {
@@ -166,6 +165,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                 pagePop: true,
                                 requestReceiver: listMyChats[index].requestReceiver,
                                 requestSender: listMyChats[index].requestSender,
+                                isReported: listMyChats[index].isReported,
                               ),
                             ),
                           ).then((value){
@@ -247,6 +247,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                                       pagePop: true,
                                                       requestReceiver: listMyChats[index].requestReceiver,
                                                       requestSender: listMyChats[index].requestSender,
+                                                      isReported: listMyChats[index].isReported,
                                                 )));
                                   },
                                   child: Container(
@@ -309,6 +310,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                 pagePop: true,
                                 requestReceiver: listMyChats[index].requestReceiver,
                                 requestSender: listMyChats[index].requestSender,
+                                isReported: listMyChats[index].isReported,
                               ),
                             ),
                           );
@@ -377,6 +379,7 @@ class MyRequestsChatsPageState extends State<MyRequestsChatsPage> {
                                                   pagePop: true,
                                                   requestReceiver: listMyChats[index].requestReceiver,
                                                   requestSender: listMyChats[index].requestSender,
+                                                  isReported: listMyChats[index].isReported,
                                                 )));
                                   },
                                   child: Container(

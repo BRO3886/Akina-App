@@ -48,8 +48,9 @@ class Chat {
   final int requestReceiver, requestSender;
   final String title;
   String senderName, receiverName, description;
+  bool isReported;
 
-  Chat({this.sender, this.title, this.receiver, this.receiverName, this.senderName, this.description, this.requestReceiver, this.requestSender});
+  Chat({this.sender, this.title, this.receiver, this.receiverName, this.senderName, this.description, this.requestReceiver, this.requestSender, this.isReported});
 
   factory Chat.fromJson(Map<String, dynamic> parsedJson){
    return Chat(
@@ -60,7 +61,8 @@ class Chat {
       receiverName: parsedJson['receiver_name'],
       description: parsedJson['req_desc'],
       requestReceiver: parsedJson['request_receiver'],
-      requestSender: parsedJson['request_sender']
+      requestSender: parsedJson['request_sender'],
+      isReported: parsedJson['is_reported']
    );
   }
 }

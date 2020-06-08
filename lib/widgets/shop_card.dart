@@ -53,17 +53,17 @@ class ShopCard extends StatelessWidget {
                     children: <Widget>[
                       SizedBox(height: 5),
                       SelectableText(
-                        shop.landmark!=null?'Landmark: ${shop.landmark}':'',
+                        (shop.landmark!=null || shop.landmark!="")?'Landmark: ${shop.landmark}':'-',
                         style: TextStyle(color: Colors.grey),
                       ),
                       SizedBox(height: 5),
                       SelectableText(
-                        shop.descriptionOfShop!=null?'Description: ${shop.descriptionOfShop}':'',
+                        (shop.descriptionOfShop!=null || shop.descriptionOfShop!="")?'Description: ${shop.descriptionOfShop}':'-',
                         style: TextStyle(color: Colors.grey),
                       ),
                       SizedBox(height: 5),
                       SelectableText(
-                        shop.extraInstruction!=null?'More instructions: ${shop.extraInstruction}':'',
+                        (shop.extraInstruction!=null || shop.extraInstruction!="")?'More instructions: ${shop.extraInstruction}':'-',
                         style: TextStyle(color: Colors.grey),
                       ),
                     ],

@@ -49,7 +49,8 @@ Future<bool> acceptRequest(BuildContext context, String itemID, String itemNameI
       },
       body: {
         'request_id':itemID.toString(),
-        'location': address.first.locality
+        'location': 'Noida'
+        // 'location': address.first.locality
         //TODO: change location address.first.locality
       }
     );

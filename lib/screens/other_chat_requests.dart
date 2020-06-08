@@ -118,7 +118,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                 child: ListView.builder(
                     itemCount: listOtherChats.length,
                     itemBuilder: (BuildContext ctxt, int index) {
-                      return 
+                      return  listOtherChats[index].senderName == "" ? Container() :
                         //reportedList.contains(listOtherChats[index].sender.toString()) || reportedList.contains(listOtherChats[index].receiver.toString()))  ? Container() : 
                         GestureDetector(
                         onTap: () {
@@ -134,6 +134,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                 pagePop: true,
                                 requestReceiver: listOtherChats[index].requestReceiver,
                                 requestSender: listOtherChats[index].requestSender,
+                                isReported: listOtherChats[index].isReported,
                               ),
                             ),
                           ).then((value){
@@ -217,6 +218,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                                   pagePop: true,
                                                   requestReceiver: listOtherChats[index].requestReceiver,
                                                   requestSender: listOtherChats[index].requestSender,
+                                                  isReported: listOtherChats[index].isReported,
                                                 )));
                                   },
                                   child: Container(
@@ -274,6 +276,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                 pagePop: true,
                                 requestReceiver: listOtherChats[index].requestReceiver,
                                 requestSender: listOtherChats[index].requestSender,
+                                isReported: listOtherChats[index].isReported,
                               ),
                             ),
                           );
@@ -342,6 +345,7 @@ class OtherRequestsChatsPageState extends State<OtherRequestsChatsPage> {
                                                   pagePop: true,
                                                   requestReceiver: listOtherChats[index].requestReceiver,
                                                   requestSender: listOtherChats[index].requestSender,
+                                                  isReported: listOtherChats[index].isReported,
                                                 )));
                                   },
                                   child: Container(
