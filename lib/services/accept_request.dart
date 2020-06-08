@@ -134,6 +134,7 @@ Future<bool> createChat(BuildContext context, int sender, String receiver, Strin
                   pagePop: false,
                   requestReceiver: result['chat_room']['request_receiver'],
                   requestSender: result['chat_room']['request_sender'],
+                  isReported: false,
         )));
       returnBool =  false;
     } else if(result["code"] == 500 || result["status"] == 500){
@@ -151,6 +152,7 @@ Future<bool> createChat(BuildContext context, int sender, String receiver, Strin
                   pagePop: false,
                   requestReceiver: result['chat_room']['request_receiver'],
                   requestSender: result['chat_room']['request_sender'],
+                  isReported: false,
         )));
       /*updateChat(context, result['chat_details']['sender'], result['chat_details']['receiver'], 
         //itemNameInitial + ", " + 
@@ -213,6 +215,7 @@ updateChat(BuildContext context, int senderID, int receiverID, String itemNameFi
                     pagePop: pagePop,
                     requestReceiver: requestReceiver,
                     requestSender: requestSender,
+                    isReported: false,
                   ))));
     }
     else {
