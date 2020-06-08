@@ -210,7 +210,7 @@ class ChatScreenPageState extends State<ChatScreenPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(itemsList[index].item, style: TextStyle(color: mainColor),),
-                                Text(itemsList[index].description+"ghjk", style: TextStyle(fontSize: 11.0),),
+                                Text(itemsList[index].description, style: TextStyle(fontSize: 11.0),),
                                 SizedBox(
                                   height: 10.0,
                                   width: 10.0,
