@@ -52,7 +52,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
         );
       } else {
         if (response.statusCode == 200) {
-          print("logged in successfully");
+          print("logged in successfully ----------------------------------------------------- responsebody is "+responseBody.toString());
           final sp = SharedPrefsCustom();
           sp.setUserEmail(responseBody['email']);
           sp.setUserName(responseBody["name"]);

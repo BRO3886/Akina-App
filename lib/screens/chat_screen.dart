@@ -26,7 +26,7 @@ class ChatScreenPage extends StatefulWidget {
       this.personName,
       @required this.itemDescription,
       this.pagePop,
-      this.isReported})
+      @required this.isReported})
       : super(key: key);
 
   final int senderID, receiverID, requestSender, requestReceiver;

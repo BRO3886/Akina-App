@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_hestia/model/global.dart';
 import 'package:project_hestia/model/util.dart';
+import 'package:project_hestia/screens/email_verification.dart';
 import 'package:project_hestia/screens/login.dart';
 import 'package:project_hestia/services/shared_prefs_custom.dart';
 import 'package:project_hestia/widgets/my_back_button.dart';
@@ -73,6 +75,31 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     'phone': '',
   };
 
+  Map<String, String> userInfo = {
+    "email": "",
+    "password": "",
+    "name": "",
+    "phone": ""
+  };
+
+  getUser() async {
+  final sp = SharedPrefsCustom();
+  final name = await sp.getUserName();
+  final email = await sp.getUserEmail();
+  final phone = await sp.getPhone();
+  final password = await sp.getUserPassword();
+  userInfo['name'] = name ?? '';
+  userInfo['email'] = email ?? '';
+  userInfo['phone'] = phone ?? '';
+  userInfo['password'] = password ?? '';
+  // setState(() {
+  //   userInfo;
+    print("User info is now updated as "+userInfo.toString());
+  //});
+  submitData();
+  //return userInfo;
+}
+
   submitData() async {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     if (!_formKey.currentState.validate()) {
@@ -96,7 +123,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         },
         body: body,
       );
-      //print(token);
       Map<String, dynamic> responseBody = jsonDecode(response.body);
       print("Response of edit is" + responseBody.toString());
       if (response.statusCode == 200) {
@@ -106,10 +132,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           _showSnackBar(
               300, responseBody["Alert"] + '. Log in with your new email id.');
           sp.setLoggedInStatus(false);
+          print("----------------------------------Argument is now---------------------------------- "+userInfo.toString());
           Future.delayed(
               Duration(seconds: 3),
-              () => Navigator.of(context).pushNamedAndRemoveUntil(
-                  LoginScreen.routename, (route) => false));
+              () => 
+              //TODO
+              //Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.routename, (route) => false)
+              //Navigator.of(context).pushNamedAndRemoveUntil(EmailVerificationPage.routename, (Route<dynamic> route) => false)
+              
+              //Navigator.of(context).pushAndRemoveUntil (EmailVerificationPage.routename, arguments: userInfo)
+              //userInfo = await getUser();
+              Navigator.of(context).pushReplacementNamed(EmailVerificationPage.routename, arguments: userInfo)
+              
+              //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => EmailVerificationPage()),ModalRoute.withName('/email-verification'), arguments: userInfo)
+          
+            );
         }
         sp.setUserName(newuserDetails['name']);
         sp.setUserEmail(newuserDetails['email']);
@@ -117,6 +154,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       } else if (response.statusCode == 409) {
         _showSnackBar(409, "Email already in use");
       }
+      else if (responseBody.containsKey("Error")) {
+        _showSnackBar(200, responseBody["Error"]);
+      } 
     } catch (e) {
       print(e.toString());
     }
@@ -144,6 +184,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         Map<String, dynamic> responseBody = jsonDecode(response.body);
         if (responseBody.containsKey("Status")) {
           _showSnackBar(200, responseBody["Status"]);
+          Future.delayed(Duration(milliseconds: 1000),
+            () => Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.routename, (route) => false));
         }
       }
     } catch (e) {
@@ -296,7 +338,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     borderRadius: BorderRadius.circular(5)),
                                 color: mainColor,
                                 textColor: colorWhite,
-                                onPressed: submitData,
+                                //TODO changed
+                                // onPressed: submitData,
+                                
+                                onPressed: getUser,
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
